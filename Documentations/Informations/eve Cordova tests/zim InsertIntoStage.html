@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<title>test</title>	
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>		
+	</head>
+	<body>
+		<canvas id="canvasID"></canvas>
+<script>
+//	var stage = new StageGL("canvasID", { antialias:true});
+
+
+var stage = new Stage("canvasID");
+
+ var circle = new Circle(70, "red", "#666", 10,true, 100);
+ circle.addTo(stage);
+
+
+   stage.update();
+
+
+	</script>
+	</body>
+</html>

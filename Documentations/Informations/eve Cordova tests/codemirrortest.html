@@ -1,0 +1,162 @@
+	<head>
+		<title></title>
+<!--
+<script type="text/javascript" src="https://codemirror.net/2/lib/codemirror.js"></script>
+				<script type="text/javascript" src="https://codemirror.net/2/lib/util/formatting.js"></script>
+				<script type="text/javascript" src="https://codemirror.net/2/lib/util/formatting.js"></script>
+				<script type="text/javascript" src="https://codemirror.net/2/mode/css/css.js"></script>
+				<script type="text/javascript" src="https://codemirror.net/2/mode/xml/xml.js"></script>
+
+				<script type="text/javascript" src="https://codemirror.net/2/mode/javascript/javascript.js"></script>
+
+<link rel='stylesheet' href='https://codemirror.net/2/lib/codemirror.css'>
+
+	<script type="text/javascript" src="https://codemirror.net/2/mode/htmlmixed/htmlmixed.js"></script>
+	-->
+<link rel='stylesheet' href='../../www/public/css/webview.css'>
+<link rel='stylesheet' href='../../www/public/css/3024-night.css'>
+<link rel='stylesheet' href='../../www/public/css/codemirror.css'>
+
+<script src='../../www/public/js/codemirror.js'></script>
+<script src='../../www/public/js/javascript.js'></script>
+<script src='../../www/public/js/ruby.js'></script>
+<script src='../../www/public/js/active-line.js'></script>
+<script src='../../www/public/js/matchbrackets.js'></script>
+<script src='../../www/public/js/formatting.js'></script>
+<script src='../../www/public/js/closetag.js'></script>
+<script src='../../www/public/js/matchtags.js'></script>
+<script src='../../www/public/js/closebrackets.js'></script>
+
+
+	</head>
+	<body>
+<!--
+<input type="button" onclick="autoFormatSelection()" value="autoFormatSelection">
+<input type="button" onclick="commentSelection(true)" value="commentSelection">
+<input type="button" onclick="commentSelection(false)" value="uncommentSelection">
+<input type="button" onclick="select_all(true)" value="select_all">
+<input type="button" onclick="gotolinenb()" value="gotolinenb">
+<input type="button" onclick="getlinenb()" value="getlinenb">
+-->
+
+	    <textarea id="code" name="code">
+	    def toto
+	 puts 'ok'
+	    end
+	            toto
+	    </textarea>
+
+
+
+
+
+	</body>
+	<script>
+
+
+	var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+	lineNumbers: true,
+	codeFolding: true,
+	styleActiveLine: true,
+	indentWithTabs: true,
+	matchBrackets: true,
+	electricChars: true,
+	mode: "ruby",
+	lineWrapping: true,
+	indentAuto: true,
+});
+//  alert('deplacer les objets achaque cretaions afin qui ne se superpose pas ')
+/*
+
+function getSelectedRange() {
+	return {
+		from: editor.getCursor(true),
+		to: editor.getCursor(false)
+	};
+}
+
+function commentSelection(isComment) {
+	var range = getSelectedRange();
+	alert(range)
+	editor.commentRange(isComment, range.from, range.to);
+}
+// $(".CodeMirror").css("display", "none");
+editor.setSize("100%", "100%");
+//  editor.setPosition = 400;
+editor.setOption("theme", "3024-night");
+		  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        mode: "htmlmixed",
+        extraKeys:{"Shift-Tab":autoFormatSelection}
+      });
+
+      	function select_all() {
+	CodeMirror.commands["selectAll"](editor);
+}
+      function getSelectedRange() {
+        return { from: editor.getCursor(true), to: editor.getCursor(false) };
+      }
+
+      function autoFormatSelection() {
+      var start_pos=editor.getCursor(true);
+      select_all();
+        var range = getSelectedRange();
+        editor.autoFormatRange(range.from, range.to);
+      }
+
+      function commentSelection(isComment) {
+        var range = getSelectedRange();
+        editor.commentRange(isComment, range.from, range.to);
+      }
+
+            function deselect() {
+
+	CodeMirror.commands["goLineStart"](editor);
+}
+
+
+
+var prev_pos=0
+function gotolinenb() {
+ editor.setCursor(prev_pos);
+}
+
+function getlinenb(){
+prev_pos=  editor.getCursor();
+alert(prev_pos.line)
+console.log(prev_pos);
+}
+
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+	lineNumbers: true,
+	codeFolding: true,
+	styleActiveLine: true,
+	indentWithTabs: true,
+	matchBrackets: true,
+	electricChars: true,
+	mode: "ruby",
+	lineWrapping: true,
+	indentAuto: true,
+});
+//  alert('deplacer les objets achaque cretaions afin qui ne se superpose pas ')
+
+function getSelectedRange() {
+	return {
+		from: editor.getCursor(true),
+		to: editor.getCursor(false)
+	};
+}
+
+function commentSelection(isComment) {
+	var range = getSelectedRange();
+	alert(range)
+	editor.commentRange(isComment, range.from, range.to);
+}
+// $(".CodeMirror").css("display", "none");
+*/
+editor.setSize("100%", "100%");
+//  editor.setPosition = 400;
+editor.setOption("theme", "3024-night");
+
+		</script>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM BITS</title>
+<script src="createjs_1.1_min.js"></script>
+<script src="zim_9.4.1.js"></script>
+</head>
+<body>
+</body>
+<script>
+
+	/*
+	Circle.prototype.set_id = function (id){
+	setObjID(id,this);
+}
+
+	Triangle.prototype.set_id = function (id){
+	setObjID(id,this);
+}
+*/
+
+
+
+//////////////////// add method to zim classes \\\\\\\\\\\\\\\\\
+	function extend_obj(method_name){
+	var class_type=["Triangle","Circle"];
+
+class_type.forEach(function(obj_type) {
+	add_method(method_name,obj_type);
+	});
+}
+function add_method(method,obj_type) {
+	method_to_add = obj_type+".prototype."+method+" = function ("+method+"){"+method+"_method("+method+",this);}";
+new Function(method_to_add)();
+}
+
+
+
+//////////////////// add set_id method to zim object \\\\\\\\\\\\\\\\\
+	var myIDS = [];
+	var myObjects = [];
+	function grab(id){
+		obj=myObjects[myIDS.indexOf(id)]
+		return obj;
+	}
+
+	function set_id_method(id,obj){
+		obj.id=id
+		if (myIDS.indexOf(id)==-1){
+			id_position=myIDS.length;
+			myIDS[id_position]=id;
+			myObjects[id_position]=obj;
+		}
+		else{
+			id_position=myIDS.indexOf(id);
+			myObjects[id_position]=obj;
+			};
+	}
+
+extend_obj("set_id");
+
+//////////////////// add fit_to method to zim object \\\\\\\\\\\\\\\\\
+
+
+	function fit_to_method(id,obj){
+// 		alert('fitted')
+	}
+
+extend_obj("fit_to");
+
+
+var frame = new Frame();
+
+frame.on("ready", function() {
+	var stage = frame.stage;
+
+	var circle = new Circle(100, red)
+		.center()
+		circle.set_id("the_id");
+		circle.fit_to()
+//  		circle.drag();
+		var tt = new Triangle(100, 100, 100, "blue")
+		.center();
+		tt.set_id("the_id2");
+		tt.drag();
+		circle.on("pressmove", function(evt) {
+    evt.target.x = evt.stageX;
+    evt.target.y = evt.stageY;
+//     this.bot()
+    zog(this.x)
+
+
+});
+circle.on("mousedown",function(evt){
+// 	zog(stage.setChildIndex( displayObject, stage.getNumChildren()-1))
+var index = obj.parent.getChildIndex(this);
+//  obj.parent.setChildIndex( this,  1);
+
+// obj.parent.setChildIndex( displayObject, stage.getNumChildren()-1);
+zog(index)
+})
+circle.drag({onTop:false});
+circle.on("pressup", function(evt) {
+	var index = obj.parent.getChildIndex(this);
+	console.log("up : "+index);
+	obj.parent.setChildIndex(this,0);
+	stage.update();
+	})
+// 	myObjects[0].x=600;
+
+grab("the_id").y=170
+grab("the_id").color=green
+circle.set_id("the_id");
+		circle.fit_to()
+});
+
+
+
+
+
+
+
+</script>
+</html>

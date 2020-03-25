@@ -1,0 +1,53 @@
+{
+  "_from": "cordova-plugin-itunesfilesharing",
+  "_id": "cordova-plugin-itunesfilesharing@0.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-29JBLG+aEL3a4xjPdNNmfSSXNi9i1E6D8GIGDidk9TWb2WJqPgxErJ7+kbESfZJ666ZSh71WYzFBKYTXfJfguw==",
+  "_location": "/cordova-plugin-itunesfilesharing",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-itunesfilesharing",
+    "name": "cordova-plugin-itunesfilesharing",
+    "escapedName": "cordova-plugin-itunesfilesharing",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-itunesfilesharing/-/cordova-plugin-itunesfilesharing-0.0.2.tgz",
+  "_shasum": "d5e90280a756c83ee62e6be678bddc456da5d77c",
+  "_spec": "cordova-plugin-itunesfilesharing",
+  "_where": "/Users/jeezs/Documents/atome",
+  "author": {
+    "name": "Christian Junk"
+  },
+  "bugs": {
+    "url": "https://github.com/christianjunk/cordova-plugin-itunesfilesharing/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-itunesfilesharing",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova/PhoneGap plugin for enabling iTunes file sharing",
+  "homepage": "https://github.com/christianjunk/cordova-plugin-itunesfilesharing#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "Apache 2.0 License",
+  "name": "cordova-plugin-itunesfilesharing",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianjunk/cordova-plugin-itunesfilesharing.git"
+  },
+  "version": "0.0.2"
+}

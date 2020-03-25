@@ -1,0 +1,32 @@
+GEM
+  specs:
+    eventmachine (1.2.7)
+    faye-websocket (0.10.9)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.5.1)
+    nio4r (2.5.2)
+    puma (4.3.3)
+      nio4r (~> 2.0)
+    rack (2.2.2)
+    rack-unreloader (1.7.0)
+    roda (2.26.0)
+      rack
+    sequel (5.30.0)
+    sqlite3 (1.4.2)
+    websocket-driver (0.7.1)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  faye-websocket
+  puma
+  rack-unreloader
+  roda
+  sequel
+  sqlite3
+
+BUNDLED WITH
+   2.1.4

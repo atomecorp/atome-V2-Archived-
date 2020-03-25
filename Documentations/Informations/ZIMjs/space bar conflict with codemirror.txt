@@ -1,0 +1,27 @@
+
+
+
+      solution 1 : zil can be handled in a few ways.  Its purpose is to stop the ZIM canvas from being moved by    arrows, spacebar, scrollwheel, etc.  But you can override it with allowDefault in the Frame call - so check that out in the docs.  It also says how you can individually choose things in the zil docs
+
+
+      soloution 2 : just comment this line in Zim.Js at function zil() comment : // (e = e || event).keyCode && 32 <= e.keyCode && e.keyCode <= 40 && e.preventDefault()
+
+function zil() {
+	z_d("6");
+
+	function e(e) {
+ 
+	}
+
+	function t(e) {
+		(e = e || event).preventDefault()
+	}
+	var o = t;
+	return window.addEventListener("keydown", e, {
+		passive: !1
+	}), window.addEventListener("wheel", t, {
+		passive: !1
+	}), window.addEventListener("DOMMouseScroll", o, {
+		passive: !1
+	}), [e, t, o]
+}

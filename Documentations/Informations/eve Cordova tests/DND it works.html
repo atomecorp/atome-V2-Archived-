@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	<script type="text/javascript" src="createjs.min.js"></script> 
+	    <!-- <script src="p5.js"></script>
+	    <script src="p5.sound.js"></script> -->
+		<style type="text/css">
+		body {text-align: center; padding-top: 100px;}
+		em {position: absolute; bottom: 0; right: 0}
+		canvas { border: 1px solid black; }
+	
+		</style>
+
+	
+	</head>
+	<body>
+		<canvas id="image_canvas" width="200" height="200"></canvas>
+		<img id='output'>
+		
+				<pre id="fileDisplayArea"><pre>
+						
+		<script type="text/javascript">
+			
+			
+			
+			
+			
+//////////////////////////////////////////////////////////////////////////////////////			
+			
+			
+			// var src;
+	// 		var soundInstance;
+	// 		var displayStatus;
+	// 		function init() {
+	// 		var assetsPath = "../_assets/audio/";
+	// 		src = assetsPath + "audio.m4a";
+	// 		createjs.Sound.alternateExtensions = ["m4a"];
+	// 		createjs.Sound.addEventListener("fileload", playSound);
+	// 		createjs.Sound.registerSound(src);
+	// 		}
+	// 		function playSound(event) { soundInstance = createjs.Sound.play(event.src); }
+	// 		init()
+		
+	
+			
+//////////////////////////////////////////////////////////////////////////////////////
+		window.ondragover = function(e) {e.preventDefault()}
+		window.ondrop = function(e) {e.preventDefault(); upload(e) }
+		
+		
+		
+		
+		function import_visual_medias(e, file){	
+  	      var input = event.target;
+  	      var reader = new FileReader();
+  	      reader.onload = function(){
+  	        var dataURL = reader.result
+  	        var output = document.getElementById('output');
+  	        output.src = dataURL;
+  	      }; 
+  	      reader.readAsDataURL(file);
+		}
+
+		function import_audio(e, file){	
+
+    	      var input = event.target;
+    	      var reader = new FileReader();
+    	      reader.onload = function(){
+    	        var dataURL = reader.result
+    	        // var output = document.getElementById('output');
+  	        //output.src = dataURL;
+    	      }; 
+    	      reader.readAsDataURL(file); 
+    
+
+		
+		}
+		
+	// 	function import_audio(e, file){
+	// alert('sound')
+	//     	      var input = event.target;
+	//     	      var reader = new FileReader();
+	//     	      reader.onload = function(){
+	//     	        var dataURL = reader.result
+	//     	        // var output = document.getElementById('output');
+	// 		    var player=document.getElementById('audio_player');
+	// 		    // var sourceOgg=document.getElementById('audio_player');
+	// 		    // var sourceMp3=document.getElementById('audio_player');
+	// 			var sourceM4a=document.getElementById('audio_player');
+	//  //    	        output.src = dataURL;
+	//  //  sourceOgg.src='http://www.w3schools.com/html5/song.ogg';
+	//  // sourceOgg.src='http://www.w3schools.com/html5/song.ogg';
+	//  			sourceM4a.src=dataURL;
+	//     	      };
+	//     	      reader.readAsDataURL(file);
+	//
+	// 	   audio_player.load(); //just start buffering (preload)
+	// 	   audio_player.play(); //start playing
+	//
+	// 	}
+		
+		
+		
+		function import_text(e, file){
+			var textType = /text.*/;
+			if (file.type.match(textType)) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					fileDisplayArea.innerText = reader.result;
+				}
+				reader.readAsText(file);	
+			}
+		}
+		
+		
+		function upload(e) {
+
+		var files=e.dataTransfer.files
+		  for (var i = 0; i < files.length; i++) {
+		file_type=files[i].type;
+//////////////////////////////////////////////////////////////////////////////////
+	
+	    
+	 
+////////////////////////////////////////////////////////////////////////////////////////  
+				switch (file_type) {
+				case 'video/quicktime':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'video/x-m4v':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'text/plain':
+					import_text(e, files[i]);
+					break;
+				case 'video/mp4':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'audio/x-m4a':
+					alert('ok')
+					import_audio(e, files[i]);
+					break;
+				case 'image/png':
+				draw(files[i]);
+					break;
+				case 'image/jpeg':
+				 draw(files[i]);
+					break;
+				case 'text/xml':
+					import_text(e, files[i]);
+					break;
+				case 'image/svg+xml':
+					import_visual_medias(e, files[i]);
+					break;
+				break;
+				default:
+				console.log('Unknown file format');
+				}
+		}
+		
+	
+		}
+		function draw(file){
+		    
+		    var img =new Image();
+		    // URL @ Mozilla, webkitURL @ Chrome
+		   	img.src = (window.webkitURL ? webkitURL : URL).createObjectURL(file);
+		    var canvas=document.getElementById("image_canvas");
+		    var ctx = canvas.getContext("2d");
+		    // call ctx.drawImage when the image got loaded
+		    img.onload = function() {
+		    	// ctx.drawImage(img, 0, 0);
+				// alert('j')
+   				ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height); // stretch img to canvas size
+			}}
+		</script>
+	</body>
+</html>

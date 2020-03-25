@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas">
+		</canvas>
+		
+		<script>
+			var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+var ball = {
+
+  draw: function() {
+	  var rectX = 50;
+var rectY = 50;
+var rectWidth = 100;
+var rectHeight = 100;
+var cornerRadius = 29;
+	 
+   ctx.lineJoin = "round";
+ctx.lineWidth = cornerRadius;
+ctx.strokeRect(rectX+(cornerRadius/2), rectY+(cornerRadius/2), rectWidth-cornerRadius, rectHeight-cornerRadius);
+ctx.fillRect(rectX+(cornerRadius/2), rectY+(cornerRadius/2), rectWidth-cornerRadius, rectHeight-cornerRadius);
+
+
+    
+        
+        
+        
+  }
+};
+
+ball.draw();
+			</script>
+	</body>
+</html>

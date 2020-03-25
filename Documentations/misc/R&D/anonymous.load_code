@@ -1,0 +1,84 @@
+#load :save_code
+clear
+#reboot
+`
+function load(options){
+ params= Opal.eval(options);
+  	var keys=params.$keys();
+  	var values=params.$values();
+  	var file_name =params.$fetch('file_name');
+  	var file_content =params.$fetch('file_content');
+  	var trig_fnuction =params.$fetch('trig_function');
+	var function_params = params.$fetch('function_params');
+	var object_type = params.$fetch('object_type');
+    if (object_type=="project"){
+     	var file_name =Opal.Atome.$user()+"."+file_name;
+  }
+  //Opal.Object.$puts(file_name+" : "+file_content+" : "+trig_function+" : "+params)
+  //////////////////////////////////////// saver //////////////////////////////////
+}
+`
+def to_js(fct,val )
+  val=val.to_s
+  val= val.gsub('"','\"')
+  js= fct+'("'+val+'")'
+  `eval(#{js})`
+end
+def loader *val
+  send_this={file_name: :project_0,trig_function: false, function_params: false, object_type: :project}
+  if val.length> 1
+	#it's an array it means that's a pair name:type
+	val[1]=val[1].gsub('"',"'")
+	send_this[:file_name]=val[0]
+	send_this[:object_type]=val[1]
+  elsif val[0].class==Hash
+	val[0].each do |key, value|
+	  send_thi[skey]=value
+	end
+  elsif val[0].class==String
+	#it'sa string (an uniqu value) so default object type is a project 
+	send_this[:file_name]=val[0]
+	send_this[:object_type]=:project
+  end
+  #we test if project exist before save
+  #attention!! the test below seems to invert condition and test if a project exist before testing if a project is requested!! +add comment to explain code
+
+  
+  if send_this[:object_type]== :project && !(projects.include? send_this[:file_name] )
+	p projects.class
+	elsif send_this[:object_type]== :user	
+	p users
+  else
+	puts "ok we load  : " +send_this[:file_name]
+  end
+  
+  
+#    if !projects.include? send_this[:file_name]
+#	if  send_this[:object_type].to_sym==:project
+#	 # Atome.projects<<send_this[:file_anme]
+#	  #save({file_name: Atome.user, file_content: Atome.projects.join("\n"), object_type: :user})
+#	end	
+#	# we should test if user exist too before storing
+#	puts send_this
+#	puts projects
+#	puts users
+#	#puts('file saved')
+#	#to_js :read,send_this
+#  else 
+#	puts("file exist!")
+#  end
+  
+  
+  
+  
+  
+  #puts projects
+end
+loader :jeezs
+#store :jeezs, ":my_pass", :user
+alert project
+#load :save_code
+#`window.location.reload(true);`
+#p Atome.users
+#load :save_code
+#loader 

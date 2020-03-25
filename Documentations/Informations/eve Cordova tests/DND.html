@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	<script type="text/javascript" src="createjs.min.js"></script> 
+	<script type="text/javascript" src="zim_9.4.1.js"></script> 
+		<style type="text/css">
+		body {text-align: center; padding-top: 100px;background-color:red;}
+		em {position: absolute; bottom: 0; right: 0}
+		canvas { background-color:orange;}
+		</style>
+
+	
+	</head>
+	<body>
+		<canvas id="image_canvas" width="200" height="200"></canvas>
+		<img id='output'>
+		
+				<pre id="fileDisplayArea"><pre>
+						
+		<script type="text/javascript">
+			
+			
+			function save_medias(content){
+				
+			}
+				
+
+	
+			
+//////////////////////////////////////////////////////////////////////////////////////
+		window.ondragover = function(e) {e.preventDefault()}
+		window.ondrop = function(e) {e.preventDefault(); upload(e) }
+		
+	
+		function import_visual_medias(e, file){	
+  	      var input = event.target;
+  	      var reader = new FileReader();
+  	      reader.onload = function(){
+  	        var dataURL = reader.result
+  	        var output = document.getElementById('output');
+  	        output.src = dataURL;
+			alert(document.getElementById('output').width)
+  	      }; 
+  	      reader.readAsDataURL(file);
+		}
+		
+		
+
+		function import_audio(e, file){	
+    	      var input = event.target;
+    	      var reader = new FileReader();
+    	      reader.onload = function(){
+    	        var dataURL = reader.result
+    	        // var output = document.getElementById('output');
+  	        //output.src = dataURL;
+    	      }; 
+    	      reader.readAsDataURL(file); 	
+		}
+		
+		
+		
+		function import_text(e, file){
+			var textType = /text.*/;
+			if (file.type.match(textType)) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					fileDisplayArea.innerText = reader.result;
+				}
+				reader.readAsText(file);	
+			}
+		}
+		
+		
+		function upload(e) {
+
+		var files=e.dataTransfer.files
+		  for (var i = 0; i < files.length; i++) {
+		file_type=files[i].type;
+		file_name=files[i].name
+		file_datas=files[i].name;
+		alert(file_datas)
+//////////////////////////////////////////////////////////////////////////////////
+	
+	    
+	 
+////////////////////////////////////////////////////////////////////////////////////////  
+				switch (file_type) {
+				case 'video/quicktime':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'video/x-m4v':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'text/plain':
+					import_text(e, files[i]);
+					break;
+				case 'video/mp4':
+					import_visual_medias(e, files[i]);
+					break;
+				case 'audio/x-m4a':
+					import_audio(e, files[i]);
+					break;
+				case 'image/png':
+				draw(files[i]);
+				import_visual_medias(e, files[i]);
+					break;
+				case 'image/jpeg':
+					import_visual_medias(e, files[i]);
+				 draw(files[i]);
+					break;
+				case 'text/xml':
+					import_text(e, files[i]);
+					break;
+				case 'image/svg+xml':
+					import_visual_medias(e, files[i]);
+					break;
+				break;
+				default:
+				console.log('Unknown file format');
+				}
+		}
+		
+	
+		}
+		function draw(file){
+		    
+		    var img =new Image();
+		    // URL @ Mozilla, webkitURL @ Chrome
+		   	img.src = (window.webkitURL ? webkitURL : URL).createObjectURL(file);
+		    var canvas=document.getElementById("image_canvas");
+		    var ctx = canvas.getContext("2d");
+		    // call ctx.drawImage when the image got loaded
+		    img.onload = function() {
+		    	// ctx.drawImage(img, 0, 0);
+				// alert('j')
+   				ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height); // stretch img to canvas size
+			}}
+		</script>
+	</body>
+</html>

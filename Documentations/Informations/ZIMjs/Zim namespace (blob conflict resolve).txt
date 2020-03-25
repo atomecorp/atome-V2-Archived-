@@ -1,0 +1,1 @@
+After calling ZIM - above the new Frame for instance, say Blob = document.Blob;  This should set the Blob back to JavaScript's Blob.  Then inside of ZIM you will need to use zim.Blob.  If you want to always use the ZIM namespace and not make ZIM globals then use zns = false before importing ZIM.

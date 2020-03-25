@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title>test</title>
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+
+<script>
+// SCALING OPTIONS
+// scaling can have values as follows with full being the default
+// "fit"	sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+// "full"	sets stage to window size with no scaling
+// "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+document.body.onresize = function(event) {
+
+
+};
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var frame = new Frame(scaling, width, height);
+frame.on("ready", function() {
+	zog("ready from ZIM Frame");
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "#333";
+
+	// ZIM BITS - ZIM Shapes (2016)
+
+	// CreateJS has a Shape class and drawRect(), drawCircle() methods
+	// but these require a few steps so ZIM wraps these steps for us
+
+	// STEPS
+	// 1. make the shape with Rectangle(), Circle(), Triangle()
+	// 2. add the shapes to the stage with stage.addChild() - or add to some other container
+	// 3. position the shape with x and y properties, set alpha, etc.
+	// 4. Rectangles have their registration point at the top left - so maybe center the reg
+
+	var circle = new Circle(50, "#acd241", "#e472c4", 5) // radius, color, borderColor, borderWidth
+		.addTo(stage)
+		.pos(200, 200);
+
+	var rectangle = new Rectangle(80, 80, "#50c4b7") // width, height, color
+	.centerReg(stage)
+	.sca(2);
+
+	// rectangle.center(stage); // centers and adds to container (stage in this case)
+
+	var triangle = new Triangle(100, 100, 100, "red") // side lengths, color
+		.addTo(stage)
+		.pos(stageW-180, stageH-230)
+	triangle.color = "#e472c4"; // you can set color and border properties like so if you want
+	triangle.borderColor = "#acd241";
+	triangle.borderWidth = 5;
+
+
+	// EXTRA
+
+	// ZIM shapes are actually containers with a CreateJS Shape drawn inside them
+	// ZIM shapes have width and height properties but CreateJS shapes do not
+	// ZIM Circle has its registration point automatically in the middle
+	// ZIM Triangle has its registration point in a weighted middle
+	// NOTE: if you want no fill then set the color to "rgba(0,0,0,0)" or use the frame.clear color
+	// these shapes can have their color property dynamically set
+	// of course other properties like alpha, scaleX, scaleY, rotation also work
+	// you can drag the shapes with circle.drag(), etc.
+	// circle.drag();
+	// use shape.centerReg() to center the registration point in the shape
+	// use circle.outline(), etc. to see bounds, internal origin and registration
+
+	// circle.outline(); // outline only outlines once when it is called
+	// rectangle.outline();
+	// triangle.outline();
+
+	// you can use ZIM Grid to help place shapes
+	// press the G to hide grid and use P to toggle pixels or percent
+	// stage.addChild(new Grid(stage, "#ddd", false)); // container, color, percent
+	// or use circle.place("circle") to drag and drop then see the position in the console
+
+	// you can animate properties of shapes animate();
+	// circle.animate({scale:1.5}, 700); // increase scale in 700 miliseconds
+
+	// you can let people transform shapes with circle.transform();
+	// and turn off and on the transform with double click circle.transform({dblclick:true});
+
+
+
+	stage.update();
+
+});
+frame.width=50
+
+// end of ready
+	</script>
+	</body>
+</html>

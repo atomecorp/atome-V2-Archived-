@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM BITS</title>
+<script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/zim_9.4.1.js"></script>
+</head>
+<body>
+</body>
+<script>
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var color =  "violet" 
+var outerColor = light;
+function get_pos(stage,obj){
+stage.on("stagemousemove",function(e){
+	zog(obj.y)
+})	
+}
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	var circle = new Circle(100, red)
+		.drag()
+		.place("iuy")
+.center()
+
+		circle.on("mousedown",function(e){
+get_pos(stage,circle)
+})	
+// circle.id="iiioio"
+zog("id id: "+circle.place())
+	stage.update();
+});
+</script>
+</html>

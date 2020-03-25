@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+
+
+<script>
+
+
+var scaling = "fit"; 
+var width = 1000;
+var height = 800;
+var frame = new Frame(scaling, width, height);
+frame.on("ready", function() {
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "#333";
+var label = new Label("BIG", 200, null, "white").center(stage);
+var rect = new Rectangle(200,100,"black")
+   .expand(0)
+   .center(stage)
+   .alp(0)
+   .drag();
+label.setMask(rect);
+
+}); 
+
+
+
+
+		
+	</script>
+	</body>
+</html>

@@ -1,0 +1,147 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+
+	<canvas id="titi" style ="display:none"></canvas>
+<canvas id="thecan" style="position:absolute;display:none" ></canvas>
+<div id="poil" style="background-color: red;color:white;font-size:33px;display:none">poilu</div>
+		<canvas id="toto" height=200 width=200 style="position:absolute;display:none"></canvas>
+<script>
+
+
+
+
+var scaling = "fit"; 
+var width = 1000;
+var height = 800;
+var frame = new Frame(scaling, width, height);
+frame.on("ready", function() {
+	zog("ready from ZIM Frame");
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "#333";
+	var rectangle = new Rectangle(80, 180, "#50c4b7") 
+	.centerReg(stage)
+	.sca(4)
+  .drag();
+
+  var blurFilter = new createjs.BlurFilter(7, 7, 7);
+	rectangle.filters = [blurFilter];
+  rectangle.cache();
+  
+  
+ tki= new Bitmap(zid("toto")).addTo(); 
+ tki.x=200
+  new Bitmap(zid("titi")).addTo();  
+    new Bitmap(zid("thecan")).addTo();  
+      new Bitmap(zid("poil")).addTo();  
+  	var c = document.getElementById("toto");
+	var ctx = c.getContext("2d");
+ 
+  ctx.beginPath();
+  ctx.moveTo(100,0);
+  ctx.lineTo(100,200);
+  ctx.stroke();
+
+function drawCircle(x,y){
+  z=250
+  ctx.beginPath();
+  ctx.arc(100,100,100,0,2*Math.PI);
+  ctx.fillStyle="rgba(0,"+x+",0,1)";
+  ctx.fill();
+}
+var x = 0;
+setInterval(function(){ 
+  ctx.clearRect(0,0,200,200);
+  drawCircle(x%200,x*200);
+  	stage.update();
+  x++;
+}, 25);
+  
+  
+  
+  
+
+
+}); 
+
+
+
+
+			var canvas = document.getElementById('titi');
+			
+var ctx = canvas.getContext('2d');
+
+var ball = {
+
+  draw: function() {
+	  var rectX = 50;
+var rectY = 50;
+var rectWidth = 100;
+var rectHeight = 100;
+var cornerRadius = 29;
+	 
+   ctx.lineJoin = "round";
+ctx.lineWidth = cornerRadius;
+ctx.strokeRect(rectX+(cornerRadius/2), rectY+(cornerRadius/2), rectWidth-cornerRadius, rectHeight-cornerRadius);
+ctx.fillRect(rectX+(cornerRadius/2), rectY+(cornerRadius/2), rectWidth-cornerRadius, rectHeight-cornerRadius);
+
+
+    
+        
+        
+        
+  }
+};
+
+ball.draw();
+
+
+
+
+
+var elem = document.getElementById('thecan'),
+    elemLeft = elem.offsetLeft,
+    elemTop = elem.offsetTop,
+    context = elem.getContext('2d'),
+    elements = [];
+
+// Add event listener for `click` events.
+elem.addEventListener('click', function(event) {
+    var x = event.pageX - elemLeft,
+        y = event.pageY - elemTop;
+    console.log(x, y);
+    elements.forEach(function(element) {
+        if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
+            alert('clicked an element');
+        }
+    });
+
+}, false);
+
+// Add element.
+elements.push({
+    colour: 'orange',
+    width: 150,
+    height: 100,
+    top: 20,
+    left: 15
+});
+
+// Render elements.
+elements.forEach(function(element) {
+    context.fillStyle = element.colour;
+    context.fillRect(element.left, element.top, element.width, element.height);
+});
+
+	</script>
+	</body>
+</html>

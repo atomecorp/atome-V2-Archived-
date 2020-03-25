@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<title>test</title>
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+
+<script>
+
+
+	
+	
+	function colorize(obj, color,stage){
+		
+		obj.color=color;	
+			stage.update();
+	};
+
+var frame = new Frame();
+frame.on("ready", function() {
+
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "orange";
+	var box = new Rectangle()
+	.addTo(stage)
+	.pos(20, 20);	
+	var circle = new Circle(50, "#acd241", "#e472c4", 5) 
+		.addTo(stage)
+		.pos(200, 200);	
+		circle.on("mousedown", function (evt) {
+			colorize(circle,"purple", stage);
+			colorize(box,"purple", stage);
+			//alert('oo');
+		
+		});
+		//circle.color="gray";	
+			circle.x=200
+	// var rectangle = new Rectangle(80, 80, "#50c4b7")
+	// .centerReg(stage)
+	// .sca(2);
+	// var triangle = new Triangle(100, 100, 100, "red")
+	// 	.addTo(stage)
+	// 	.pos(stageW-180, stageH-230)
+	// triangle.color = "#e472c4";
+	// triangle.borderColor = "#acd241";
+	// triangle.borderWidth = 5;
+	stage.update();
+});
+
+
+// end of ready
+	</script>
+	</body>
+</html>

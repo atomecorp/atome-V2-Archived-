@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="createjs.min.js"></script>
+    <script type="text/javascript" src="zim_9.4.1.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    zim_lib = function () {
+        wd = parseInt(window.innerWidth);
+        hg = parseInt(window.innerHeight);
+        var scaling = "full";
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var color = "rgba(38, 38, 38, 1)";
+        var outerColor = "transparent";
+        var app = {};
+        var frame = new Frame(scaling, width, height, color, outerColor);
+        frame.on("ready", function () {
+            var framer = frame;
+            var stage = app.stage = frame.stage;
+            var stageW = frame.width;
+            var stageH = frame.height;
+            stage.update();
+            appReady()
+        });
+        props_to_expose = {app, frame}
+        var ret = {};
+        Object.keys(props_to_expose).forEach(function (key) {
+            ret[key] = props_to_expose[key];
+        });
+        return ret;
+        zim_lib.app.stage.update();
+    }();
+
+    function appReady() {
+        const load = zim_lib.frame.loadAssets("iconBig.png", "https://d309knd7es5f10.cloudfront.net/codepen/");
+        load.on("complete", () => {
+            zim_lib.frame.asset("iconBig.png").center().gesture();
+            zim_lib.app.stage.update(); // this is needed to show any changes
+        });
+    }
+</script>
+</body>
+</html>

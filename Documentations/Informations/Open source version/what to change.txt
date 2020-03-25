@@ -1,0 +1,2 @@
+1- Comment : <script src='atome/core_js/atome.js' type='text/javascript'></script> in www/public/index.html
+2- Comment : const atomic_mode="atome" in www/public/atome/js/libraries/init_all.js

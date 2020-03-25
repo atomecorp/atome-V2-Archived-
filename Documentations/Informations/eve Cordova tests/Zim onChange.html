@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM BITS - Buttons, Radio Buttons and Check Boxes for JavaScript HTML 5 Canvas and CreateJS - Tips, Techniques and Tutorials</title>
+<script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/zim_9.4.1.js"></script>
+
+<script>
+
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var color = dark; // or any HTML color such as "violet" or "#333333"
+var outerColor = light;
+
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+
+	zim.OPTIMIZE = true;
+	Ticker.update = true;
+
+	var button = new Button(200, 70, "JUMP")
+
+	
+		.pos(100, 100)
+		.tap(function() {
+			toggleButtons();
+			person.animate({
+				props:{y:"-200"}, // relative... so -200 from current x
+				time:200,
+				ease:"quadOut",
+				rewind:true,
+				call:toggleButtons
+			});
+		});
+
+	// 4. optionally make a new Label()
+	var label = new Label("TWIRL", 40, "Courier", "white")
+
+	// 5. apply the label to a new Button()
+	// width, height, label, color, rollColor, borderColor, borderWidth, corner, shadowColor, shadowBlur, hitPadding, gradient, gloss, flatBottom, backing, rollBacking, rollPersist, icon, rollIcon, toggle, rollToggle, toggleEvent
+	var button2 = new Button(200, 70, label, "black", "#222", "white", 2, 0)
+		.pos(100, 250)
+		.tap(function() {
+			toggleButtons();
+			person.animate({
+				props:{y:"-200"}, // relative movement with quotes
+				time:200,
+				ease:"quadOut",
+				rewind:true,
+				call:toggleButtons
+			});
+			person.animate({
+				props:{x:slide, rotation:rotate},
+				time:400,
+				call:function(){
+					person.rotation=0;
+					radio.selectedIndex=(radio.selectedIndex==0)?1:0;
+					if (radio.text == "LEFT") {
+						slide = personX + 100; rotate = 360;
+					} else {
+						slide = personX - 100; rotate = -360;
+					}
+				},
+				override:false // override defaults to true which would stop the earlier animation
+			});
+		});
+
+
+	// 6. make an array of radio button objects
+	// can have id properties too and radio.id would give selected id
+	// but we can just use radio.text to give us the selected text
+	var buttons = [{label:"LEFT", selected:true}, {label:"RIGHT"}];
+
+	// 7. make a new RadioButtons() object and pass in the array
+	// size, buttons, vertical, color, backgroundColor, spacing, margin, always
+	var radio = new RadioButtons({
+		size:33,
+		buttons:buttons,
+		vertical:false,
+		color:light,
+		indicatorColor:dark,
+		spacing:30,
+		margin:10,
+		always:true
+	})
+		.pos(100, 400)
+		// 9. set a change event for when the radio buttons change and use the text property
+		.change(function () {
+				alert('ok')
+			toggleButtons();
+			// use radio.text
+			// or  radio.selectedIndex
+			if (radio.text == "LEFT") {
+				// target, x, y, time, ease, call, params, wait, props, fps, sequence
+				person.animate({x:"-100"},500,"backOut",toggleButtons);
+				slide = personX + 100; rotate = 360;
+			} else {
+				person.animate({x:"100"},500,"backOut",toggleButtons);
+				slide = personX - 100; rotate = -360;
+			}
+		})
+
+	var personX = 670;
+	var slide = personX + 100; // what side we go to if complex button is hit
+	var rotate = 360;
+
+
+	// 11. make a new CheckBox() and set it to checked or not
+	// size, label, startChecked, color, backgroundColor
+	var check = new Circle({
+		size:33,
+		label:"DRESS",
+		startChecked:true,
+		color:light,
+		backgroundColor:light,
+		indicatorColor:dark,
+		borderColor:dark,
+		margin:10
+	})
+
+		// 12. position check box on the stage
+		.drag()
+		.pos(100, 500)
+		// 13. set an event for when the check box changes and use the checked property
+		.change(function() {
+			alert('cool')
+			person.uncache();
+			if (check.checked) {
+				person.dress.addTo(person);
+			} else {
+				person.dress.removeFrom(person);
+			}
+			person.cache();
+			stage.update();
+		});
+
+	function toggleButtons() {
+		// turn on or off the buttons via the enabled property
+		radio.enabled = button.enabled = button2.enabled = !radio.enabled;
+	}
+
+
+
+	var Person = function(hair, eyes) {
+		var duo; if (duo = zob(Person, arguments, null, this)) {return duo;}
+		if (zot(hair)) hair = "black"; // handle defaults for parameters
+		if (zot(eyes)) eyes = "black";
+		this.super_constructor();
+		new Rectangle(100,170,"#acd241")
+			.mov(0,170/2+60)
+			.centerReg(this);
+		this.dress = new Rectangle(120,60,"#666")
+			.mov(0,60/2+130)
+			.centerReg(this);
+		new Circle(80,hair)
+			.mov(0,-30)
+			.addTo(this);
+		new Circle(60,"#d1a170")
+			.addTo(this);
+		new Circle(14,eyes)
+			.mov(-25,-8)
+			.sca(1,.9)
+			.addTo(this);
+		new Circle(14,eyes)
+			.mov(25,-8)
+			.sca(1,.9)
+			.addTo(this);
+		this.centerReg();
+	}
+	zim.extend(Person, Container);
+
+	var person = new Person("#e472c4", "#50c4b7")
+		.addTo(stage)
+		.loc(personX, 450);
+	stage.update();
+
+}); // end of ready
+
+</script>
+
+
+
+
+</head>
+
+<body>
+
+</body>
+</html>

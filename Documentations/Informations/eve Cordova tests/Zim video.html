@@ -1,0 +1,281 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+<!-- 		<script src="https://d309knd7es5f10.cloudfront.net/pizzazz_02.js"></script> -->
+	</head>
+	<body>
+		<div>
+	<canvas id="myCanvas" width="960" height="400"
+			style="background:none;"></canvas>
+			<div style="position: absolute;background-color: red" id="mylittlevideo2" >ksdjfhgkjsdhfxgdfggkjsdhfgkjhsdfkgjhsdkfjgh</div>
+			
+			<video autoplay id="mylittlevideo" style="display:none;" playsinline>
+<!-- <source src="http://www.youtubeinmp4.com/redirect.php?video=3n1DAHtcayc" type="video/mp4" /> -->
+<source src="https://s3.amazonaws.com/danzen/inventor.mp4?playsinline=1" type="video/mp4" />
+</video>
+</div>
+<script>
+
+// SCALING OPTIONS
+// scaling can have values as follows with full being the default
+// "fit"	sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+// "full"	sets stage to window size with no scaling
+// "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var color = darker;
+var outerColor = "rgba(0,0,0,0";
+
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+	zog("ready from ZIM Frame");
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+
+
+	// ZIM BITS -  Video (2016)
+
+	// video is handled by using an HTML 5 video tag
+	// then we can read the tag content into a Bitmap object (or use a CreateJS DOMElement to view directly)
+	// the events and control API is just the HTML 5 video events, methods and properties
+	// then you control those with ZIM assets - in this case Buttons with icons and a Dial
+	// (the Dial would normally be a Slider but let's have some fun!)
+
+	// STEPS
+	// 0. add a video tag and set the display to none with styles
+	// 1. check loading as the source uses an intermediate site to get the video from YouTube
+	// 2. when the video is loaded create and animate in control buttons
+	// 3. create a player Container that we will place the video in and spin it perhaps
+	// 4. read the source of the video into a Bitmap and center in the player
+	// 5. in this example we mask the video with a circle
+	// 6. clicking on the video will pause or play so update the button too
+	// 7. add the play / pause functionality making use of the Button toggle functionality
+	// 8. handle restart by setting source.currentTime = 0
+	// 9. handle sound muting with the source.muted property
+	// 10. handle what happens when the video ends with an ended event on the source
+	// 11. animate the Dial to show video progress
+
+
+	// 1. check loading - was using a secondary site loading of YouTube but it was unreliable
+	var source;
+	var count = 0;
+	getVideo();
+	function getVideo() {
+		if (count++ > 5) {
+			var pane = new Pane(stage, stageW+50, 150, "video down, please try again later", light)
+				.show();
+			return;
+		}
+		source = zid("mylittlevideo");
+		source.addEventListener("stalled", getVideo);
+		source.addEventListener("error", getVideo);
+		source.addEventListener("canplay", init);
+	}
+
+
+	function init() {
+		source.removeEventListener("stalled", getVideo);
+		source.removeEventListener("error", getVideo);
+		source.removeEventListener("canplay", init);
+
+		// 2. when the video is loaded create and animate in control buttons
+		var dialCheck = false;
+		var playButton, restartButton, soundButton, rotateButton, dial;
+		var controls = createControls()
+			.alp(0)
+			.animate({props:{alpha:1}, time:700, wait:1000}); // wait until player animates in
+
+		// 3. create a player Container that we will place the video in and spin it perhaps
+		var w = 640;
+		var h = 360;
+		var player = new Container(w, w)
+			.centerReg()
+			.mov(0,-30);
+
+		// 4. read the source of the video into a Bitmap and center in the player
+		var video = new Bitmap(source);
+		video.setBounds(0, 0, w, h);
+		video.center(player);
+
+		// 5. in this example we mask the video with a circle
+		var circle = new Circle(video.width/2)
+			.center(player, 0)
+			.sca(0)
+			.cur();
+		video.setMask(circle);
+		circle.animate({scale:1}, 3000, "elasticOut"); // animate after the mask is set
+
+		// 6. clicking on the video will pause or play so update the button too
+		circle.on("click", function() {
+			playButton.toggle();
+			togglePlay();
+		});
+
+		// 7. add the play / pause functionality making use of the Button toggle functionality
+		playButton.on("click", togglePlay);
+		function togglePlay() {
+			if (playButton.toggled) {
+				source.pause();
+			} else {
+				source.play();
+			}
+		}
+
+		// 8. handle restart by setting source.currentTime = 0
+		restartButton.on("click", restart);
+		function restart() {
+			circle.animate({props:{scale:0}, time:1000, rewind:true, ease:"backIn", rewindCall:function() {
+				// player.rotation = 0;
+				source.currentTime = 0;
+				source.play();
+				playButton.toggle(false);
+			}});
+		}
+
+		// 9. handle sound muting with the source.muted property
+		soundButton.on("click", function() {
+			source.muted = soundButton.toggled;
+		});
+
+		var rotateEvent = rotateButton.on("click", function() {
+			if (!rotateButton.toggled) resetRotation();
+		});
+
+		function resetRotation(mode) {
+			rotateButton.off("click", rotateEvent);
+			rotateButton.enabled = false;
+			player.animate({rotation:0}, player.rotation%(360*3)*10, "backInOut", function() {
+				rotateButton.on("click", rotateEvent);
+				rotateButton.enabled = true;
+				if (mode == "end") {
+					source.currentTime = 0;
+					rotateButton.toggle(false);
+					playButton.toggle(true);
+					playButton.enabled = true;
+				}
+			});
+		}
+
+		// 10. handle what happens when the video ends with an ended event on the source
+		source.addEventListener("ended", restart);
+
+		// 11. animate the Dial to show video progress
+		Ticker.add(function() {
+			// only have video set dial when dial is not in use
+			if (dial && !dialCheck && source.duration && source.duration>0) {
+				dial.currentValue = source.currentTime / source.duration;
+			}
+			if (rotateButton.toggled) player.rotation += .2;
+		});
+
+		function createControls() {
+			var iconScale = 1.2;
+			var iconColor = dark
+			var buttonSize = 80;
+			var buttonColor = silver;
+			var buttonRoll = green;
+
+			var controls = new Container()
+				.pos(880, 130);
+			var spacing = 20;
+
+			playButton = makeButton("pause", "play")
+				.addTo(controls);
+
+			restartButton = makeButton("restart")
+				.addTo(controls);
+			restartButton.y = playButton.y + restartButton.height + spacing;
+
+			soundButton = makeButton("sound", "mute")
+				.addTo(controls);
+			soundButton.y = restartButton.y + soundButton.height + spacing;
+
+			rotateButton = makeButton("rotate", "stop")
+				.addTo(controls);
+			rotateButton.y = soundButton.y + rotateButton.height + spacing;
+
+			function makeButton(type, toggle) {
+/*
+				var icon =  pizzazz.makeIcon({
+					type:type,
+					color:iconColor,
+					scale:iconScale
+				});
+*/
+
+				var toggleIcon;
+				if (toggle) {
+/*
+					toggleIcon = pizzazz.makeIcon({
+						type:toggle,
+						color:iconColor,
+						scale:iconScale
+					});
+*/
+				}
+				var button = new Button({
+					width:buttonSize,
+					height:buttonSize,
+					backgroundColor:buttonColor,
+					rollBackgroundColor:buttonRoll,
+					gradient:.2,
+					corner:buttonSize/2,
+// 					icon:icon,
+					toggleIcon:toggleIcon
+				});
+				return button;
+			}
+
+			dial = new Dial({
+				min:0,
+				max:1,
+				step:0,
+				width:buttonSize,
+				backgroundColor:silver,
+				indicatorColor:dark
+			})
+				.addTo(controls)
+				.alp(.9);
+			dial.inner.color = dark;
+			dial.x = dial.width/2;
+			dial.y = rotateButton.y + rotateButton.height + dial.height/2 + spacing;
+			dial.on("mousedown", function() {
+				dialCheck = true;
+				dial.backing.color = green;
+			})
+			dial.on("pressup", function() {
+				dialCheck = false;
+				dial.backing.color = silver;
+				stage.update();
+			});
+			dial.on("change", function() {
+				source.currentTime = dial.currentValue * source.duration;
+			});
+
+			return controls;
+		}
+
+	}
+
+
+
+	var title = "Video";
+	var label = new Label(title, 30, null, "#666")
+		.pos(70, 70);
+
+
+	stage.update();
+
+}); // end of ready
+
+	</script>
+	</body>
+</html>

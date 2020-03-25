@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+		<div>
+	<canvas id="myCanvas" width="960" height="400"
+			style="background:none;"></canvas>
+</div>
+<script>
+
+
+
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var frame = new Frame(scaling, width, height);
+frame.on("ready", function() {
+
+ 	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "#333";
+	
+	
+	  var circle = new Circle(50, "red", "#666", 10,true, 100).center();
+// 	  circle.colorCommand.radialGradient([yellow,green], [0, .7], 0, 0, 20, 0, 0, 50);
+  var semi = new Circle({style:false,radius:350, color:pink, percent:80, borderWidth:50, strokeObj : ( {caps:"butt", joints:"miter", miterLimit:10, ignoreScale:false})}).center();
+    semi.drag()
+// alert('ok')
+  semi.x=00
+// 	circle.center(stage);
+/*
+	var rectangle = new Rectangle(80, 180, "#50c4b7") 
+	.centerReg(stage)
+	.sca(4)
+  .drag();
+*/
+/*
+
+
+*/
+
+/*
+// or with 10 pixel grey stroke
+// var circle = new Circle(50, "red", "#666", 10);
+
+// fill the circle with a radial gradient fill
+circle.colorCommand.radialGradient([yellow,green], [0, .7], 0, 0, 20, 0, 0, 50);
+
+// make a half circle - or any percent of a circle
+var semi = new Circle({radius:200, color:pink, percent:50}).center();
+*/
+
+
+
+	stage.update();
+
+}); 
+
+
+
+	</script>
+	</body>
+</html>

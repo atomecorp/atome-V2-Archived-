@@ -1,0 +1,129 @@
+<html><head>
+<meta charset="utf-8">
+<title>ZIM SoundWave - Bars</title>
+
+<!-- Welcome to ZIM at https://zimjs.com - Code Interactive Media Pizzazz! 				-->
+<!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS https://createjs.com -->
+<!-- Founded by Inventor Dan Zen - https://danzen.com - Canadian New Media Award Winner 	-->
+<!-- ZIM is free to use. You can donate to help improve ZIM at https://zimjs.com/donate 	-->
+
+<!-- as of ZIM 4.3.0 load createjs namespace first -->
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+
+<script src="https://d309knd7es5f10.cloudfront.net/zim_6.js"></script>
+<!-- use zimjs.com/code/distill for minified individual functions! -->
+
+<style>
+	body {background-color:#000;}
+</style>
+
+<script>
+
+// SCALING OPTIONS
+// scaling can have values as follows with full being the default
+// "fit"		sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+// "full"		sets stage to window size with no scaling
+// "tagID"		add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+
+var scaling = "fit"; // fit scales to fit the browser window while keeping the aspect ratio
+var width = 1024; // can go higher...
+var height = 768;
+var frame = new zim.Frame(scaling, width, height); // see docs for more options and info
+frame.on("ready", function() {
+	zog("ready from ZIM Frame");
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.color = frame.darker;
+
+	// create a little waiting component while sound loads
+	var waiter = new zim.Waiter({container:stage, color:frame.pink, corner:0}).show();
+
+	// load a sound
+	// for now, the SoundWave uses HTML Audio as opposed to Web Audio so set HTML Audio as the default Sound
+	// we are working to adjust this so Web Audio will work and this line will not be needed
+	createjs.Sound.registerPlugins([createjs.HTMLAudioPlugin]);
+	frame.loadAssets("audio.m4a", null, false);
+	var song = frame.asset("audio.m4a").play();
+	frame.on("complete", function() {
+
+		// hide the waiter
+		waiter.hide();
+
+		var button = new zim.Button({label:"PLAY", color:frame.blue, rollColor:frame.pink, corner:0}).center(stage);
+		button.on("click", function() {
+
+			button.removeFrom(stage);
+
+			// play the song - the results of the playing song is what we pass into the SoundWave
+			var song = frame.asset("audio.m4a").play();
+
+			// create a SoundWave object to analyse the sound
+			// num, input, include, smoothing, min, max, operation
+			var soundWave = new zim.SoundWave(50, song);
+
+			// when the analyser is ready make and animate bars
+			soundWave.on("ready", function() {
+
+				// create a container for the bars so we can add them and then center the container on the stage
+				var bars = new zim.Container();
+				var width = stageW*.9; // leave a little around the sides...
+				var gap = 3;
+
+				// we can use soundWave.num to tell us how many bars to make
+				zim.loop(soundWave.num, function(i, total) {
+					// make each bar
+					var bar = new zim.Rectangle(width/total-gap, 300, frame.pink);
+					// move the bar over a little each time and set the registration point to the bottom
+					bar.addTo(bars).mov(i*width/total).reg(0,300);
+				})
+				bars.center(stage);
+
+				// animate the bars in a Ticker
+				zim.Ticker.add(function() {
+					// call the calculate() method of the soundWave
+					var data = soundWave.calculate();
+					// loop throught the bars and set the height of the bar to the associated soundWave data
+					// we multiply by 2 to magnify the data a little
+					zim.loop(bars, function(bar, i) {
+						bar.heightOnly = data[i]*2;
+					});
+				}); // end ticker
+
+
+
+				new zim.Label({
+					text:"ZIM SoundWave - Easy Frequency Analysis",
+					color:frame.purple
+				})
+					.center(stage)
+					.mov(0,220)
+					.animate({
+						obj:{alpha:0},
+						from:true,
+						wait:1000,
+						time:3000,
+						rewindWait:5000,
+						rewind:true
+					});
+
+			}); // end soundWave ready
+		})
+
+
+
+	}); // end sound complete
+
+}); // end of ready
+</script>
+</head>
+
+<body style="overflow: hidden;">
+<!-- canvas with id="myCanvas" is made by zim Frame -->
+
+
+
+<canvas id="myCanvas" tabindex="0" width="1024" height="768" style="position: absolute; width: 656px; height: 492px; left: 378px; top: 0px; background-color: rgb(17, 17, 17);"></canvas><audio preload="auto" src="audio.m4a" style=""></audio></body></html>

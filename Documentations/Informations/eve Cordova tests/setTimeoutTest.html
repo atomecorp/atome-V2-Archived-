@@ -1,0 +1,49 @@
+
+
+
+<body>
+
+<input type="button" value="Start countdown" onclick="start_countdown();">
+<input type="button" value="Stop countdown" onclick="stop_countdown();">
+</body>
+<script>
+
+
+
+
+/*
+		var run_programmed=false;
+	function startcountdown(){
+
+
+		if(run_programmed==false){
+
+			alert('go');
+			 run_programmed=false;
+		}else{
+
+	  clearTimeout(countdown);
+	  run_programmed=false;
+		}
+
+
+
+	}
+var countdown="";
+*/
+function start_countdown(){
+	if (typeof(countdown) != "undefined"){
+			clearTimeout(countdown);
+	}
+		countdown = setTimeout(function(){ alert('go'); }, 2000);
+}
+
+/*
+	function stop_countdown(){
+		clearTimeout(countdown);
+}
+*/
+
+
+
+	</script>

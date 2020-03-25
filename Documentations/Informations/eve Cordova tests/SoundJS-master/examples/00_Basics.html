@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			SoundJS: Basics
+		</title>
+	</head>
+	<body >
+		<button id="myBtn">Try it</button>
+		<script>
+		</script>
+		<script type="text/javascript" src="createjs.min.js"></script> 
+		<script>		
+			var src;            
+			var soundInstance;  
+			var displayStatus;  
+		function start_play(){			
+			var assetsPath = "./";
+			src = assetsPath + "ok.m4a";
+			createjs.Sound.alternateExtensions = ["m4a"];	
+			createjs.Sound.addEventListener("fileload", playSound); 
+			createjs.Sound.registerSound(src);  		
+			function playSound(event) { soundInstance = createjs.Sound.play(event.src); }				
+		}
+		document.getElementById("myBtn").addEventListener("click", start_play);
+		</script>
+	</body>
+</html>

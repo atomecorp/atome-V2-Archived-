@@ -1,0 +1,3 @@
+rvm implode
+npm uninstall -g cordova
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"  sudo npm uninstall -g cordova

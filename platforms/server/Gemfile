@@ -1,0 +1,6 @@
+gem 'roda'
+gem 'sqlite3'
+gem 'sequel'
+gem 'rack-unreloader'
+gem 'faye-websocket'
+gem 'puma'

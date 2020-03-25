@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+
+# PROVIDE: urho3d
+# REQUIRE: LOGIN FILESYSTEMS
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable this service:
+#
+# urho3d_enable="YES"
+
+. /etc/rc.subr
+
+name="urho3d"
+rcvar="urho3d_enable"
+
+: ${urho3d_enable:="NO"}
+: ${urho3d_app:="/usr/local/bin/01_HelloWorld"}# A remplacer par eVe pour booter dessus
+: ${urho3d_env:="URHO3D_PREFIX_PATH=/usr/local/share/Urho3D/Resources HOME=/tmp"}
+: ${urho3d_user:="nobody"}
+: ${urho3d_display:=":0"}
+
+command="/usr/local/bin/startx"
+command_args="${urho3d_app} -- ${urho3d_display}"
+
+load_rc_config "$name"
+
+run_rc_command "$1"
