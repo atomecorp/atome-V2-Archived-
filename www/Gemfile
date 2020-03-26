@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+gem 'faye-websocket'
+gem 'puma'
+gem 'rack-unreloader'
+gem 'roda'
+gem 'sequel'
+gem 'sqlite3'

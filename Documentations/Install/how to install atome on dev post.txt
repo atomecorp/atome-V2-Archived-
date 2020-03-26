@@ -1,0 +1,17 @@
+#on mac 
+#1 -instal brew :
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+# 2 install rvm 
+\curl -sSL https://get.rvm.io | bash -s stable
+# 3 install ruby 
+rvm install 2.6.5
+# 4 install node
+brew install node
+# 5 install cordova
+npm install -g cordova
+# 6 install atome server
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
+gem install roda -v 2.26 -N
+bundle update
+bundle install
+
