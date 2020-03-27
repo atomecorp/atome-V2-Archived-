@@ -1,0 +1,3 @@
+www/public/* linguist-vendored
+*.somextensiontoignore linguist-vendored
+*.js linguist-language=Ruby
