@@ -22,6 +22,21 @@
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
 
+  <icon src="ressources/icons/1024png" />
+
+  <platform name="osx">
+    <icon src="ressources/icons/16.png" width="16" height="16" />
+    <icon src="ressources/icons/32.png" width="32" height="32" />
+    <icon src="ressources/icons/64.png" width="64" height="64" />
+    <icon src="ressources/icons/128.png" width="128" height="128" />
+    <icon src="ressources/icons/180.png" width="180" height="180" />
+    <icon src="ressources/icons/196.png" width="196" height="196" />
+    <icon src="ressources/icons/256.png" width="256" height="256" />
+    <icon src="ressources/icons/360.png" width="360" height="360" />
+    <icon src="ressources/icons/512.png" width="512" height="512" />
+    <icon src="ressources/icons/1024.png" width="1024" height="1024" />
+  </platform>
+
   <platform name="electron">
     <icon src="ressources/icons/1204.png" />
     <icon src="ressources/icons/1204.png" target="app" />
