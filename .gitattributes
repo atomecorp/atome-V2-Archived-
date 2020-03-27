@@ -2,7 +2,7 @@ www/* linguist-vendored
 Documentations/* linguist-vendored
 plugins/* linguist-vendored
 *.rb linguist-detectable=true
- *.js linguist-detectable=false
- *.html linguist-detectable=false
- *.xml linguist-detectable=false
+*.js linguist-detectable=false
+*.html linguist-detectable=false
+*.xml linguist-detectable=false
 *.rb linguist-language=Ruby
