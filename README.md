@@ -1,2 +1,2 @@
 # atome
-Multi purposes cross platform dev env
+Multi purposes cross platform solution
