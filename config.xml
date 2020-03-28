@@ -94,15 +94,19 @@
 
     <splash src="ressources/splashscreens/320_p.png" largeur = "320" height = "480" />
     <splash src="ressources/splashscreens/640_p.png" largeur = "640" height = "960" />
+    <splash src="ressources/splashscreens/640_1136_p.png" largeur = "640" height = "1136" />
+    <splash src="ressources/splashscreens/750_p.png" largeur = "750" height = "1334" />
     <splash src="ressources/splashscreens/768_p.png" largeur = "768" hauteur = "1024" />
+    <splash src="ressources/splashscreens/1125_p.png" largeur = "1125" hauteur = "2436" />
+    <splash src="ressources/splashscreens/1242_p.png" largeur = "1242" height = "2208" />
+    <splash src="ressources/splashscreens/1242_2688_p.png" largeur = "1242" height = "2688" />
     <splash src="ressources/splashscreens/1536_p.png" largeur = "1536" height = "2048" />
 
     <splash src="ressources/splashscreens/1024_l.png" largeur = "1024" height = "768" />
-    <splash src="ressources/splashscreens/2048_l.png" largeur = "2048" hauteur = "1536" />
-    <splash src="ressources/splashscreens/640_1136_p.png" largeur = "640" height = "1136" />
-    <splash src="ressources/splashscreens/750_p.png" largeur = "750" height = "1334" />
-    <splash src="ressources/splashscreens/1242_p.png" largeur = "1242" height = "2208" />
+    <splash src="ressources/splashscreens/1125_l.png" largeur = "2436" hauteur = "1125" />
+    <splash src="ressources/splashscreens/1536_l.png" largeur = "2048" hauteur = "1536" />
     <splash src="ressources/splashscreens/2208_l.png" largeur = "2208" height = "1242" />
+    <splash src="ressources/splashscreens/2048_l.png" largeur = "2048" hauteur = "1536" />
   </platform>
 
   <platform name="windows">

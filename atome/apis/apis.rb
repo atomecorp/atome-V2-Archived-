@@ -22,7 +22,7 @@ end
 
 ################# new file operation #################
 def saver(*val)
-  send_this = { name: :project_0, file_content: '#project_0', call: false, call_params: false, type: :project, force: false }
+  send_this = {name: :project_0, file_content: '#project_0', call: false, call_params: false, type: :project, force: false}
   file_exist = false
   if val.length > 1
     val[1] = val[1].gsub('"', "'")
@@ -46,7 +46,7 @@ def saver(*val)
     else
       # we add user to eDen's user list
       Atome.projects << send_this[:name]
-      saver({ name: Atome.user, file_content: Atome.projects.join("\n"), type: :user, force: true })
+      saver({name: Atome.user, file_content: Atome.projects.join("\n"), type: :user, force: true})
     end
 
   elsif send_this[:type].to_sym == :user
@@ -54,7 +54,7 @@ def saver(*val)
       file_exist = true
     else
       Atome.humans << send_this[:name]
-      saver({ name: :eDen, file_content: Atome.humans.join("\n"), type: :machine, force: true })
+      saver({name: :eDen, file_content: Atome.humans.join("\n"), type: :machine, force: true})
     end
 
   elsif send_this[:type].to_sym == :machine
@@ -85,7 +85,7 @@ def saver(*val)
 end
 
 def loader(*val)
-  send_this = { name: :project_0, call: :add_to_screen, call_params: false, type: :project, error_call: false, error_call_params: false, force: false }
+  send_this = {name: :project_0, call: :add_to_screen, call_params: false, type: :project, error_call: false, error_call_params: false, force: false}
 
   if val.length > 1
     # it's an array it means that's a pair name:type
@@ -118,7 +118,7 @@ def store(filename, content = '', system_file = false, fct_to_call = false, fct_
     content = filename[filename.keys[0]]
     filename = filename.keys[0]
   end
-  filename = Atome.human + '.' + filename if system_file == false
+  #filename = Atome.human + '.' + filename if system_file == false
   filename = filename.to_s
   content = content.to_s
   `write_file(#{filename}, #{content}, #{fct_to_call}, #{fct_params}, #{error_catch_fct})`
@@ -132,12 +132,12 @@ def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catc
   filename = filename.to_s
   if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
 
-    if system_file == false
-
-      filename = Atome.human + '.' + filename
-      # If the file is add to ide then we update the value of current project else it may be a media so we don't want to change the current project value
-
-    end
+    #if system_file == false
+    #
+    #  filename = Atome.human + '.' + filename
+    #  # If the file is add to ide then we update the value of current project else it may be a media so we don't want to change the current project value
+    #
+    #end
   end
   `
    read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
@@ -242,36 +242,36 @@ def rename(file_name, new_filename)
   load file_name, 'renamer', files_name
 end
 
-def set_last_project(projects_list)
-  projects_list = projects_list.split("\n")
-  unless projects_list.include? Atome.project_on_screen
-    p 'file alredy exist'
-    projects_list << Atome.project_on_screen
-  end
-  projects_list[0] = Atome.project_on_screen.to_s
-  projects_list = projects_list.join("\n")
-  store(Atome.human, projects_list, true)
-  Atome.projects(projects_list)
-end
-
-def project_list_send_to_set_last_project
-  load Atome.human, 'set_last_project'
-end
-
-def set_last_user(eDen_content)
-  eDen_content = eDen_content.split("\n")
-  eDen_content[1] = Atome.user
-  eDen_content = eDen_content.join("\n")
-  store(:eDen, eDen_content, true)
-end
-
-def add_last_user(eDen_content)
-  eDen_content = eDen_content.split("\n")
-  eDen_content[1] = Atome.human
-  eDen_content << Atome.human
-  eDen_content = eDen_content.join("\n")
-  store(:eDen, eDen_content, true)
-end
+#def set_last_project(projects_list)
+#  projects_list = projects_list.split("\n")
+#  unless projects_list.include? Atome.project_on_screen
+#    p 'file alredy exist'
+#    projects_list << Atome.project_on_screen
+#  end
+#  projects_list[0] = Atome.project_on_screen.to_s
+#  projects_list = projects_list.join("\n")
+#  store(Atome.human, projects_list, true)
+#  Atome.projects(projects_list)
+#end
+#
+#def project_list_send_to_set_last_project
+#  load Atome.human, 'set_last_project'
+#end
+#
+#def set_last_user(eDen_content)
+#  eDen_content = eDen_content.split("\n")
+#  eDen_content[1] = Atome.user
+#  eDen_content = eDen_content.join("\n")
+#  store(:eDen, eDen_content, true)
+#end
+#
+#def add_last_user(eDen_content)
+#  eDen_content = eDen_content.split("\n")
+#  eDen_content[1] = Atome.human
+#  eDen_content << Atome.human
+#  eDen_content = eDen_content.join("\n")
+#  store(:eDen, eDen_content, true)
+#end
 
 ###################### exec user script ####################
 
@@ -279,12 +279,24 @@ def add_to_screen(content)
   `add_to_ide(#{content})`
 end
 
-def ide(content)
-  `add_to_ide(#{content})`
+def ide(content=nil)
+  if content
+    `add_to_ide(#{content})`
+  else
+    code = `code=editor.getDoc().getValue("\n")`
+    return code
+  end
 end
 
 def write(content)
   `add_to_ide(#{content})`
+end
+
+def save filename =:default , content=nil
+  if !content
+    content=ide()
+  end
+  store filename, content
 end
 
 def dynamic_code(code, last = false)
@@ -497,7 +509,7 @@ def comment_selection
 end
 
 def auto_save
-  puts 'autosave called!!'
+  save :autosave
   # code_content = code
   # if Object.const_defined?(:Atome)
   #  store(Atome.project_on_screen, code_content)
@@ -640,7 +652,8 @@ def run
   # method added here just to prevent method not found error
 end
 
-def render; end
+def render;
+end
 
 def language
   @language = 'french'
@@ -705,7 +718,7 @@ def reload
 end
 
 def lorem
-  srt = <<~STRdelim
+  srt = <<STRdelim
     b=box()
     b.drag()
     b.color=:red
@@ -718,7 +731,7 @@ def lorem
 end
 
 def lorem2
-  srt = <<~STRdelim
+  srt = <<STRdelim
     b=box()
     b.id="toto"
     b.drag()
@@ -726,12 +739,11 @@ def lorem2
     get("toto").y(10)
 
     get('toto').x(77)
-
-  STRdelim
+STRdelim
 end
 
 def lorem3
-  srt = <<~STRdelim
+  srt = <<STRdelim
     b=box()
     b.id="toto"
     b.drag()
@@ -739,19 +751,18 @@ def lorem3
 
 
     get('toto').x=77
-
-  STRdelim
+STRdelim
 end
 
 def lorem4
-  srt = <<~STRdelim
+  srt = <<STRdelim
     b=box()
     b.id="toto"
     b.drag()
     b.color=:red
 
 
-  STRdelim
+STRdelim
 end
 
 `

@@ -21,8 +21,9 @@ render_engine = Dir['apis/render_engine.rb']
 render_engines = Dir['apis/render_engines/*.rb']
 nucleus = Dir['core/nucleus.rb']
 atome = Dir['core/atome.rb']
+proton = Dir['core/proton.rb']
 neutron = Dir['core/neutron.rb']
-kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(neutron)
+kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(proton).concat(neutron)
 
 join_files kernel, 'kernel.rb'
 

@@ -76,8 +76,8 @@ function read_file(file_name, call, params, err_callb_fct) {
                     if (call == "add_to_screen") {
                         //we change the project_on_screen var to the new project name
                         file_name = file_name.split(file_separator)[1];
-                        Opal.Atome.$project_on_screen(file_name);
-                        Opal.Object.$project_list_send_to_set_last_project();
+                        // Opal.Atome.$project_on_screen(file_name);
+                        // Opal.Object.$project_list_send_to_set_last_project();
                     }
 
                 };

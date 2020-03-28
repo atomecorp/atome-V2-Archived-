@@ -28,7 +28,9 @@ end
 
 html_view
 module Html
-  def initialize(*val); end
+  def initialize(*val)
+    ;
+  end
 
   def self.init(properties, id)
     properties.each do |property|
@@ -57,7 +59,9 @@ if (!document.getElementById(#{id})) {
 `
   end
 
-  def self.type(param, id); end
+  def self.type(param, id)
+
+  end
 
   def self.color(param, id)
     `document.getElementById(#{id}).style.backgroundColor = #{param}`
@@ -101,7 +105,6 @@ $( "#"+#{atome_id}+"" ).draggable("enable")
 `
 
     elsif param == :false
-      # `alert("false")`
       `$( "#"+#{atome_id}+"" ).draggable('disable')`
     end
   end
