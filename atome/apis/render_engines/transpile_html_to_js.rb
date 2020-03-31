@@ -87,16 +87,13 @@ search_y="get(\""+#{id}+"\").y"
 
 
 code=editor.getDoc().getValue("\n");
-x_def_pos=Opal.Object.$find(code,search_x);
 // we add a line if the last line is not empty
     code_lines=code.split("\n");
     code_length=code_lines.length;
     last_line=code_lines[code_length-1];
-    if (last_line!=""){
-        Opal.Object.$replace("" , code_length);
-        x_def_pos=code_length
-    }
 
+x_def_pos=Opal.Object.$find(code,search_x);
+  Opal.Object.$replace("" , code_length);
 y_def_pos=Opal.Object.$find(code,search_y);
 if (x_def_pos==y_def_pos){
 y_def_pos=y_def_pos+1

@@ -8,8 +8,6 @@ end
 #open_console(:true)
 
  content = <<EOT
-
-
 clear
 class Atome
 def class_exec proc
@@ -22,13 +20,17 @@ end
 end
 b=box
 a=box()
+a.color(:pink)
 a.x=600
 b.touch do
   self.color(:green)
+b.y(150)
   self.draggable(:true)
   puts "good"
 end
-
+a.draggable(:true)
+  c=box()
+c.draggable(:true)
 EOT
 write content
 
