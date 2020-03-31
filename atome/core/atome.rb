@@ -128,6 +128,13 @@ class Atome
     end
   end
 
+
+  def class_exec proc
+    @temp=[]
+    @temp << proc
+    a= @temp[0]
+    instance_eval(&a)
+  end
   # we define all Atome's methods below with a bit of metaprogramming, methods ending with a s will be treated as batch for set, add, enhance and delete methods  or return an array for the getter method
   # All methods exept the getter mehod end up using the set method to add a modify a prop. ex : if the add method call the set methnod just changing the @add variable, so the set method accumulate prop instead of replacing it
   atome_methods.each do |property_fct|
@@ -142,6 +149,9 @@ class Atome
     # end
     #
 
+
+
+
     define_method(property_fct) do |*options, &proc|
       if proc
         #todo : important keep old code below and maybe add a condition if the property_fct is an event
@@ -149,9 +159,10 @@ class Atome
         #yield
         #proc.call()
         if property_fct.to_sym==:touch
-          puts "proc - property_fct : #{property_fct}"
+          # puts "proc - property_fct : #{property_fct}"
           class_exec(proc)
-
+          #property_fct = property_fct.to_s.chomp('=').to_sym
+          #set({ property_fct => proc })
         else
           ########old code#########
           puts "here!!"
@@ -176,7 +187,7 @@ class Atome
           # here the method call is a  getter
           get(property_fct)
         else
-          puts "param - property_fct : #{property_fct} options #{options}"
+          # puts "param - property_fct : #{property_fct} options #{options}"
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
           set({ property_fct => options })
