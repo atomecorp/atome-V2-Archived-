@@ -20,4 +20,3 @@ run  application :
 	%ruby run.rb electron
 	- to run web server version of atome
 	%ruby run.rb server
-	
