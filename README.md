@@ -2,6 +2,7 @@
 Multi purposes cross platform solution
 
 	To install application: 
+	
 	- Install ruby
 	- install node
 	- install cordova
@@ -14,6 +15,7 @@ Multi purposes cross platform solution
 
 	
 	To run  application :   
+	
 	- go to the atome folder in atome within atome root  
 	%cd atome  
 	- to run web browser version of atome  
