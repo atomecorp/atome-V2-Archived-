@@ -84,14 +84,11 @@ $( "#"+#{atome_id}+"" ).draggable({
      start: function() {
 search_x="get(\""+#{id}+"\").x"
 search_y="get(\""+#{id}+"\").y"
-
-
 code=editor.getDoc().getValue("\n");
 // we add a line if the last line is not empty
     code_lines=code.split("\n");
     code_length=code_lines.length;
     last_line=code_lines[code_length-1];
-
 x_def_pos=Opal.Object.$find(code,search_x);
   Opal.Object.$replace("" , code_length);
 y_def_pos=Opal.Object.$find(code,search_y);
