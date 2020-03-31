@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+#kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(proton).concat(neutron)
+require 'opal-parser'
+
 
 # atome object and apis below
 class Atome
@@ -137,39 +140,60 @@ class Atome
     #    #atome.send(key, opts)
     #  end
     # end
+    #
 
     define_method(property_fct) do |*options, &proc|
       if proc
-        # @temp_prop is used to send proper context to set the new properties
-        @temp_prop = property_fct
-        @temp_atome = []
-        instance_exec(&proc)
-        # once the proc is executed we delete the @temp_prop
-        # first we delete the previous corresponding prop
-        delete(property_fct)
-        add_type = true
-        add_type = check_if_type_exist(@temp_atome, property_fct)
-        @temp_atome.unshift(type: property_fct) if add_type
-        insert_properties_in_atome(@temp_atome)
-        @temp_atome = nil
-        @temp_prop = nil
+        #todo : important keep old code below and maybe add a condition if the property_fct is an event
+        #instance_exec(&proc)
+        #yield
+        #proc.call()
+        if property_fct.to_sym==:touch
+          puts "proc - property_fct : #{property_fct}"
+          class_exec(proc)
+
+        else
+          ########old code#########
+          puts "here!!"
+          # @temp_prop is used to send proper context to set the new properties
+          # @temp_prop = property_fct
+          # @temp_atome = []
+          # instance_exec(&proc)
+          ## once the proc is executed we delete the @temp_prop
+          ## first we delete the previous corresponding prop
+          # delete(property_fct)
+          # add_type = true
+          # add_type = check_if_type_exist(@temp_atome, property_fct)
+          # @temp_atome.unshift(type: property_fct) if add_type
+          # insert_properties_in_atome(@temp_atome)
+          # @temp_atome = nil
+          # @temp_prop = nil
+          #################
+        end
+
       else
         if options[0].nil?
           # here the method call is a  getter
           get(property_fct)
         else
+          puts "param - property_fct : #{property_fct} options #{options}"
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
           set({ property_fct => options })
         end
       end
     end
+
+
   end
+
+
 
   # SAGED methods (Set Add Get Enhance Delete) the four main atome methods
 
   def set(*properties, &proc)
     if proc
+      puts "this the proc!!"
       instance_exec(&proc)
     else
       properties.each do |props|

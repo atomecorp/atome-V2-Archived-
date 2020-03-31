@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'opal-parser'
+#require 'opal-parser'
 
 class Array
   def swap!(a, b)
@@ -67,4 +67,13 @@ end
 if defined?(Number) == 'constant'
 else
   Number = Integer
+end
+
+
+def class_exists?(class_name)
+  klass = Module.const_get(class_name)
+  return true
+
+rescue NameError
+  return false
 end

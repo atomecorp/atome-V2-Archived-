@@ -1,3 +1,4 @@
+#here is all general mthods helper for atomes
 # frozen_string_literal: true
 
 def grab(atome_id)
@@ -152,5 +153,4 @@ end
 
 # init()
 
-open_ide(:true)
-open_console(:true)
+

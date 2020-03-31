@@ -47,16 +47,19 @@ class Render_engine
 
   def self.render(object_id)
     # after a bit of analysis we send the result to the different render engines
-    atome = Atome.atomes[object_id.to_s]
-    atome = atome.to_array
-    atome.each do |props|
-      if props.class == Array
-        props.each do |prop|
-          inception prop, props
+    if class_exists?(:Atome)
+      atome = Atome.atomes[object_id.to_s]
+      atome = atome.to_array
+      atome.each do |props|
+        if props.class == Array
+          props.each do |prop|
+            inception prop, props
+          end
+        else
+          inception props, atome
         end
-      else
-        inception props, atome
       end
     end
+
   end
 end

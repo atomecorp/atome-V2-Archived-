@@ -63,6 +63,11 @@ if (!document.getElementById(#{id})) {
 
   end
 
+  def self.touch(param, id)
+
+    puts "param is #{param}"
+  end
+
   def self.color(param, id)
     `document.getElementById(#{id}).style.backgroundColor = #{param}`
   end
@@ -77,9 +82,10 @@ if (!document.getElementById(#{id})) {
       `
 $( "#"+#{atome_id}+"" ).draggable({
      start: function() {
-//alert('atome_id is '+#{id}+", we have to ind the id ")
 search_x="get(\""+#{id}+"\").x"
 search_y="get(\""+#{id}+"\").y"
+
+
 code=editor.getDoc().getValue("\n");
 x_def_pos=Opal.Object.$find(code,search_x);
 // we add a line if the last line is not empty
@@ -87,10 +93,14 @@ x_def_pos=Opal.Object.$find(code,search_x);
     code_length=code_lines.length;
     last_line=code_lines[code_length-1];
     if (last_line!=""){
+//alert("ok")
         Opal.Object.$replace("" , code_length);
         x_def_pos=code_length
     }
+
 y_def_pos=Opal.Object.$find(code,search_y);
+//alert(x_def_pos)
+//alert(y_def_pos)
       },
       drag: function() {
 Opal.Object.$replace("get(\""+#{id}+"\").x("+parseInt(document.getElementById(#{atome_id}).style.left)+")"  , x_def_pos);

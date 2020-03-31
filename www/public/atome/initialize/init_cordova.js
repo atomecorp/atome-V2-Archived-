@@ -7,7 +7,7 @@ function onDeviceReady() {
         $(document).ready(function () {
            // brython({debug: 0});
             //now we clear the console and add a few methods to obtain a bit better ruby debugging
-            console.clear();
+            //console.clear();
             console.log = function(message) {
               Opal.Object.$log(message);
             };

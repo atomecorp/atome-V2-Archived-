@@ -40,35 +40,35 @@ def saver(*val)
   # attention!! the test below seems to invert condition and test if a project exist before testing if a project is requested!! +add comment to explain
 
   ################# new algorythm here ###################
-  if send_this[:type].to_sym == :project
-    if Atome.projects.include? send_this[:name]
-      file_exist = true
-    else
-      # we add user to eDen's user list
-      Atome.projects << send_this[:name]
-      saver({name: Atome.user, file_content: Atome.projects.join("\n"), type: :user, force: true})
-    end
-
-  elsif send_this[:type].to_sym == :user
-    if Atome.humans.include? send_this[:name]
-      file_exist = true
-    else
-      Atome.humans << send_this[:name]
-      saver({name: :eDen, file_content: Atome.humans.join("\n"), type: :machine, force: true})
-    end
-
-  elsif send_this[:type].to_sym == :machine
-    puts 'machine created'
-    puts send_this
-    file_exist = true
-    # if Atome.users.include? send_this[:name]
-    #  #file_exist = true
-    # else
-    #  #p users
-    #  #p "check if user exist, if not add it to eDen !!"def
-    #  #save({name: :eDen, file_content: Atome.users.join("\n"), type: :machine})
-    # end
-  end
+  #if send_this[:type].to_sym == :project
+  #  if Atome.projects.include? send_this[:name]
+  #    file_exist = true
+  #  else
+  #    # we add user to eDen's user list
+  #    Atome.projects << send_this[:name]
+  #    saver({name: Atome.user, file_content: Atome.projects.join("\n"), type: :user, force: true})
+  #  end
+  #
+  #elsif send_this[:type].to_sym == :user
+  #  if Atome.humans.include? send_this[:name]
+  #    file_exist = true
+  #  else
+  #    Atome.humans << send_this[:name]
+  #    saver({name: :eDen, file_content: Atome.humans.join("\n"), type: :machine, force: true})
+  #  end
+  #
+  #elsif send_this[:type].to_sym == :machine
+  #  puts 'machine created'
+  #  puts send_this
+  #  file_exist = true
+  #  # if Atome.users.include? send_this[:name]
+  #  #  #file_exist = true
+  #  # else
+  #  #  #p users
+  #  #  #p "check if user exist, if not add it to eDen !!"def
+  #  #  #save({name: :eDen, file_content: Atome.users.join("\n"), type: :machine})
+  #  # end
+  #end
   ################# end ####################
   if file_exist && send_this[:force] == false
     puts '######'
@@ -126,7 +126,7 @@ end
 
 def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false, system_file = false)
   if fct_to_call.to_sym == :human
-    Atome.human = filename
+    #Atome.human = filename
     load :eDen, :set_last_user
   end
   filename = filename.to_s
@@ -144,103 +144,103 @@ def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catc
    `
 end
 
-def system_load(filename, fct_to_call = 'puts', fct_params = false, error_catch_fct = false, _system_file = false)
-  `
-   read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
-   `
-end
-
-def create(name, value = '', type = :project, _system_file = false)
-  if name.class == Hash
-    value = name[name.keys[0]]
-    name = name.keys[0]
-  end
-  name = name.to_sym
-  if type == :project
-    if !Atome.projects.include? name
-      value = '#' + name if value == ''
-      store(name, value, false)
-      user_project = Atome.projects << name
-      user_project = user_project.join("\n")
-      store(Atome.human, user_project, true)
-
-    else
-      alert('file already exist!')
-    end
-  elsif type == :human
-    store(name, value, true)
-    password = value
-    Atome.human = name
-    store(Atome.human, "project_0\nproject_0\n", true)
-    store(:project_0, '#default code : project_0', false, :load, :project_0)
-    load :eDen, :add_last_user
-  end
-end
-
-def delete(filename)
-  user_projects = Atome.projects
-  if user_projects.include? filename
-    if user_projects.length == 2
-      alert("can't delete : only one project!")
-    else
-      if user_projects[0] == user_projects[1]
-        user_projects[0] = user_projects[2]
-        Atome.projects.delete(filename)
-        new_project = user_projects[0]
-        load new_project
-      elsif user_projects[0] == filename
-        user_projects[0] = user_projects[1]
-        Atome.projects.delete(filename)
-        new_project = user_projects[0]
-        load new_project
-      else
-        Atome.projects.delete(filename)
-      end
-      `
-     remove_file(#{filename});
-     `
-      Atome.projects(Atome.projects.join("\n"))
-
-      store Atome.human, user_projects
-
-    end
-  else
-    alert 'no file project found'
-  end
-end
-
-def renamer(content, files_name)
-  files_name = files_name.split(',')
-
-  new_project_list = []
-  user_projects = Atome.projects
-  p '########'
-  p user_projects[0]
-  p files_name[1]
-  p '########'
-  Atome.project(files_name[1]) if user_projects[0] == files_name[0]
-  user_projects.each do |project|
-    # p "#{project} :: #{files_name[0]}"
-    if project == files_name[0]
-      # p "beefcake : #{project} :: #{files_name[0]}"
-      project = files_name[1]
-    end
-    new_project_list << project
-  end
-  new_project_list = new_project_list.join("\n")
-  store files_name[1], content
-  `
-     remove_file(#{files_name[0]});
-     `
-  Atome.projects(new_project_list)
-  store Atome.human, new_project_list
-end
-
-def rename(file_name, new_filename)
-  # p file_name
-  files_name = [file_name, new_filename]
-  load file_name, 'renamer', files_name
-end
+#def system_load(filename, fct_to_call = 'puts', fct_params = false, error_catch_fct = false, _system_file = false)
+#  `
+#   read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
+#   `
+#end
+#
+#def create(name, value = '', type = :project, _system_file = false)
+#  if name.class == Hash
+#    value = name[name.keys[0]]
+#    name = name.keys[0]
+#  end
+#  name = name.to_sym
+#  if type == :project
+#    if !Atome.projects.include? name
+#      value = '#' + name if value == ''
+#      store(name, value, false)
+#      user_project = Atome.projects << name
+#      user_project = user_project.join("\n")
+#      store(Atome.human, user_project, true)
+#
+#    else
+#      alert('file already exist!')
+#    end
+#  elsif type == :human
+#    store(name, value, true)
+#    password = value
+#    Atome.human = name
+#    store(Atome.human, "project_0\nproject_0\n", true)
+#    store(:project_0, '#default code : project_0', false, :load, :project_0)
+#    load :eDen, :add_last_user
+#  end
+#end
+#
+#def delete(filename)
+#  user_projects = Atome.projects
+#  if user_projects.include? filename
+#    if user_projects.length == 2
+#      alert("can't delete : only one project!")
+#    else
+#      if user_projects[0] == user_projects[1]
+#        user_projects[0] = user_projects[2]
+#        Atome.projects.delete(filename)
+#        new_project = user_projects[0]
+#        load new_project
+#      elsif user_projects[0] == filename
+#        user_projects[0] = user_projects[1]
+#        Atome.projects.delete(filename)
+#        new_project = user_projects[0]
+#        load new_project
+#      else
+#        Atome.projects.delete(filename)
+#      end
+#      `
+#     remove_file(#{filename});
+#     `
+#      # Atome.projects(Atome.projects.join("\n"))
+#
+#      store Atome.human, user_projects
+#
+#    end
+#  else
+#    alert 'no file project found'
+#  end
+#end
+#
+#def renamer(content, files_name)
+#  files_name = files_name.split(',')
+#
+#  new_project_list = []
+#  user_projects = Atome.projects
+#  p '########'
+#  p user_projects[0]
+#  p files_name[1]
+#  p '########'
+#  # Atome.project(files_name[1]) if user_projects[0] == files_name[0]
+#  user_projects.each do |project|
+#    # p "#{project} :: #{files_name[0]}"
+#    if project == files_name[0]
+#      # p "beefcake : #{project} :: #{files_name[0]}"
+#      project = files_name[1]
+#    end
+#    new_project_list << project
+#  end
+#  new_project_list = new_project_list.join("\n")
+#  store files_name[1], content
+#  `
+#     remove_file(#{files_name[0]});
+#     `
+#  #Atome.projects(new_project_list)
+#  store Atome.human, new_project_list
+#end
+#
+#def rename(file_name, new_filename)
+#  # p file_name
+#  files_name = [file_name, new_filename]
+#  load file_name, 'renamer', files_name
+#end
 
 #def set_last_project(projects_list)
 #  projects_list = projects_list.split("\n")
@@ -299,30 +299,36 @@ def save filename =:default , content=nil
   store filename, content
 end
 
-def dynamic_code(code, last = false)
-  if !last
-    Atome.code(code)
-  else
-    Atome.code(code)
-    codes = Atome.code
-    originale_code = codes[0]
-    codes.shift
-    codes.each do |code|
-      originale_code = originale_code.sub('require', "\n" + code + "\n#")
-    end
-    `
-    run_script(#{originale_code})
-  `
-  end
-end
+#def dynamic_code(code, last = false)
+#  if !last
+#    Atome.code(code)
+#  else
+#    Atome.code(code)
+#    codes = Atome.code
+#    originale_code = codes[0]
+#    codes.shift
+#    codes.each do |code|
+#      originale_code = originale_code.sub('require', "\n" + code + "\n#")
+#    end
+#    `
+#    run_script(#{originale_code})
+#  `
+#  end
+#end
 
 def deep_analysis(code)
-  Atome.delete(:code)
+  #for Atome mode only
+  if class_exists?(:Atome)
+    Atome.delete(:code)
+  end
   # we store the whole code in Atome.code
   # we parse code to remove in case of commented require
   code = code.gsub('#require', '#')
   if code.include? 'require'
-    Atome.code(code)
+    #for Atome mode only
+    #if class_exists? Atome
+    #  Atome.code(code)
+    #end
     lines = code.split("\n")
     require_list = []
     lines.each_with_index do |line, _index|
@@ -345,7 +351,9 @@ end
 
 def run_code
   ## allow eVe to remove all object expet the two first :  the human (the user) and eDen ( the machine)
-  Atome.purge
+  if class_exists?(:Atome)
+    Atome.purge
+  end
   code = `code=editor.getDoc().getValue("\n")`
   clear(:view)
   if code.include? 'require'
@@ -375,9 +383,9 @@ def wait(time)
   `setTimeout(function(){ #{yield} }, #{time})`
 end
 
-def nuke
-  Atome.new.nuke
-end
+#def nuke
+#  Atome.new.nuke
+#end
 
 #######  CodeMirror methods #############
 
@@ -670,29 +678,29 @@ def location
   location
 end
 
-def project
-  Atome.project
-end
-
-def projects
-  user_projects = []
-  Atome.projects.each_with_index do |projets, index|
-    user_projects << projets if index != 0
-  end
-  user_projects
-end
-
-def machine
-  Atome.eDen
-end
-
-def user
-  Atome.human
-end
-
-def humans
-  Atome.humans
-end
+#def project
+#  Atome.project
+#end
+#
+#def projects
+#  user_projects = []
+#  Atome.projects.each_with_index do |projets, index|
+#    user_projects << projets if index != 0
+#  end
+#  user_projects
+#end
+#
+#def machine
+#  Atome.eDen
+#end
+#
+#def user
+#  Atome.human
+#end
+#
+#def humans
+#  Atome.humans
+#end
 
 def find(script, string)
   script = script.split("\n")
