@@ -1,8 +1,10 @@
 	To install application: 
+	
 	- Install ruby
 	- install node
 	- install cordova
-	- install the following ruby gems :  bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal -N
+	- install the following ruby gems :  
+	gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal -N
 	- got www folder and install ruby bundle :
 	%cd atome/www
 	%bundle update
@@ -10,6 +12,7 @@
 
 	
 	To run  application :   
+	
 	- go to the atome folder in atome within atome root  
 	%cd atome  
 	- to run web browser version of atome  
