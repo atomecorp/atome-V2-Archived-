@@ -8,6 +8,8 @@ end
 #open_console(:true)
 
  content = <<EOT
+
+
 clear
 class Atome
 def class_exec proc
