@@ -3,6 +3,8 @@
 #require 'opal-parser'
 
 
+require 'atome/core/proton'
+
 # atome object and apis below
 class Atome
   # @@default_components = {display: :local, language: :english, renderer: :zim}
