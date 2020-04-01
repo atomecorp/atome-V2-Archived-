@@ -4,6 +4,7 @@
 
 
 require 'atome/core/proton'
+require 'atome/apis/render_engine'
 
 # atome object and apis below
 class Atome
