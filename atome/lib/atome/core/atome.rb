@@ -5,6 +5,7 @@
 
 require 'atome/core/proton'
 require 'atome/apis/render_engine'
+require 'atome/apis/render_engines/transpile_html_to_js'
 
 # atome object and apis below
 class Atome
