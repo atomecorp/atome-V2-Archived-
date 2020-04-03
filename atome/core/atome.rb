@@ -129,11 +129,15 @@ class Atome
   end
 
 
+  #def self.class_exec proc
+  #  #puts " self classexec call is :#{proc} Self class is #{proc.class}"
+  #  instance_eval(&proc)
+  #end
+
+
   def class_exec proc
-    @temp=[]
-    @temp << proc
-    a= @temp[0]
-    instance_eval(&a)
+    # puts "classexec call is :#{proc} class is #{proc.class}"
+    instance_eval(&proc)
   end
   # we define all Atome's methods below with a bit of metaprogramming, methods ending with a s will be treated as batch for set, add, enhance and delete methods  or return an array for the getter method
   # All methods exept the getter mehod end up using the set method to add a modify a prop. ex : if the add method call the set methnod just changing the @add variable, so the set method accumulate prop instead of replacing it
@@ -149,23 +153,27 @@ class Atome
     # end
     #
 
-
-
-
     define_method(property_fct) do |*options, &proc|
+      # puts "property_fct : #{property_fct}, options : #{options}, proc : #{proc}"
       if proc
         #todo : important keep old code below and maybe add a condition if the property_fct is an event
         #instance_exec(&proc)
         #yield
         #proc.call()
-        if property_fct.to_sym==:touch
-          # puts "proc - property_fct : #{property_fct}"
-          class_exec(proc)
+        #if property_fct.to_sym==:touch
+        #  puts "proc #{proc.to_s} - property_fct : #{property_fct}"
+        # puts proc.class
+
+
+        set({ property_fct => proc })
+        #class_exec(proc)
+
+
           #property_fct = property_fct.to_s.chomp('=').to_sym
-          #set({ property_fct => proc })
-        else
+        #set({ property_fct => proc })
+        #else
           ########old code#########
-          puts "here!!"
+          #puts "here!!"
           # @temp_prop is used to send proper context to set the new properties
           # @temp_prop = property_fct
           # @temp_atome = []
@@ -180,8 +188,7 @@ class Atome
           # @temp_atome = nil
           # @temp_prop = nil
           #################
-        end
-
+        #end
       else
         if options[0].nil?
           # here the method call is a  getter
@@ -194,27 +201,27 @@ class Atome
         end
       end
     end
-
-
   end
-
-
 
   # SAGED methods (Set Add Get Enhance Delete) the four main atome methods
 
   def set(*properties, &proc)
     if proc
-      puts "this the proc!!"
       instance_exec(&proc)
     else
+      #if properties[0].keys[0].to_sym == :touchy
+      #  puts "touched : Prop received : #{properties}, Proc received : #{proc} "
+      #  class_exec(properties[0].values[0])
+      #else
+      #end
       properties.each do |props|
+        puts "props :#{props}, class :  #{props.class}"
         if props.class == Array
           # TODO: maybe we have analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
           props = sanitize_prop(nil, props)
           insert_properties_in_atome(props)
           return self
         end
-        # puts propsg
         master_prop = props.keys[0]
         new_values = props.values[0]
         new_values = [new_values] if new_values.class != Array
@@ -261,6 +268,9 @@ class Atome
             add_type = check_if_type_exist(new_values, master_prop)
             new_values[0].unshift({ type: master_prop }) if add_type
             cleanup_prop = new_values[0]
+          elsif new_values[0].class == Proc
+            #cleanup_prop = new_values[0]
+            cleanup_prop= {master_prop => new_values[0]}
           end
           # now we clean the current @atome before updating it
           unless @add
@@ -280,10 +290,14 @@ class Atome
             return self
           else
             insert_properties_in_atome(cleanup_prop)
+            #puts "cleanup_prop : #{cleanup_prop}"
             return self
           end
         end
       end
+
+
+
     end
   end
 
@@ -326,14 +340,24 @@ class Atome
     if pluralize
       #  puts "pluralize or an exeption :  #{property} =>  #{found_prop}"
       found_prop
-    elsif property == :atome_id || property == :id || property == :label
+      elsif property == :atome_id || property == :id || property == :label
       # we made an exeption and return a string when the prop is an id, an atome_id or a label
-      #:todo make an expetion list of type that shouldn't return an atome
+      #:todo make an exeption list of type that shouldn't return an atome
       found_prop[0].to_s
+      # if its an event, todo : create a list of prop of all events,   todo : get content using parser or Opal
+    elsif property == :touch
+      return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the correponding value ex: - puts a.color => :black
       Atome.new(found_prop[found_prop.length - 1], { create_atome_id: :false }, { get_mode: :true })
     end
+  end
+
+  def self.trig proc
+    class_exec(proc)
+  end
+  def trig proc
+    class_exec(proc)
   end
 
   def enhance(*properties)

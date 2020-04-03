@@ -1,9 +1,21 @@
 #here is all general mthods helper for atomes
 # frozen_string_literal: true
 
+
+def trig atome_id
+  #puts "ok pour atome_id : #{atome_id}"
+  atomes = Atome.atomes
+  #puts atomes
+  atomes.each do |_id, atome|
+    if atome.atome_id == atome_id.to_s
+      atome.trig(atome.touch)
+    end
+  end
+end
+
 def grab(atome_id)
   atomes = Atome.atomes
-  atomes.each do |atome|
+  atomes.each do |_id, atome|
     return atome if atome.atome_id == atome_id
   end
 end
@@ -24,33 +36,11 @@ def get_for_debug_in_touch_meth(prop, get_by = :id)
   end
 end
 
-def get(prop, get_by = :id)
-  get_by = get_by.to_sym
-  # puts "prop : #{prop}, get_by #{get_by}"
-  atomes = Atome.atomes
-  molecule = []
-  # atomes.each do |atome|
-  #  puts atome
-  # end
+def get(id)
   atomes = Atome.atomes
   atomes.each do |_id, atome|
-    return atome if atome.id == prop
+    return atome if atome.id == id
   end
-
-  # atomes.each do |atome|
-  #  if atome.send(get_by) == prop
-  #    molecule << atome
-  #  end
-  # end
-  # if molecule.length == 1
-  #  return molecule[0]
-  # else
-  #  # we are on a hash so we have all methods for array in module Properties
-  #  puts "---------"
-  #  puts molecule
-  #  return molecule
-  #  puts molecule
-  # end
 end
 
 def decode(atome_id)
