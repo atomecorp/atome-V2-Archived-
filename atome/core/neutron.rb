@@ -1,7 +1,6 @@
 #here is all general mthods helper for atomes
 # frozen_string_literal: true
 
-
 def trig atome_id
   #puts "ok pour atome_id : #{atome_id}"
   atomes = Atome.atomes

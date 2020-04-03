@@ -1,6 +1,5 @@
 # here is alll methods that facilitate the atome creation
 # frozen_string_literal: true
-
 # Renderer
 
 def atome_properties

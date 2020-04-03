@@ -59,7 +59,6 @@ EOT
 
 write content
 
-
 open_ide(:true)
 open_console(:true)
 

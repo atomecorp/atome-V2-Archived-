@@ -64,7 +64,6 @@ if (!document.getElementById(#{id})) {
   end
 
   def self.touch(param, id)
-
     `
 $( "#"+#{id}+"" ).unbind( "click" );
 $( "#"+#{id}+"" ).click(function() {

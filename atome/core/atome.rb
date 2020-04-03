@@ -128,7 +128,6 @@ class Atome
     end
   end
 
-
   #def self.class_exec proc
   #  #puts " self classexec call is :#{proc} Self class is #{proc.class}"
   #  instance_eval(&proc)
