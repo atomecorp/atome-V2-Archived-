@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 #kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(proton).concat(neutron)
-require 'opal-parser'
+#require 'opal-parser'
 
 
 # atome object and apis below
