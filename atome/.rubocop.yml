@@ -1,0 +1,13 @@
+---
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*_spec.rb"
+Metrics/LineLength:
+  Max: 140
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: "comma"
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: "comma"
+Style/WordArray:
+  Enabled: false
