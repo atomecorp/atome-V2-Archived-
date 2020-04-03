@@ -15,15 +15,15 @@ end
 
 # first we get all works file and join them in a new file called all_files.rb
 
-extensions = Dir['apis/extensions.rb']
-api = Dir['apis/*.rb']
-render_engine = Dir['apis/render_engine.rb']
-render_engines = Dir['apis/render_engines/*.rb']
-proton = Dir['core/proton.rb']
-atome = Dir['core/atome.rb']
-electron = Dir['core/electron.rb']
-neutron = Dir['core/neutron.rb']
-kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(proton).concat(neutron).concat(atome).concat(electron)
+core_ext = Dir['lib/core_ext.rb']
+api = Dir['lib/atome/apis/*.rb']
+render_engine = Dir['lib/atome/apis/render_engine.rb']
+render_engines = Dir['lib/atome/apis/render_engines/*.rb']
+proton = Dir['lib/atome/core/proton.rb']
+atome = Dir['lib/atome/core/atome.rb']
+electron = Dir['lib/atome/core/electron.rb']
+neutron = Dir['lib/atome/core/neutron.rb']
+kernel = core_ext.concat(api).concat(render_engine).concat(render_engines).concat(proton).concat(neutron).concat(atome).concat(electron)
 
 join_files kernel, 'kernel.rb'
 
