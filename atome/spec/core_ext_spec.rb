@@ -37,10 +37,27 @@ describe Array do
       expect(subject).to eq(['alpha', 'bravo', 'charlie', 'delta', 'echo'])
     end
 
-    xit 'remove repeated items' do
-      # FIXME: Removing the same item repeately should probably not remove other items...
+    it 'remove repeated items' do
       expect(subject.delete_at_multi([2, 2, 2])).to eq(['charlie', 'charlie', 'charlie'])
       expect(subject).to eq(['alpha', 'bravo', 'delta', 'echo'])
+    end
+
+    context 'with repeated items' do
+      subject do
+        [
+          'foo',
+          'bar',
+          'foo',
+          'baz',
+          'foo',
+          'bar',
+        ]
+      end
+
+      it 'remove repeated items' do
+        expect(subject.delete_at_multi([2, 2])).to eq(['foo', 'foo'])
+        expect(subject).to eq(['foo', 'bar', 'baz', 'foo', 'bar'])
+      end
     end
   end
 
