@@ -27,11 +27,12 @@ class Array
   end
 
   def delete_at_multi(arr)
+    res = arr.map { |i| self[i] }
     arr = arr.sort.reverse # delete highest indexes first.
     arr.each do |i|
       delete_at i
     end
-    self
+    res
   end
 end
 

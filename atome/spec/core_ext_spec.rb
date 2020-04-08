@@ -17,30 +17,30 @@ describe Array do
     # FIXME: It is unexpected that #delete_at_multi does not behave like #delete_at.
     # I would expect it to return an array of the removed items, and update the array in place.
     # The following tests check this behaviour.
-    xit 'remove a single item' do
+    it 'remove a single item' do
       expect(subject.delete_at_multi([2])).to eq(['charlie'])
       expect(subject).to eq(['alpha', 'bravo', 'delta', 'echo'])
     end
 
-    xit 'remove items in order' do
+    it 'remove items in order' do
       expect(subject.delete_at_multi([2, 3])).to eq(['charlie', 'delta'])
       expect(subject).to eq(['alpha', 'bravo', 'echo'])
     end
 
-    xit 'remove items in reverse order' do
+    it 'remove items in reverse order' do
       expect(subject.delete_at_multi([3, 2])).to eq(['delta', 'charlie'])
       expect(subject).to eq(['alpha', 'bravo', 'echo'])
     end
 
-    xit 'remove inexistent items' do
+    it 'remove inexistent items' do
       expect(subject.delete_at_multi([12, 10])).to eq([nil, nil])
       expect(subject).to eq(['alpha', 'bravo', 'charlie', 'delta', 'echo'])
     end
 
     xit 'remove repeated items' do
       # FIXME: Removing the same item repeately should probably not remove other items...
-      subject.delete_at_multi([2, 2, 2])
-      expect(subject).to eq(['alpha', 'bravo'])
+      expect(subject.delete_at_multi([2, 2, 2])).to eq(['charlie', 'charlie', 'charlie'])
+      expect(subject).to eq(['alpha', 'bravo', 'delta', 'echo'])
     end
   end
 
