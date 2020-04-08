@@ -170,7 +170,7 @@ class Atome
 
         set({ property_fct => proc })
         #class_exec(proc)
-
+        puts "property_fct is #{property_fct}, options : #{options}"
 
           #property_fct = property_fct.to_s.chomp('=').to_sym
         #set({ property_fct => proc })
@@ -218,7 +218,7 @@ class Atome
       #else
       #end
       properties.each do |props|
-        puts "props :#{props}, class :  #{props.class}"
+        #puts "props :#{props}, class :  #{props.class}"
         if props.class == Array
           # TODO: maybe we have analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
           props = sanitize_prop(nil, props)

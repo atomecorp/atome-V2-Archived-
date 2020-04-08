@@ -105,6 +105,8 @@ y_def_pos=y_def_pos+1
       drag: function() {
 Opal.Object.$replace("get(\""+#{id}+"\").x("+parseInt(document.getElementById(#{atome_id}).style.left)+")"  , x_def_pos);
 Opal.Object.$replace("get(\""+#{id}+"\").y("+parseInt(document.getElementById(#{atome_id}).style.top)+")"  , y_def_pos);
+//Opal.Object.$grab(#{id}).x(x_def_pos);
+//Opal.Object.$grab(#{id}).y(y_def_pos);
       },
       stop: function() {
 Opal.Object.$replace("get(\""+#{id}+"\").x("+parseInt(document.getElementById(#{atome_id}).style.left)+")"  , x_def_pos);
