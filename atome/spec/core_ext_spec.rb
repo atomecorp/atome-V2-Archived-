@@ -98,17 +98,8 @@ describe Array do
     end
 
     context 'when out of bounds' do
-      # FIXME: The behaviour with out-of-bounds value confuses me.  Maybe we can raise an exception in this case?
-      xit 'does something really weird #1' do
-        subject.swap!(10, 11)
-        expect(subject).to eq([0, 1, 2, 3, 4, nil, nil, nil, nil, nil, nil, nil])
-      end
-      xit 'does something really weird #2' do
-        subject.swap!(10, 0)
-        expect(subject).to eq([nil, 1, 2, 3, 4, nil, nil, nil, nil, nil, 0])
-      end
-      xit 'raise an error' do
-        expect { subject.swap!(10, 0) }.to raise_error(RuntimeError)
+      it 'raise an error' do
+        expect { subject.swap!(10, 0) }.to raise_error(IndexError)
       end
     end
   end

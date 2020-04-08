@@ -4,7 +4,7 @@
 
 class Array
   def swap!(a, b)
-    self[a], self[b] = self[b], self[a]
+    self[a], self[b] = self.fetch(b), self.fetch(a)
     self
   end
 
