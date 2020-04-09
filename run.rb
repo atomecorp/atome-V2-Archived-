@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'uglifier'
 
 def join_files(files, target = 'join.text')

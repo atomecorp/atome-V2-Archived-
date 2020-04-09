@@ -2,11 +2,6 @@
 #kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(proton).concat(neutron)
 #require 'opal-parser'
 
-
-require 'atome/core/proton'
-require 'atome/apis/render_engine'
-require 'atome/apis/render_engines/transpile_html_to_js'
-
 # atome object and apis below
 class Atome
   # @@default_components = {display: :local, language: :english, renderer: :zim}
