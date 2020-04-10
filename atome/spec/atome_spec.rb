@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'atome'
+require 'molecule'
 
 describe Atome do
   context 'without parameter' do

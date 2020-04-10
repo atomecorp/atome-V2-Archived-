@@ -15,3 +15,29 @@ gem install roda -v 2.26 -N
 bundle update
 bundle install
 
+
+#on windows
+install git
+http://git-scm.com/download/win
+
+installer ruby+devkit
+https://rubyinstaller.org/
+test installationby typing:
+ruby -v
+
+install the gems
+gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal
+test installation by typing:
+gem list
+
+install Node.js
+https://nodejs.org/en/download/
+test installation with:
+node --version
+
+install cordova
+npm install -g Cordova
+Test installation by typing:
+cordova --version
+
+

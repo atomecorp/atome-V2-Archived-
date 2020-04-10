@@ -8,6 +8,8 @@ Multi purposes cross platform solution
 	- install cordova
 	- install the following ruby gems :  
 	gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
+    if compatibility problem reinstal roda version 2.26
+            gem install roda -v 2.26 -N
 	- got www folder and install ruby bundle :
 	%cd atome/www
 	%bundle update

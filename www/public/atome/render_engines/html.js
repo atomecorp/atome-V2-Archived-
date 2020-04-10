@@ -1,97 +1,48 @@
-// var example = [["atome_id", "70339791460800"], ["renderer", "html"], ["color", "blue"], ["type", "shape"], ["preset", "box"], ["x", 70], ["y", 40], ["z", 50], ["width", 100], ["height", 100]];
-//
-// function removeFromArray(array,itemsListToRemove){
-//     itemsListToRemove.forEach(function(item, index){
-//         array.splice(item-index, 1);
-//     });
-// }
-//
-// var html = {
-//     color: function (value, atome_id) {
-//
-//     },
-//
-//     x: function (value, atome_id) {
-//
-//     },
-//
-//     y: function (value, atome_id) {
-//
-//     },
-//
-//     z: function (value, atome_id) {
-//
-//     },
-//
-//     width: function (value, atome_id) {
-//
-//     },
-//
-//     height: function (value, atome_id) {
-//
-//     },
-//
-//     constructor: function (type, preset, atome_id, atome) {
-//
-//         //html['receiver'](example);
-//         atome.forEach(function (properties) {
-//             //html[properties[0]](properties[1], atome_id);
-//
-//             html['color']('yellow', atome_id);
-//         });
-//
-//     },
-//
-//     receiver: function (atome) {
-//
-//         var removeElements = []
-//
-//         atome.forEach(function (properties, index) {
-//             if (properties[0] == 'renderer') {
-//                 removeElements.push(index);
-//                 //atome.splice(index, 1);
-//             } else if (properties[0] == 'atome_id') {
-//                 removeElements.push(index);
-//                 var atome_id = properties[1];
-//                 //atome.splice(index, 1);
-//             } else if (properties[0] == 'type') {
-//                 removeElements.push(index);
-//                 var type = properties[1];
-//                 //atome.splice(index, 1);
-//             } else if (properties[0] == 'preset') {
-//                 removeElements.push(index);
-//                 var preset = properties[1];
-//                 //atome.splice(index, 1);
-//             }
-//         });
-//         removeFromArray(atome,removeElements);
-//         // alert(atome);
-// //         alert(atome);
-//         //html['constructor'](type,preset,atome_id,atome);
-//     }
-// };
-//
-//
-// html['receiver'](example);
-//
-//
-// // function opal_jquery(param,id) {
-// //     if (!document.getElementById(id)) {
-// //         $('#html_view').append("<"+param+" id="+id+">qsdfdgsdfgsdfgsdf</"+param+">");
-// //         // document.getElementById('html_view').innerHTML="";
-// //         // var atome = document.createElement(param);
-// //         // atome.id = id;
-// //         // atome.style.backgroundColor = "red";
-// //         // atome.style.width = "100px";
-// //         // atome.style.height = "100px";
-// //         // atome.style.zIndex = "5000";
-// //         // atome.style.position = "absolute";
-// //         // atome.style.display = "block";
-// //         // document.getElementById('html_view').appendChild(atome);
-// //     }
-// // }
+var  html = {
+    color: function (color, atome_id) {
+        document.getElementById(atome_id).style.color = color;
 
-function iMi(){
-    alert('goodyy!!');
-}
-// iMi();
+    },
+
+    x: function (value, atome_id) {
+        var x_position = document.getElementById(atome_id);
+        x_position.style.position = "absolute";
+        x_position.style.left = value +'px';
+    },
+
+    y: function (value, atome_id) {
+        var y_position = document.getElementById(atome_id);
+        y_position.style.position = "absolute";
+        y_position.style.top = value +'px';
+    },
+
+    z: function (value, atome_id) {
+        document.getElementById(atome_id).style.transform = "translateZ(${value + 'px'})";
+    },
+
+    width: function (value, atome_id) {
+        document.getElementById(atome_id).style.height = value;
+
+    },
+
+    height: function (value, atome_id) {
+        document.getElementById(atome_id).style.width = value;
+    },
+
+    shadow: function (shadow_x, shadow_y, blur_radius, spread_radius, atome_id, color) {
+         shadow_x = 0;
+         shadow_y = 0;
+         blur_radius = 7;
+         spread_radius = 2;
+        document.getElementById(atome_id).style.boxShadow = shadow_x + 'px ' +shadow_y + 'px ' + blur_radius + 'px ' + spread_radius + 'px ' +color;
+
+    },
+
+    border: function(width_border, border_style, color,atome_id) {
+        width_border = 2;
+        border_style = ['none', 'dotted', 'inset', 'solid'];
+        document.getElementById(atome_id).style.border = width_border + 'px '+ border_style + ' ' +color;
+    }
+};
+
+

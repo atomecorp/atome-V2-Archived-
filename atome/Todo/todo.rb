@@ -1,5 +1,6 @@
 todo =<<StrDelim
 todo:
+- write install dev poste on FreeBSD
 - externalise js methods from ruby
 - debug renderer to make choice persistent
 - save to db
