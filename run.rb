@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-
+puts "rename opal-parser to opal-utils and move opal parser"
+puts " default to headless for rspec compatibility"
+puts " create an an environement variable that define the environment : web(opel); native(urho3D), this varaible will be used to condition files and Apis to load cf : opal-utils  "
 require 'uglifier'
 
 def join_files(files, target = 'join.text')
@@ -15,15 +17,15 @@ end
 
 # first we get all works file and join them in a new file called all_files.rb
 
-opal_parser  = Dir['atome/lib/opal_parser.rb']
+opal_parser  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
-api = Dir['atome/lib/atome/apis/*.rb']
-render_engine = Dir['atome/lib/atome/apis/render_engine.rb']
-render_engines = Dir['atome/lib/atome/apis/render_engines/*.rb']
-proton = Dir['atome/lib/atome/core/proton.rb']
-atome = Dir['atome/lib/atome/core/atome.rb']
-electron = Dir['atome/lib/atome/core/electron.rb']
-neutron = Dir['atome/lib/atome/core/neutron.rb']
+api = Dir['atome/lib/kernel/apis/*.rb']
+render_engine = Dir['atome/lib/kernel/apis/render_engine.rb']
+render_engines = Dir['atome_abstraction_layer/render_engines/*.rb']
+proton = Dir['atome/lib/kernel/core/proton.rb']
+atome = Dir['atome/lib/kernel/core/atome.rb']
+electron = Dir['atome/lib/kernel/core/electron.rb']
+neutron = Dir['atome/lib/kernel/core/neutron.rb']
 kernel = opal_parser.concat(core_ext).concat(api).concat(render_engine).concat(render_engines).concat(proton).concat(neutron).concat(atome).concat(electron)
 
 join_files kernel, 'kernel.rb'

@@ -1,5 +1,14 @@
 todo =<<StrDelim
 todo:
+- externalise js methods from ruby
+- debug renderer to make choice persistent
+- save to db
+- create user and account
+- debug drag : touch is triggered everytime
+- debug touch position not set in atome Hash
+- create on drag events
+- create events options : down, up 
+- create over events
 - add the following methods : repeat, until, times, ...
 - validate the a.get(colors[1], colors[3]) syntax
 - finished final implementation of atome object

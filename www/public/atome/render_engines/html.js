@@ -90,3 +90,8 @@
 // //         // document.getElementById('html_view').appendChild(atome);
 // //     }
 // // }
+
+function iMi(){
+    alert('goodyy!!');
+}
+// iMi();

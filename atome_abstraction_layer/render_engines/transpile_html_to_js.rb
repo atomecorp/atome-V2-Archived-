@@ -130,6 +130,13 @@ $( "#"+#{atome_id}+"" ).draggable("enable")
   end
 end
 
+
+def verifMe
+  `alert("beedy goody!!")`
+end
+
+JS.call(:to_verif, "Kool !!!")
+
 # module Html
 #  def initialize (*val)
 #
