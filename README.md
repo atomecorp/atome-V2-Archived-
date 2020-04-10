@@ -7,7 +7,7 @@ Multi purposes cross platform solution
 	- install node
 	- install cordova
 	- install the following ruby gems :  
-	gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal
+	gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
 	- got www folder and install ruby bundle :
 	%cd atome/www
 	%bundle update
@@ -31,5 +31,6 @@ Multi purposes cross platform solution
 	- to run web server version of atome  
 	%ruby run.rb server
 	
+
 
 
