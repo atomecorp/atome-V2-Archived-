@@ -22,11 +22,11 @@ http://git-scm.com/download/win
 
 installer ruby+devkit
 https://rubyinstaller.org/
-test installationby typing:
+test installation by typing:
 ruby -v
 
 install the gems
-gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal
+gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
 test installation by typing:
 gem list
 
