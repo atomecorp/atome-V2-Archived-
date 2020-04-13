@@ -17,7 +17,7 @@ end
 
 # first we get all works file and join them in a new file called all_files.rb
 
-opal_parser  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
+opal_utils  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
 api = Dir['atome/lib/kernel/apis/*.rb']
 render_engine = Dir['atome/lib/kernel/apis/render_engine.rb']
@@ -26,7 +26,7 @@ proton = Dir['atome/lib/kernel/core/proton.rb']
 atome = Dir['atome/lib/kernel/core/atome.rb']
 electron = Dir['atome/lib/kernel/core/electron.rb']
 neutron = Dir['atome/lib/kernel/core/neutron.rb']
-kernel = opal_parser.concat(core_ext).concat(api).concat(render_engine).concat(render_engines).concat(proton).concat(neutron).concat(atome).concat(electron)
+kernel = opal_utils.concat(core_ext).concat(api).concat(proton).concat(neutron).concat(render_engine).concat(render_engines).concat(atome).concat(electron)
 
 join_files kernel, 'kernel.rb'
 

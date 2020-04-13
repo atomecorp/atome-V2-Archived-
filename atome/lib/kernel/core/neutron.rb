@@ -62,13 +62,13 @@ def bufferize(content)
   Atome.buffer(content)
 end
 
-def read(filename)
-  bufferize = 'bufferize'
-  filename = Atome.human + '.' + filename
-  `
-   read_file(#{filename},#{bufferize},"()","");
-   `
-end
+#def read(filename)
+#  bufferize = 'bufferize'
+#  filename = Atome.human + '.' + filename
+#  `
+#   read_file(#{filename},#{bufferize},"()","");
+#   `
+#end
 
 ###################### eDen kickstart ####################
 
@@ -143,3 +143,4 @@ end
 # init()
 
 
+#foo.JS.bar(1, :cooly)

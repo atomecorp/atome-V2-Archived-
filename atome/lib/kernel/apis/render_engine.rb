@@ -60,6 +60,5 @@ class Render_engine
         end
       end
     end
-
   end
 end

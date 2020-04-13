@@ -17,6 +17,16 @@ body {
     overflow: hidden;
 }
 
+#html_view{
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    z-Index: 1;
+    position: absolute;
+    display: block;
+}
+
 #zim_canvas {
     z-index: 1;
 }

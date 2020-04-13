@@ -75,6 +75,3 @@
 //
 // }();
 
-function to_verif(my_var){
-    alert(my_var);
-}
