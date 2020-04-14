@@ -53,10 +53,6 @@ function import_visual_medias(e, file) {
             retry_to_get_the_img_informations(img_width);
         }
     };
-     // alert("the file is : "+file.name);
-    ///////////////// to test uncommnet  line below  and write directly on drop /////////////
-    // write_file(file.name, file.slice());
-    ///////////////// to end test comment line below  /////////////
 
    Opal.Object.$store(file.name, file);
 

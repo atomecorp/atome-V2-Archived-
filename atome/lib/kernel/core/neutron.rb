@@ -2,9 +2,7 @@
 # frozen_string_literal: true
 
 def trig atome_id
-  #puts "ok pour atome_id : #{atome_id}"
   atomes = Atome.atomes
-  #puts atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id.to_s
       atome.trig(atome.touch)
@@ -62,32 +60,11 @@ def bufferize(content)
   Atome.buffer(content)
 end
 
-#def read(filename)
-#  bufferize = 'bufferize'
-#  filename = Atome.human + '.' + filename
-#  `
-#   read_file(#{filename},#{bufferize},"()","");
-#   `
-#end
 
 ###################### eDen kickstart ####################
 
 def eDen_genesis
   h = Atome.new
-  ############# tests ###########
-  # h.human
-  # e=Atome.new
-  # e.eDen
-  # h.id="theman"
-  # e.id="themachine"
-  # b=box()
-  # b.x= 200
-  # p "-------------"
-  # p Atome.atomes
-  # p "------------"
-  # p Atome.atomes.to_s
-  ############# tests ###########
-  # p "genesys Atome.user"
 
   machine = Atome.new
   machine.eDen
@@ -102,10 +79,6 @@ def eDen_genesis
                  machine.add(child: user.atome_id)
 
   user.add(child: project.atome_id)
-  # project.add(child: :test)
-  # p machine
-  # p user
-  # p project
   # #todo change using new Atome.eDen
   # eden_content = "eDen_#{time}.#{location}_0\n" + Atome.user + "\n" + Atome.user
   # #todo add user using new Atome.user
@@ -118,7 +91,6 @@ def eDen_genesis
 end
 
 def eDen_opening(_eDen_content)
-  # #puts "eden content is :"+eDen_content+"####"
   # todo : important the machine is Atome.atomes[0] so to set the hash from file we just have to Atome.atomes[0]= "file callbck content"...
   eDen = Atome.eDen
   # eDen_content = eDen_content.split("\n")
@@ -129,7 +101,6 @@ def eDen_opening(_eDen_content)
   # Atome.users(eDen_content)
   ## we want to load ast project so we the file that has the name of the user then get the first line of this file that contain the last open project
   # load(Atome.user, "get_last_project", false, false, true)
-  #  puts Atome.atomes
 end
 
 ######################## init ##################
@@ -143,4 +114,3 @@ end
 # init()
 
 
-#foo.JS.bar(1, :cooly)

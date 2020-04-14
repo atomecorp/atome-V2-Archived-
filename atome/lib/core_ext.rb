@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-#require 'opal-parser'
-
 class Array
   def swap!(a, b)
     self[a], self[b] = self.fetch(b), self.fetch(a)

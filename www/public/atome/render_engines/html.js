@@ -1,10 +1,8 @@
 var html = {
-
     preset: function (param, atome_id) {
         if (!document.getElementById(atome_id)) {
             $('#html_view').append("<" + param + " id=" + atome_id + " style='width:100px;height:100px;position:absolute;color:red;background-color:orange;display:block'></" + param + ">");
         }
-
     },
 
     color: function (color, atome_id) {
@@ -55,12 +53,6 @@ var html = {
         document.getElementById(atome_id).style.border = width_border + 'px ' + border_style + ' ' + color;
     },
     touch: function (value, atome_id) {
-        // var entire = value.toString();
-        // var body = entire.slice(entire.indexOf("{") + 1, entire.lastIndexOf("}"));
-        // Opal.Object.$clear();
-        // var tableau = body.split("\n")
-        // console.log(body);
-        // alert(body);
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
             Opal.Object.$trig(atome_id);
@@ -107,4 +99,3 @@ var html = {
     }
 
 };
-clear

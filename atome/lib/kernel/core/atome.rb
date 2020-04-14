@@ -1,17 +1,15 @@
 # frozen_string_literal: true
-#kernel = extensions.concat(api).concat(render_engine).concat(render_engines).concat(nucleus).concat(atome).concat(proton).concat(neutron)
-#require 'opal-parser'
 
 # atome object and apis below
 class Atome
   # @@default_components = {display: :local, language: :english, renderer: :zim}
   @@atomes_to_display = []
   # @@visual_types's key is the name of type, the value is the associated preset for the type
-  @@visual_types = { shape: :box, image: :logo, text: :lorem }
-  @@types = { effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo }.merge(@@visual_types)
+  @@visual_types = {shape: :box, image: :logo, text: :lorem}
+  @@types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo}.merge(@@visual_types)
   # @@presets's key is the preset name, the value is the content of the presets
-  @@presets = { circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body' }
-  @@default_visuals = { x: [0], y: [0], width: [100], height: [300], color: [:black] }
+  @@presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
+  @@default_visuals = {x: [0], y: [0], width: [100], height: [300], color: [:black]}
   @@definition_order = %i[type preset content]
   @@atomes = {}
 
@@ -19,7 +17,6 @@ class Atome
   @@project_displayed = 'project_0'
   @@buffer = []
 
-  # def initialize(options = nil, create_atome_id = true, get = false)
   def initialize(*options)
     # puts "here !! options : #{options} : :#{options.class}"
     create_atome_id = true
@@ -55,7 +52,7 @@ class Atome
         elsif @@types.include?(option)
           # so it's a type we seach for its preset
           preset = {}
-          type = { type: option }
+          type = {type: option}
           preset[:preset] = @@types[option]
           options = [type, preset]
         end
@@ -79,11 +76,11 @@ class Atome
     if options.class == Symbol || options.class == String
       @@types.each do |type|
         if type[0].to_sym == options.to_sym
-          @atome_initial_state << { type: options }
+          @atome_initial_state << {type: options}
         elsif type[1].to_sym == options.to_sym
           type = @@types.key(options)
-          @atome_initial_state << { type: type }
-          @atome_initial_state << { preset: options }
+          @atome_initial_state << {type: type}
+          @atome_initial_state << {preset: options}
         end
       end
     else
@@ -120,82 +117,33 @@ class Atome
       @atome_initial_state.unshift(atome_id: atome_properties[:atome_id])
     end
     unless renderer_define
-      @atome_initial_state << { renderer: atome_properties[:renderer] }
+      @atome_initial_state << {renderer: atome_properties[:renderer]}
     end
     @atome_initial_state.each do |atomes|
       set(atomes)
     end
   end
 
-  #def self.class_exec proc
-  #  #puts " self classexec call is :#{proc} Self class is #{proc.class}"
-  #  instance_eval(&proc)
-  #end
-
 
   def class_exec proc
-    # puts "classexec call is :#{proc} class is #{proc.class}"
     instance_eval(&proc)
   end
+
   # we define all Atome's methods below with a bit of metaprogramming, methods ending with a s will be treated as batch for set, add, enhance and delete methods  or return an array for the getter method
   # All methods exept the getter mehod end up using the set method to add a modify a prop. ex : if the add method call the set methnod just changing the @add variable, so the set method accumulate prop instead of replacing it
   atome_methods.each do |property_fct|
-    # @@presets.each do |key, value|
-    #  # for each property_fct, we create a function accessible from outside Atome at top level, to allow direct creation of objects using : box(), circle({color: :red}), ...
-    #  # this is used to simplify object creation using simple methods instead of using Atome.new
-    #  Object.define_method(key) do |*opts|
-    #    puts key
-    #    #atome = Atome.new(:box)
-    #    #atome.send(key, opts)
-    #  end
-    # end
-    #
-
     define_method(property_fct) do |*options, &proc|
-      # puts "property_fct : #{property_fct}, options : #{options}, proc : #{proc}"
       if proc
         #todo : important keep old code below and maybe add a condition if the property_fct is an event
-        #instance_exec(&proc)
-        #yield
-        #proc.call()
-        #if property_fct.to_sym==:touch
-        #  puts "proc #{proc.to_s} - property_fct : #{property_fct}"
-        # puts proc.class
-
-
-        set({ property_fct => proc })
-        #class_exec(proc)
-        #puts "property_fct is #{property_fct}, options : #{options}"
-
-          #property_fct = property_fct.to_s.chomp('=').to_sym
-        #set({ property_fct => proc })
-        #else
-          ########old code#########
-          #puts "here!!"
-          # @temp_prop is used to send proper context to set the new properties
-          # @temp_prop = property_fct
-          # @temp_atome = []
-          # instance_exec(&proc)
-          ## once the proc is executed we delete the @temp_prop
-          ## first we delete the previous corresponding prop
-          # delete(property_fct)
-          # add_type = true
-          # add_type = check_if_type_exist(@temp_atome, property_fct)
-          # @temp_atome.unshift(type: property_fct) if add_type
-          # insert_properties_in_atome(@temp_atome)
-          # @temp_atome = nil
-          # @temp_prop = nil
-          #################
-        #end
+        set({property_fct => proc})
       else
         if options[0].nil?
           # here the method call is a  getter
           get(property_fct)
         else
-          # puts "param - property_fct : #{property_fct} options #{options}"
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
-          set({ property_fct => options })
+          set({property_fct => options})
         end
       end
     end
@@ -207,11 +155,6 @@ class Atome
     if proc
       instance_exec(&proc)
     else
-      #if properties[0].keys[0].to_sym == :touchy
-      #  puts "touched : Prop received : #{properties}, Proc received : #{proc} "
-      #  class_exec(properties[0].values[0])
-      #else
-      #end
       properties.each do |props|
         #puts "props :#{props}, class :  #{props.class}"
         if props.class == Array
@@ -226,7 +169,7 @@ class Atome
         if master_prop.to_s.end_with?('s')
           master_prop = master_prop.to_s.chomp('s').to_sym
           new_values.each do |new_value|
-            set({ master_prop => [new_value] })
+            set({master_prop => [new_value]})
             @add = true
           end
           @add = false
@@ -243,14 +186,14 @@ class Atome
               add_type = check_if_type_exist(new_values, master_prop)
               cleanup_prop << prop
             end
-            cleanup_prop.unshift({ type: master_prop }) if add_type
+            cleanup_prop.unshift({type: master_prop}) if add_type
           elsif new_values[0].class == Symbol || new_values[0].class == String || new_values[0].class == Integer || new_values[0].class == Float || new_values[0].class == TrueClass || new_values[0].class == FalseClass || new_values[0].class == Number
             # if it's a uniq value we have to add the prop (master_prop)
-            cleanup_prop = { master_prop => new_values[0] }
+            cleanup_prop = {master_prop => new_values[0]}
           elsif new_values[0].class == Hash
             # as the length of the hash should always be only 1,  we just have to check if the prop is the current of else we have to add typenew_values_array
             if new_values[0].keys[0] != master_prop
-              cleanup_prop << { type: master_prop }
+              cleanup_prop << {type: master_prop}
               cleanup_prop << new_values[0]
             else
               cleanup_prop = new_values[0]
@@ -259,16 +202,16 @@ class Atome
             new_values_array = new_values[0]
             if new_values_array.length == 1 # if the array contains only one item we check it's content add the missing prop if needed
               if new_values_array[0].class == Symbol || new_values_array[0].class == String || new_values_array[0].class == Integer || new_values_array[0].class == Float || new_values_array[0].class == TrueClass || new_values_array[0].class == FalseClass || new_values_array[0].class == Number
-                new_values_array[0] = { master_prop => new_values_array[0] }
+                new_values_array[0] = {master_prop => new_values_array[0]}
               end
             end
             ## we check if current type is in the array else we add it
             add_type = check_if_type_exist(new_values, master_prop)
-            new_values[0].unshift({ type: master_prop }) if add_type
+            new_values[0].unshift({type: master_prop}) if add_type
             cleanup_prop = new_values[0]
           elsif new_values[0].class == Proc
             #cleanup_prop = new_values[0]
-            cleanup_prop= {master_prop => new_values[0]}
+            cleanup_prop = {master_prop => new_values[0]}
           end
           # now we clean the current @atome before updating it
           unless @add
@@ -280,22 +223,16 @@ class Atome
             end
           end
           # we add the whole new prop to the atome
-          # puts "+-+-+-+"
-          # puts cleanup_prop
           if @temp_prop # in this case prop is generated using using a proc (in @@atome_methods.each)
-            # #we remove whe  get_mode prop that doesn't have to be stored
+            # we remove whe  get_mode prop that doesn't have to be stored
             @temp_atome << cleanup_prop
             return self
           else
             insert_properties_in_atome(cleanup_prop)
-            #puts "cleanup_prop : #{cleanup_prop}"
             return self
           end
         end
       end
-
-
-
     end
   end
 
@@ -338,7 +275,7 @@ class Atome
     if pluralize
       #  puts "pluralize or an exeption :  #{property} =>  #{found_prop}"
       found_prop
-      elsif property == :atome_id || property == :id || property == :label
+    elsif property == :atome_id || property == :id || property == :label
       # we made an exeption and return a string when the prop is an id, an atome_id or a label
       #:todo make an exeption list of type that shouldn't return an atome
       found_prop[0].to_s
@@ -347,13 +284,14 @@ class Atome
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the correponding value ex: - puts a.color => :black
-      Atome.new(found_prop[found_prop.length - 1], { create_atome_id: :false }, { get_mode: :true })
+      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
 
   def self.trig proc
     class_exec(proc)
   end
+
   def trig proc
     class_exec(proc)
   end
@@ -428,9 +366,9 @@ class Atome
       if properties.class == Hash
         properties.each do |key, index|
           if index.class == Hash
-            new_props = [{ type: key }]
+            new_props = [{type: key}]
             index.each do |prop, value|
-              new_props << { prop => value }
+              new_props << {prop => value}
             end
             sanitized_opt << new_props
             # TODO: attention recursive analysis not done if a hash is in a hash it wont be processed and restrutured!!
@@ -440,7 +378,7 @@ class Atome
             # TODO: some treatment may be added : get the content for #{index}
             sanitized_opt << [index]
           else
-            sanitized_opt << { key => index }
+            sanitized_opt << {key => index}
           end
         end
       elsif properties.class == Array
@@ -484,16 +422,14 @@ class Atome
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
     if properties.values[0].class == Proc
-      proc= properties.values[0]
-      proc=send_to_get_proc_content(proc)
+      proc = properties.values[0]
+      proc = send_to_get_proc_content(proc)
       puts "------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
       puts proc
       #properties[properties.keys[0]]=proc
     end
     @atome << properties
-    # puts @atome
     # now we store the current @atome id in the current @atomes array
-    # puts self
     @@atomes[atome_id.to_s] = self
     # we send the id of the atome to be renderered to the main render engine for analysys
     Render_engine.render(atome_id)
@@ -559,7 +495,6 @@ class Atome
 
   def self.purge
     # allow eVe to remove all object exept the two first :  the human (the user) and eDen ( the machine)
-    # @@atomes = @@atomes.take(2)
     @@atomes = {}
   end
 

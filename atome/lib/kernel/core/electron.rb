@@ -1,11 +1,8 @@
 # here is alll methods that fazcilitate the atome creation
-def box(options="")
-  atome=Atome.new(:box)
+def box(options = "")
+  atome = Atome.new(:box)
   return atome
 end
-#
-#tests
-#open_console(:true)
 
 content = <<EOT
 clear

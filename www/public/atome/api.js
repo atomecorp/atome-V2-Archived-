@@ -1,12 +1,9 @@
 //////////////////// add grab method  \\\\\\\\\\\\\\\\\
 
 
-
-
 function get_proc_content(proc_send){
   return String(proc_send);
 }
-
 
 
 function opalizer(functionToCall, param, atome_id, id) {
@@ -44,22 +41,7 @@ function debug(code) {
 }
 
 function run_script(content) {
-    // content = content.split("render");
-    // var previous_part = "";
-    // content.forEach(function (code, index) {
-    //     if (index == 0) {
-    //         debug(code);
-    //         previous_part = code.replace("sleep", "");
-    //     } else {
-    //         setTimeout(function () {
-    //             code = previous_part + code;
-    //             Opal.Object.$clear("view");
-    //             debug(code);
-    //             previous_part = code.replace("sleep", "");
-    //         }, index * 10);
-    //     }
-    // });
-    debug(content)
+    debug(content);
 }
 
 function flash(file) {
@@ -112,7 +94,6 @@ function add_to_ide(content, run) {
     }
 
 }
-
 
 function browser_location() {
     // todo install : cordova-plugin-geolocation plugin to make it work

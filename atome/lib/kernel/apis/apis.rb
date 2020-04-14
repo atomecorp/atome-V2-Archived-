@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-
-
 ################# new file operation #################
 def saver(*val)
   send_this = {name: :project_0, file_content: '#project_0', call: false, call_params: false, type: :project, force: false}
@@ -21,14 +19,9 @@ def saver(*val)
 
   ################# end ####################
   if file_exist && send_this[:force] == false
-    puts '######'
-    puts send_this
-    alert 'file exist'
-    puts '######'
   else
     to_js :store, send_this
   end
-
   ################# end ####################
 
 end
@@ -62,8 +55,6 @@ end
 
 ################## file operation ##############
 
-
-
 def save filename =:default , content=nil
   if !content
     content=ide()
@@ -75,12 +66,6 @@ end
 
 def auto_save
   save :autosave
-  # code_content = code
-  # if Object.const_defined?(:Atome)
-  #  store(Atome.project_on_screen, code_content)
-  # else
-  #  `console.log('create an project_on_screen global variable')`
-  # end
 end
 
 
@@ -148,29 +133,6 @@ def location
   location
 end
 
-#def project
-#  Atome.project
-#end
-#
-#def projects
-#  user_projects = []
-#  Atome.projects.each_with_index do |projets, index|
-#    user_projects << projets if index != 0
-#  end
-#  user_projects
-#end
-#
-#def machine
-#  Atome.eDen
-#end
-#
-#def user
-#  Atome.human
-#end
-#
-#def humans
-#  Atome.humans
-#end
 
 def find(script, string)
   script = script.split("\n")
@@ -182,7 +144,6 @@ def find(script, string)
   line_nb = script.length + 1 if line_nb.nil?
   line_nb
 end
-
 
 
 def reload
