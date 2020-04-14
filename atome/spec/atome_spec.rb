@@ -11,8 +11,10 @@ describe Atome do
     described_class.new(renderer: :dummyrenderer)
   end
 
-  context 'without parameter' do
-    it { is_expected.to be_an(Atome) }
+  context '#initialize' do
+    context 'without parameter' do
+      it { is_expected.to be_an(Atome) }
+    end
   end
 end
 
