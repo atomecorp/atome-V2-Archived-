@@ -19,12 +19,12 @@ a.x=600
 b.touch do
   self.color(:green)
   b.y(150)
-  self.draggable(:true)
+  self.draggable(true)
   puts "good"
 end
-a.draggable(:true)
+a.draggable(true)
 c=box()
-c.draggable(:true)
+c.draggable(true)
 EOT
 write content
 
@@ -44,9 +44,9 @@ content = <<EOT
 run
 #clear
 a=box()
-a.draggable(:true)
+a.draggable(true)
 b=box()
-b.draggable(:true)
+b.draggable(true)
 b.x(440)
 a.touch do
   self.color(:yellowGreen)
@@ -70,6 +70,6 @@ EOT
 
 write content
 
-open_ide(:true)
-open_console(:true)
+open_ide(true)
+open_console(true)
 auto_run
