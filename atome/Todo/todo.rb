@@ -1,6 +1,7 @@
 todo =<<StrDelim
 todo:
 - check multi prop api ( shadows, border, etc..)
+- debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode
 - add missing  splashscrens (iPad)
 - create a fast compile mode for fastest test 
 - write install dev poste on FreeBSD
@@ -9,7 +10,6 @@ todo:
 - save to db
 - create user and account
 - debug drag : touch is triggered everytime
-- debug touch position not set in atome Hash
 - create on drag events
 - create events options : down, up 
 - create over events
