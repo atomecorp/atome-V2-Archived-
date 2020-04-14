@@ -1,5 +1,14 @@
 //////////////////// add grab method  \\\\\\\\\\\\\\\\\
 
+
+
+
+function get_proc_content(proc_send){
+  return String(proc_send);
+}
+
+
+
 function opalizer(functionToCall, param, atome_id, id) {
 
     if (typeof(param)=="function"){

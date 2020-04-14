@@ -483,7 +483,15 @@ class Atome
     # this method is called when a property is added or modified , the insert_properties_in_atome method is call by the set method.
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
+    if properties.values[0].class == Proc
+      proc= properties.values[0]
+      proc=send_to_get_proc_content(proc)
+      puts "------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
+      puts proc
+      #properties[properties.keys[0]]=proc
+    end
     @atome << properties
+    # puts @atome
     # now we store the current @atome id in the current @atomes array
     # puts self
     @@atomes[atome_id.to_s] = self

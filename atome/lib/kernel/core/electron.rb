@@ -49,9 +49,11 @@ a.touch do
   self.color(:yellowGreen)
   a.x(100)
   b.y(150)
-  b.z=500
+
   a.color="yellow"
   a.color(:violet)
+    b.z=500
+  self.color="rgba(0.125,255,0.2)"
   a.height(55)
   a.width=71
 end
@@ -59,6 +61,8 @@ end
 #a.class_exec(a.touch)
 #puts a.id
 #get(a.id).trig(a.touch)
+puts a
+
 EOT
 
 write content

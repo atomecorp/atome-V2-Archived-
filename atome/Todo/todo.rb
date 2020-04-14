@@ -1,7 +1,7 @@
 todo =<<StrDelim
 todo:
 - check multi prop api ( shadows, border, etc..)
-- debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode
+- debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode 
 - add missing  splashscrens (iPad)
 - create a fast compile mode for fastest test 
 - write install dev poste on FreeBSD

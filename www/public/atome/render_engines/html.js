@@ -57,8 +57,10 @@ var html = {
     touch: function (value, atome_id) {
         // var entire = value.toString();
         // var body = entire.slice(entire.indexOf("{") + 1, entire.lastIndexOf("}"));
-        // Opal.Object.$clear()
-        // console.log(body)
+        // Opal.Object.$clear();
+        // var tableau = body.split("\n")
+        // console.log(body);
+        // alert(body);
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
             Opal.Object.$trig(atome_id);
