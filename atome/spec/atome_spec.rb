@@ -8,23 +8,44 @@ end
 
 describe Atome do
   subject do
-    described_class.new(renderer: :dummyrenderer)
+    described_class.new(params.merge(renderer: :dummyrenderer))
   end
+
+  let(:params) { {} }
 
   context '#initialize' do
     context 'without parameter' do
       it { is_expected.to be_an(Atome) }
     end
+
+    context 'with a color parameter' do
+      let(:params) { { color: :red } }
+
+      it 'should be red' do
+        expect(subject.color.atome.first).to eq(:red)
+        #      ^^^^^^^^^^^^^^^^^^^^^^^^^
+        # FIXME: Replace this with something that makes sense
+      end
+    end
+  end
+
+  context '#color' do
+    before do
+      expect(subject.color(:red)).to eq(subject)
+    end
+
+    it 'should be red' do
+      expect(subject.color.atome.first).to eq(:red)
+    end
+  end
+
+  context '#color=' do
+    before do
+      subject.color = :red
+    end
+
+    it 'should be red' do
+      expect(subject.color.atome.first).to eq(:red)
+    end
   end
 end
-
-
-describe Atome do
-  context 'box' do
-    xit { is_expected.to be_an(Atome)  }
-    #xit { is_expected.to be_an(Atome) woith default paramaters such as width, height color x,y }
-  end
-end
-
-
-
