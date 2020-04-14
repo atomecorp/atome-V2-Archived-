@@ -25,6 +25,7 @@ body {
     z-Index: 1;
     position: absolute;
     display: block;
+    overflow: hidden;
 }
 
 #zim_canvas {

@@ -165,7 +165,7 @@ class Atome
 
         set({ property_fct => proc })
         #class_exec(proc)
-        puts "property_fct is #{property_fct}, options : #{options}"
+        #puts "property_fct is #{property_fct}, options : #{options}"
 
           #property_fct = property_fct.to_s.chomp('=').to_sym
         #set({ property_fct => proc })

@@ -7,3 +7,5 @@ describe Atome do
     it { is_expected.to be_an(Atome) }
   end
 end
+
+

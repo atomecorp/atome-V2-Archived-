@@ -1,8 +1,11 @@
 todo =<<StrDelim
 todo:
+- check multi prop api ( shadows, border, etc..)
+- add missing  splashscrens (iPad)
+- create a fast compile mode for fastest test 
 - write install dev poste on FreeBSD
 - externalise js methods from ruby
-- debug renderer to make choice persistent
+- debug renderer to make renderer engine choice persistent
 - save to db
 - create user and account
 - debug drag : touch is triggered everytime

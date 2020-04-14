@@ -1,5 +1,16 @@
 //////////////////// add grab method  \\\\\\\\\\\\\\\\\
 
+function opalizer(functionToCall, param, atome_id) {
+
+    if (typeof(param)=="function"){
+        eval(functionToCall+"("+param+",'"+atome_id+"')");
+    }else
+    {
+        eval(functionToCall+"('"+param+"','"+atome_id+"')");
+
+    }
+}
+
 function grab(id) {
     obj = myObjects[myIDS.indexOf(id)];
     //zim_lib.app.stage.update();

@@ -39,7 +39,7 @@ EOT
 
 content = <<EOT
 run
-#clear
+clear
 a=box()
 a.draggable(:true)
 b=box()
@@ -49,8 +49,12 @@ a.touch do
   self.color(:yellowGreen)
   a.x(100)
   b.y(150)
+  b.z=500
+  a.color="yellow"
+  a.color(:violet)
+  a.height(55)
+  a.width=71
 end
-clear
 #puts a.touch.class
 #a.class_exec(a.touch)
 #puts a.id

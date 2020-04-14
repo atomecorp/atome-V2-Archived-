@@ -192,6 +192,7 @@ end
 ###################### exec user script ####################
 
 def add_to_screen(content)
+  #$PROCESS_ID.add_to_ide(content)
   `add_to_ide(#{content})`
 end
 

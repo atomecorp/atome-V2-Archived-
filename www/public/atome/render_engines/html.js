@@ -29,13 +29,13 @@ var html = {
     },
 
     width: function (value, atome_id) {
-        document.getElementById(atome_id).style.width = value+"px";
+        document.getElementById(atome_id).style.width = value + "px";
 
     },
 
 
     height: function (value, atome_id) {
-        document.getElementById(atome_id).style.width = value+"px";
+        document.getElementById(atome_id).style.width = value + "px";
     },
     type: function (value, atome_id) {
         // document.getElementById(atome_id).style.height = value;
@@ -55,11 +55,13 @@ var html = {
         document.getElementById(atome_id).style.border = width_border + 'px ' + border_style + ' ' + color;
     },
     touch: function (value, atome_id) {
+        // var entire = value.toString();
+        // var body = entire.slice(entire.indexOf("{") + 1, entire.lastIndexOf("}"));
+        // Opal.Object.$clear()
+        // console.log(body)
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
             Opal.Object.$trig(atome_id);
-            //#{trig(atome_id)}
-
         });
     },
 

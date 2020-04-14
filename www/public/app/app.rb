@@ -24,6 +24,12 @@
 #
 #
 #Opal_html.bar("trop cool!!", "rgb(0,255,2,0.2)")
+#JS.foo()
+#foo.JS.bar()
+#
+#
+#JS.myGradesCalculate.titi()
+#JS.foo.bar()
 
 
-
+#JS.htmllizer("foo.bar","cool", "poil")
