@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 class Array
-  def swap!(a, b)
-    self[a], self[b] = self.fetch(b), self.fetch(a)
+  def swap!(idx1, idx2)
+    value1 = fetch(idx1)
+    value2 = fetch(idx2)
+
+    self[idx1] = value2
+    self[idx2] = value1
+
     self
   end
 
