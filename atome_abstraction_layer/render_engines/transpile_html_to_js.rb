@@ -11,7 +11,15 @@ module Html
       if property_fct==:preset
         param = :div if param.to_sym == :box
       end
-      JS.opalizer("html."+property_fct,param,atome_id)
+      if  property_fct==:draggable
+        atome_id = atome_id.to_s
+        id = Atome.atomes[atome_id].id
+        JS.opalizer("html."+property_fct,param,atome_id, id)
+
+      else
+        JS.opalizer("html."+property_fct,param,atome_id, id="")
+
+      end
     end
 
   end
@@ -34,5 +42,36 @@ module Html
       end
     end
   end
+## exeption below
+#  def self.preset(param, atome_id)
+#    param = :div if param.to_sym == :box
+#
+#    `
+#    html.preset(#{param}, #{atome_id});
+#`
+#  end
+
+  #def self.type(param, atome_id)
+  #
+  #end
+
+#  def self.touch(param, atome_id)
+#    `
+#    html.touch(#{param}, #{atome_id});
+#`
+#  end
+
+
+#  def self.draggable(param = :true, atome_id)
+#
+#
+#    atome_id = atome_id.to_s
+#    id = Atome.atomes[atome_id].id
+#    `
+#    html.draggable(#{param}, #{atome_id},#{id});
+#`
+#
+#  end
+
 end
 

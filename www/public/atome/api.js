@@ -1,12 +1,12 @@
 //////////////////// add grab method  \\\\\\\\\\\\\\\\\
 
-function opalizer(functionToCall, param, atome_id) {
+function opalizer(functionToCall, param, atome_id, id) {
 
     if (typeof(param)=="function"){
         eval(functionToCall+"("+param+",'"+atome_id+"')");
     }else
     {
-        eval(functionToCall+"('"+param+"','"+atome_id+"')");
+        eval(functionToCall+"('"+param+"','"+atome_id+"','"+id+"')");
 
     }
 }
