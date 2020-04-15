@@ -1,5 +1,9 @@
 todo =<<StrDelim
 todo:
+
+- create a series of default script install at first launch of eVe, with optional "run at boot time" for some of them
+- create a developer mode to allow "eVe made by eVe" : the add  source code and install it in client ressources at first launch of the app
+- save files to icloud ion iOS
 - check multi prop api ( shadows, border, etc..)
 - debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode 
 - add missing  splashscrens (iPad)
