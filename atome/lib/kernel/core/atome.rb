@@ -18,14 +18,12 @@ class Atome
   @@buffer = []
 
   def initialize(*options)
-    # puts "here !! options : #{options} : :#{options.class}"
     create_atome_id = true
     create_id = true
     get = false
     item_to_delete = []
     options.each_with_index do |option, index|
       if option.class == Hash
-        # puts "option : : : #{option}"
         # below we remove the hash containing the info to create an atome_id or not and also remove the atome_id, in case a user try to force the value of the atome_id
         if option.keys[0] == :create_atome_id || option.keys[0] == :atome_id
           create_atome_id = option.values[0]
@@ -35,10 +33,6 @@ class Atome
         if option.keys[0] == :get_mode
           get = option.values[0]
           item_to_delete << index
-          # puts self
-          # puts option
-          # puts "---"
-          # options.delete_at(index)
         end
       elsif option.class == Symbol || option.class == String
         # if it's a symbol or a string whe try to find if the user send a preset otr a type
@@ -100,13 +94,9 @@ class Atome
     if create_id
       id = 'unknown_'
       @atome_initial_state.each do |property_key_pair|
-        # puts "property_key_pair : #{property_key_pair}"
-        # puts "----- #{property_key_pair.keys[0].class} is #{property_key_pair.values[0]} -----"
         if property_key_pair.keys[0].to_sym == :preset
-          # puts "-----preset-------"
           id = property_key_pair.values[0].to_s + '_'
         elsif property_key_pair.keys[0].to_sym == :type
-          # puts "-----type-------"
           id = property_key_pair.values[0].to_s + '_'
         end
       end
@@ -156,7 +146,6 @@ class Atome
       instance_exec(&proc)
     else
       properties.each do |props|
-        #puts "props :#{props}, class :  #{props.class}"
         if props.class == Array
           # TODO: maybe we have analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
           props = sanitize_prop(nil, props)
@@ -273,7 +262,6 @@ class Atome
       end
     end
     if pluralize
-      #  puts "pluralize or an exeption :  #{property} =>  #{found_prop}"
       found_prop
     elsif property == :atome_id || property == :id || property == :label
       # we made an exeption and return a string when the prop is an id, an atome_id or a label
@@ -426,7 +414,6 @@ class Atome
       proc = send_to_get_proc_content(proc)
       puts "------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
       puts proc
-      #properties[properties.keys[0]]=proc
     end
     @atome << properties
     # now we store the current @atome id in the current @atomes array

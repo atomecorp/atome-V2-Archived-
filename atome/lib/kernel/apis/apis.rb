@@ -1,57 +1,6 @@
 # frozen_string_literal: true
 
-################# new file operation #################
-def saver(*val)
-  send_this = {name: :project_0, file_content: '#project_0', call: false, call_params: false, type: :project, force: false}
-  file_exist = false
-  if val.length > 1
-    val[1] = val[1].gsub('"', "'")
-    send_this[:name] = val[0]
-    send_this[:file_content] = val[1]
-  elsif val[0].class == Hash
-    val[0].each do |key, value|
-      send_this[key] = value
-    end
-  elsif val[0].class == String
-    send_this[:name] = val[0]
-    send_this[:file_content] = '#' + val[0]
-  end
 
-  ################# end ####################
-  if file_exist && send_this[:force] == false
-  else
-    to_js :store, send_this
-  end
-  ################# end ####################
-
-end
-
-def loader(*val)
-  send_this = {name: :project_0, call: :add_to_screen, call_params: false, type: :project, error_call: false, error_call_params: false, force: false}
-
-  if val.length > 1
-    # it's an array it means that's a pair name:type
-    val[1] = val[1].gsub('"', "'")
-    send_this[:name] = val[0]
-    send_this[:type] = val[1]
-  elsif val[0].class == Hash
-    val[0].each do |key, value|
-      send_this[key] = value
-    end
-  elsif val[0].class == String
-    # it's a string (a uniq value) so default object type is a project
-    send_this[:name] = val[0]
-    send_this[:type] = :project
-  end
-  # we test if project exist before save
-  if send_this[:type] == :project && !(projects.include? send_this[:name]) && send_this[:force] == false
-    alert 'file not found'
-  elsif send_this[:type] == :human && !(humans.include? send_this[:name]) && send_this[:force] == false
-    alert 'person not found'
-  else
-    to_js :load, send_this
-  end
-end
 
 ################## file operation ##############
 
@@ -59,6 +8,7 @@ def save filename =:default , content=nil
   if !content
     content=ide()
   end
+
   store filename, content
 end
 
@@ -156,13 +106,10 @@ def lorem
     b.drag()
     b.color=:red
     b.id="toto"
-
     get("toto").x(77)
     get("toto").y(10)
-
   STRdelim
 end
-
 def lorem2
   srt = <<STRdelim
     b=box()
@@ -170,7 +117,6 @@ def lorem2
     b.drag()
     b.color=:red
     get("toto").y(10)
-
     get('toto').x(77)
 STRdelim
 end
@@ -181,8 +127,6 @@ def lorem3
     b.id="toto"
     b.drag()
     b.color=:red
-
-
     get('toto').x=77
 STRdelim
 end
@@ -193,8 +137,5 @@ def lorem4
     b.id="toto"
     b.drag()
     b.color=:red
-
-
 STRdelim
 end
-

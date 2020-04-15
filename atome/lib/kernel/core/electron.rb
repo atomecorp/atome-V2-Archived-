@@ -1,6 +1,12 @@
 # here is alll methods that fazcilitate the atome creation
-def box(options = "")
-  atome = Atome.new(:box)
+def box(options)
+  if options
+    atome = Atome.new({preset: :box},options)
+
+  else
+    atome = Atome.new({preset: :box})
+
+  end
   return atome
 end
 
@@ -36,7 +42,7 @@ EOT
 
 content = <<EOT
 run
-clear
+#clear
 a=box()
 a.draggable(:true)
 b=box()
@@ -67,7 +73,3 @@ write content
 open_ide(:true)
 open_console(:true)
 auto_run
-#def color(opt)
-#
-#  puts  " good times here : #{opt}"
-#end

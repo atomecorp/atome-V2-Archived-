@@ -64,8 +64,8 @@ var html = {
         if (value == "true") {
             $("#" + atome_id).draggable({
                 start: function () {
-                    search_x = "get(\"" + id + "\").x"
-                    search_y = "get(\"" + id + "\").y"
+                    search_x = "get(\"" + id + "\").x";
+                    search_y = "get(\"" + id + "\").y";
                     code = editor.getDoc().getValue("\n");
 // we add a line if the last line is not empty
                     code_lines = code.split("\n");
@@ -75,7 +75,7 @@ var html = {
                     Opal.Object.$replace("", code_length);
                     y_def_pos = Opal.Object.$find(code, search_y);
                     if (x_def_pos == y_def_pos) {
-                        y_def_pos = y_def_pos + 1
+                        y_def_pos = y_def_pos + 1;
                     }
                 },
                 drag: function () {
@@ -90,12 +90,10 @@ var html = {
                 }
             });
 
-            $("#" + atome_id + "").draggable("enable")
+            $("#" + atome_id + "").draggable("enable");
         } else {
-            $("#" + atome_id + "").draggable('disable')
+            $("#" + atome_id + "").draggable('disable');
         }
-
-
     }
 
 };
