@@ -1,33 +1,34 @@
 # encoding: UTF-8
 # frozen_string_literal: true
-puts "goody goody goodis!!"
-def  send_to_get_proc_content(proc)
+
+def send_to_get_proc_content(proc)
   #puts proc
-  lines= JS.get_proc_content(proc)
-  value_found=""
-  proc_content=[]
-  lines =lines.split("\n")
+  lines = JS.get_proc_content(proc)
+  value_found = ""
+  proc_content = []
+  lines = lines.split("\n")
   lines.shift
   lines.each_with_index do |line|
-    line=line.gsub(".$",".").gsub(";","")
+    line = line.gsub(".$", ".").gsub(";", "")
     if !line.include?('$writer[$rb_minus($writer["length"], 1)]')
       if line.include?("$writer = [")
-        value_found= line.sub('$writer = [',"").sub(/]/i, '')
+        value_found = line.sub('$writer = [', "").sub(/]/i, '')
       elsif line.include?("$send(")
-        content= line.sub("$send(","").sub("Opal.to_a($writer))","")
-        content=content.split(",")
-        variable=content[0].gsub(" ","")
-        property=content[1].gsub("'","").gsub(" ","")
-        line=variable+"."+property+value_found
-        proc_content<< line
+        content = line.sub("$send(", "").sub("Opal.to_a($writer))", "")
+        content = content.split(",")
+        variable = content[0].gsub(" ", "")
+        property = content[1].gsub("'", "").gsub(" ", "")
+        line = variable + "." + property + value_found
+        proc_content << line
       else
-        proc_content<< line
+        proc_content << line
       end
     end
   end
 
-  return  proc_content.join("\n")
+  return proc_content.join("\n")
 end
+
 ################## Js 'pass-plat' ##############
 class Js
   def self.method_missing(m, *args)
@@ -103,7 +104,7 @@ def add_to_screen(content)
   #`add_to_ide(#{content})`
 end
 
-def ide(content=nil)
+def ide(content = nil)
   if content
     `add_to_ide(#{content})`
   else
@@ -115,7 +116,6 @@ end
 def write(content)
   `add_to_ide(#{content})`
 end
-
 
 
 def deep_analysis(code)
@@ -180,7 +180,6 @@ end
 def wait(time)
   `setTimeout(function(){ #{yield} }, #{time})`
 end
-
 
 
 #######  CodeMirror methods #############
@@ -382,8 +381,6 @@ end
 
 shortcut
 
-
-
 def p(string)
   string = string.to_s
   #  string = string.gsub("\n", "<br>")
@@ -400,13 +397,12 @@ end
 def clear(option = :console)
   option = option.to_sym
   if option == :view || option == :screen
-    puts 'temporary patch to erase the screen works only with HTML rendering'
+    #todo: 'temporary patch to erase the screen works only with HTML rendering'
     `
     $("#html_view").html("")
-`
-
+    `
   elsif option == :ide
-    ide""
+    ide ""
   elsif option == :console
     `
   $("#ruby_console").html("")
@@ -418,7 +414,6 @@ def sanitizer(string)
   string = string.gsub("'", "\\\\'")
   string
 end
-
 
 
 def find(script, string)
