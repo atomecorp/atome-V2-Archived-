@@ -21,17 +21,17 @@ Multi purposes cross platform solution
 	- go to the atome folder in atome within atome root  
 	%cd atome  
 	- to run web browser version of atome  
-	%ruby run.rb   
+	%ruby compile.rb   
 	- to run osx version of atome  
-	%ruby run.rb osx  
+	%ruby compile.rb osx  
 	- to run iOS version of atome  
-	%ruby run.rb ios  
+	%ruby compile.rb ios  
 	- to run Windows version of atome  
-	%ruby run.rb windows  
+	%ruby compile.rb windows  
 	- to run electron version of atome  
-	%ruby run.rb electron  
+	%ruby compile.rb electron  
 	- to run web server version of atome  
-	%ruby run.rb server
+	%ruby compile.rb server
 	
 
 

@@ -1,14 +1,39 @@
 var html = {
     preset: function (param, atome_id) {
-        if (!document.getElementById(atome_id)) {
-            $('#html_view').append("<" + param + " id=" + atome_id + " style='width:100px;height:100px;position:absolute;color:red;background-color:orange;display:block'></" + param + ">");
+        switch (param) {
+            case 'box':
+                if (!document.getElementById(atome_id)) {
+                    $('#html_view').append("<" + param + " id=" + atome_id + " style='width:100px;height:100px;position:absolute;color:red;background-color:orange;display:block'></" + param + ">");
+                }
+                break;
+            case 'text':
+                if (!document.getElementById(atome_id)) {
+                    $('#html_view').append("<label contenteditable=\"true\" id=" + atome_id + " style='font-size:37px;outline: none; -webkit-user-select: text;-khtml-user-select: text;-moz-user-select: text;-o-user-select: text; user-select: text;position:absolute;color:red;display:block'>text to replace</label>");
+
+                }
+            // <label contenteditable="true">Exemple</label>
+                console.log('text is div + text');
+                break;
+            case 'circle':
+                console.log('circle is div');
+                // expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            default:
+                console.log('Sorry, we are out of ' + expr + '.');
         }
+
     },
 
     color: function (color, atome_id) {
         document.getElementById(atome_id).style.backgroundColor = color;
 
     },
+
+    content: function (value, atome_id) {
+        document.getElementById(atome_id).innerText = value ;
+
+    },
+
 
     x: function (value, atome_id) {
         var x_position = document.getElementById(atome_id);
@@ -33,7 +58,7 @@ var html = {
 
 
     height: function (value, atome_id) {
-        document.getElementById(atome_id).style.width = value + "px";
+        document.getElementById(atome_id).style.height = value + "px";
     },
     type: function (value, atome_id) {
         // document.getElementById(atome_id).style.height = value;

@@ -1,75 +1,52 @@
 # here is alll methods that fazcilitate the atome creation
+
 def box(options)
   if options
     atome = Atome.new({preset: :box},options)
-
   else
     atome = Atome.new({preset: :box})
-
   end
   return atome
 end
 
-content = <<EOT
-clear
-b=box
-a=box()
-a.color(:pink)
-a.x=600
-b.touch do
-  self.color(:green)
-  b.y(150)
-  self.draggable(true)
-  puts "good"
+def text(options)
+  if options
+    if options.class == String || options.class == Symbol
+      options={:content => options}
+    end
+      atome = Atome.new({preset: :text},options)
+  else
+    atome = Atome.new({preset: :text})
+  end
+  return atome
 end
-a.draggable(true)
-c=box()
-c.draggable(true)
-EOT
-write content
 
-content = <<EOT
-clear
-run
-a=box()
-a.touch do
-  self.color(:yellowGreen)
+def help
+
+  puts "
+to run code :  ctrl-R or click on the bar above the code editor<br>
+to save code :  type \"load :filename\" in the code editor, then run the code, then it'll load the file named \"filaname\" <br>
+to load code : type \"load :filename\" in the code editor, then run the code, then it'll load the file named \"filaname\"<br>
+to comment code ctrl-c, to comment selection<br>
+to reformat code ctrl-j to reformat selection<br>
+to reformat code ctrl-e to reformat all code<br
+to open/close the console ctrl-t<br>
+to open/close the code editor ctrl-i<br>
+to clear the console ctrl-x or type clear in the code editor then run<br>
+to activate/desactivate auto run code ctrl-a<br>
+to reboot ctrl-y<br>
+"
+
 end
-puts a.touch.class
-#uncomment below to verif event
-#a.class_exec(a.touch)
-EOT
-
-content = <<EOT
-run
+#content = <<EOT
 #clear
-a=box()
-a.draggable(true)
-b=box()
-b.draggable(true)
-b.x(440)
-a.touch do
-  self.color(:yellowGreen)
-  a.x(100)
-  b.y(150)
-
-  a.color="yellow"
-  a.color(:violet)
-    b.z=500
-  self.color="rgba(0.125,255,0.2)"
-  a.height(55)
-  a.width=71
-end
-#puts a.touch.class
-#a.class_exec(a.touch)
-#puts a.id
-#get(a.id).trig(a.touch)
-puts a
-
-EOT
-
-write content
-
-open_ide(true)
-open_console(true)
-auto_run
+##run
+#read "atome/atome.rb"
+#clear(:ide)
+#EOT
+#
+#puts "ready!!!!!!!"
+#write content
+#open_ide(:true)
+#open_console(:true)
+#auto_run

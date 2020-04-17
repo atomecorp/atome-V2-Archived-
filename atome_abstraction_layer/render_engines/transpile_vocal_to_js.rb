@@ -1,16 +1,15 @@
 # frozen_string_literal: true
-
 ####### Vocal render engine #############
 module Vocal
   def initialize(*val); end
 
-  def self.init(properties, atome_ìd)
+  def self.init(properties, atome_id)
     properties.each do |property|
       # puts properties
       if property.class == Hash
-        send(property.keys[0], property.values[0], atome_ìd)
+        send(property.keys[0], property.values[0], atome_id)
       elsif property.class == Array
-        parent_id = atome_ìd
+        parent_id = atome_id
         property.each do |sub_property|
           if sub_property.class == Hash
             send(sub_property.keys[0], sub_property.values[0], parent_id)
@@ -24,7 +23,7 @@ module Vocal
     `
   ssu = new SpeechSynthesisUtterance()
   ssu.lang = "fr-FR"
-  ssu.text = "une "+#{param}+" vient d'être créée avec l'identité :"+#{id}
+  ssu.text = "une "+#{param}+" vient d'etre crre avec l'identite :"+#{id}
   speechSynthesis.speak(ssu)
 `
   end
@@ -35,7 +34,7 @@ module Vocal
     `
       ssu = new SpeechSynthesisUtterance()
       ssu.lang = "fr-FR"
-      ssu.text = "L'objet  "+#{id}+" a été colorié en "+ #{param}
+      ssu.text = "probleme avec les accents et le mode test de eVe,L'objet  "+#{id}+" a ete colorie en "+ #{param}
       speechSynthesis.speak(ssu)
 `
   end
@@ -44,7 +43,7 @@ module Vocal
     `
       ssu = new SpeechSynthesisUtterance()
       ssu.lang = "fr-FR"
-      ssu.text = #{id}+" est maintenant déplaçable"
+      ssu.text = #{id}+" est maintenant deplacable, attention probleme avec les accents et le mode test de eVe"
       speechSynthesis.speak(ssu)
 `
   end
@@ -53,7 +52,7 @@ module Vocal
     `
       ssu = new SpeechSynthesisUtterance()
       ssu.lang = "fr-FR"
-      ssu.text = #{id}+" a été déplacé horizontalement à la position "+ #{param}
+      ssu.text = #{id}+" a ete deplace horizontalement a la position "+ #{param}+"attention probleme avec les accents et le mode test de eVe"
       speechSynthesis.speak(ssu)
 `
   end
@@ -62,7 +61,7 @@ module Vocal
     `
       ssu = new SpeechSynthesisUtterance()
       ssu.lang = "fr-FR"
-      ssu.text = #{id}+" a été déplacé verticalement à la position "+ #{param}
+      ssu.text = #{id}+" a ete deplace verticalement a la position "+ #{param}+"attention probleme avec les accents et le mode test de eVe"
       speechSynthesis.speak(ssu)
 `
   end

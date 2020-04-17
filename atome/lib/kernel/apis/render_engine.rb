@@ -7,11 +7,10 @@ class Render_engine
   # Please notte that the same part could be send simulteanoulsy to multiples render engine
   @@render_engines = %i[Fabric Headless Html Konva Three Zim Vocal]
 
-  def initialize(*val); end
 
   def self.inception(props, atome)
     atome_to_render = []
-    atome_ìd = @last_atome_id
+    atome_id = @last_atome_id
     properties_to_delete = []
     if props.class == Array
       props.each do |prop|
@@ -25,7 +24,7 @@ class Render_engine
           if prop.class == Hash
             prop.each do |key, value|
               if key == :atome_id
-                atome_ìd = value
+                atome_id = value
                 properties_to_delete << index
               elsif key == :id
                 properties_to_delete << index
@@ -40,7 +39,7 @@ class Render_engine
           end
         end
         # here we send the atome and its id to the renderer
-        constantize(render_engine).init(atome_to_render, atome_ìd)
+        constantize(render_engine).init(atome_to_render, atome_id)
       end
     end
   end

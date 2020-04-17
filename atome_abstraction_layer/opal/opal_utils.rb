@@ -1,8 +1,6 @@
-require 'opal-parser'
-require 'js'
-require 'native'
-
+# encoding: UTF-8
 # frozen_string_literal: true
+puts "goody goody goodis!!"
 def  send_to_get_proc_content(proc)
   #puts proc
   lines= JS.get_proc_content(proc)
@@ -65,13 +63,37 @@ def store(filename, content = '', system_file = false, fct_to_call = false, fct_
 end
 
 module Opal_library
-  def self.read_load(filename, fct_to_call , fct_params , error_catch_fct )
-    `
-   read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
-   `
-  end
+
 end
 
+
+def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false, system_file = false)
+  if fct_to_call.to_sym == :human
+    #Atome.human = filename
+    load :eDen, :set_last_user
+  end
+  filename = filename.to_s
+  if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
+  end
+  `
+   read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
+   `
+end
+
+
+def opal_read filename
+
+  `
+$.ajax({
+    url: #{filename},
+    dataType: 'text',
+    success: function (data) {
+       Opal.eval(data);
+    }
+});
+//$( "#html_view" ).load( "atome/file/db_roda.js" );
+`
+end
 
 ###################### exec user script ####################
 
@@ -384,6 +406,7 @@ def clear(option = :console)
 `
 
   elsif option == :ide
+    ide""
   elsif option == :console
     `
   $("#ruby_console").html("")

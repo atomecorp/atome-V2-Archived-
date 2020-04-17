@@ -17,6 +17,7 @@ end
 
 # first we get all works file and join them in a new file called all_files.rb
 
+opal_requirement  = Dir['atome_abstraction_layer/opal/opal_requirement.rb']
 opal_utils  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
 api = Dir['atome/lib/kernel/apis/*.rb']
@@ -26,7 +27,13 @@ proton = Dir['atome/lib/kernel/core/proton.rb']
 atome = Dir['atome/lib/kernel/core/atome.rb']
 electron = Dir['atome/lib/kernel/core/electron.rb']
 neutron = Dir['atome/lib/kernel/core/neutron.rb']
-kernel = opal_utils.concat(core_ext).concat(api).concat(proton).concat(neutron).concat(render_engine).concat(render_engines).concat(atome).concat(electron)
+init = Dir['atome/lib/kickstart.rb']
+kernel = opal_requirement.concat(opal_utils).concat(core_ext).concat(api).concat(proton).concat(neutron).concat(render_engine).concat(render_engines).concat(atome).concat(electron).concat(init)
+
+#we erase rb test files
+atome_source = File.open('www/public/atome/atome.rb', 'w')
+atome_source.puts "//code compiled erased"
+atome_source.close
 
 join_files kernel, 'kernel.rb'
 

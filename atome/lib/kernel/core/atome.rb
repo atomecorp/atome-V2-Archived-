@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # atome object and apis below
 class Atome
   # @@default_components = {display: :local, language: :english, renderer: :zim}
@@ -272,7 +271,7 @@ class Atome
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the correponding value ex: - puts a.color => :black
-      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: false}, {get_mode: true})
+      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
 
@@ -488,4 +487,10 @@ class Atome
   def self.properties
     @@properties
   end
+
+
+  def self.presets
+    return  @@presets
+  end
+
 end

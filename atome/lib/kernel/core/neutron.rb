@@ -1,4 +1,7 @@
 #here is all general mthods helper for atomes
+
+
+
 # frozen_string_literal: true
 
 def trig atome_id
@@ -17,21 +20,25 @@ def grab(atome_id)
   end
 end
 
-# TODO: important to debug get meth in a touch event
-def get_for_debug_in_touch_meth(prop, get_by = :id)
-  get_by = get_by.to_sym
-  atomes = Atome.atomes
-  molecule = []
-  atomes.each do |atome|
-    molecule << atome if atome.send(get_by) == prop
-  end
-  if molecule.length == 1
-    molecule[0]
-  else
-    # we are on a hash so we have all methods for array in module Properties
-    molecule
-  end
+def read filename
+  opal_read filename
 end
+
+# TODO: important to debug get meth in a touch event
+#def get_for_debug_in_touch_meth(prop, get_by = :id)
+#  get_by = get_by.to_sym
+#  atomes = Atome.atomes
+#  molecule = []
+#  atomes.each do |atome|
+#    molecule << atome if atome.send(get_by) == prop
+#  end
+#  if molecule.length == 1
+#    molecule[0]
+#  else
+#    # we are on a hash so we have all methods for array in module Properties
+#    molecule
+#  end
+#end
 
 def get(id)
   atomes = Atome.atomes
@@ -59,6 +66,13 @@ end
 def bufferize(content)
   Atome.buffer(content)
 end
+
+
+
+
+
+
+
 
 
 ###################### eDen kickstart ####################
