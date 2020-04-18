@@ -38,5 +38,3 @@ to reboot ctrl-y<br>
 "
 
 end
-
-`alert("ok kool!!")`

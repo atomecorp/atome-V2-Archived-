@@ -10,10 +10,23 @@ brew install node
 # 5 install cordova
 npm install -g cordova
 # 6 install atome server
-gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh -N
 gem install roda -v 2.26 -N
 bundle update
 bundle install
+
+auto install script :
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+export PATH="/usr/local/bin:$PATH"
+    brew install node
+    brew install git
+    npm install cordova
+    \curl -sSL https://get.rvm.io | bash
+    source /Users/jeezs/.rvm/scripts/rvm
+    rvm reload
+    vm install 2.7
+    rvm use 2.7 --default
+    gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket  websocket-extensions websocket-driver puma rack uglifier net-ssh --N
 
 
 #on windows
@@ -26,7 +39,8 @@ test installation by typing:
 ruby -v
 
 install the gems
-gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma opal uglifier -N
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh -N
+gem install roda -v 2.26 -N
 test installation by typing:
 gem list
 

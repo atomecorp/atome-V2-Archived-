@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 # atome object and apis below
 class Atome
-  # @@default_components = {display: :local, language: :english, renderer: :zim}
-  @@atomes_to_display = []
-  # @@visual_types's key is the name of type, the value is the associated preset for the type
-  @@visual_types = {shape: :box, image: :logo, text: :lorem}
-  @@types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo}.merge(@@visual_types)
-  # @@presets's key is the preset name, the value is the content of the presets
-  @@presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
-  @@default_visuals = {x: [0], y: [0], width: [100], height: [300], color: [:black]}
+
+
   @@definition_order = %i[type preset content]
   @@atomes = {}
 
@@ -35,18 +29,18 @@ class Atome
         end
       elsif option.class == Symbol || option.class == String
         # if it's a symbol or a string whe try to find if the user send a preset otr a type
-        if @@presets.include?(option)
+        if Proton.presets.include?(option)
           # so it's a preset we seach for its type
           preset = {}
           type = {}
           preset[:preset] = option
-          type[:type] = @@types.key(option)
+          type[:type] = Proton.types.key(option)
           options = [preset, type]
-        elsif @@types.include?(option)
+        elsif Proton.types.include?(option)
           # so it's a type we seach for its preset
           preset = {}
           type = {type: option}
-          preset[:preset] = @@types[option]
+          preset[:preset] = Proton.types[option]
           options = [type, preset]
         end
       end
@@ -67,11 +61,11 @@ class Atome
     options ||= []
     # if the user submit only a string or symbol instaed of he hash we have to create a simple object and find either the associated preset from type or the type from its preset
     if options.class == Symbol || options.class == String
-      @@types.each do |type|
+      Proton.types.each do |type|
         if type[0].to_sym == options.to_sym
           @atome_initial_state << {type: options}
         elsif type[1].to_sym == options.to_sym
-          type = @@types.key(options)
+          type = Proton.types.key(options)
           @atome_initial_state << {type: type}
           @atome_initial_state << {preset: options}
         end
@@ -103,10 +97,10 @@ class Atome
       @atome_initial_state.unshift(id: id)
     end
     if create_atome_id
-      @atome_initial_state.unshift(atome_id: atome_properties[:atome_id])
+      @atome_initial_state.unshift(atome_id: Proton.atome_properties[:atome_id])
     end
     unless renderer_define
-      @atome_initial_state << {renderer: atome_properties[:renderer]}
+      @atome_initial_state << {renderer: Proton.atome_properties[:renderer]}
     end
     @atome_initial_state.each do |atomes|
       set(atomes)
@@ -120,7 +114,7 @@ class Atome
 
   # we define all Atome's methods below with a bit of metaprogramming, methods ending with a s will be treated as batch for set, add, enhance and delete methods  or return an array for the getter method
   # All methods exept the getter mehod end up using the set method to add a modify a prop. ex : if the add method call the set methnod just changing the @add variable, so the set method accumulate prop instead of replacing it
-  atome_methods.each do |property_fct|
+  Proton.atome_methods.each do |property_fct|
     define_method(property_fct) do |*options, &proc|
       if proc
         #todo : important keep old code below and maybe add a condition if the property_fct is an event
@@ -490,7 +484,7 @@ class Atome
 
 
   def self.presets
-    return  @@presets
+    return  Proton.presets
   end
 
 end
