@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 # atome object and apis below
 class Atome
-
-
   @@definition_order = %i[type preset content]
   @@atomes = {}
-
   @@black_hole = [] # deleted atomes
   @@project_displayed = 'project_0'
   @@buffer = []
-
   def initialize(*options)
     create_atome_id = true
     create_id = true
@@ -97,10 +93,12 @@ class Atome
       @atome_initial_state.unshift(id: id)
     end
     if create_atome_id
-      @atome_initial_state.unshift(atome_id: Proton.atome_properties[:atome_id])
+      #atome_id generation here
+      atome_id=object_id
+      @atome_initial_state.unshift(atome_id: atome_id)
     end
     unless renderer_define
-      @atome_initial_state << {renderer: Proton.atome_properties[:renderer]}
+      @atome_initial_state << {renderer: Proton.properties[:renderer]}
     end
     @atome_initial_state.each do |atomes|
       set(atomes)

@@ -1,11 +1,11 @@
 content = <<EOT
-clear
 run
 read "atome/atome.rb"
 clear(:ide)
+
 EOT
 
-puts "ready!!!!!!!"
+#puts "ready!!!!!!!"
 write content
 open_ide(:true)
 open_console(:true)

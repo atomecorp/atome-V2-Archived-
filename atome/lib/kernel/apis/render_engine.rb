@@ -44,10 +44,10 @@ class Render_engine
     end
   end
 
-  def self.render(object_id)
+  def self.render(atome_id)
     # after a bit of analysis we send the result to the different render engines
     if class_exists?(:Atome)
-      atome = Atome.atomes[object_id.to_s]
+      atome = Atome.atomes[atome_id.to_s]
       atome = atome.to_array
       atome.each do |props|
         if props.class == Array
