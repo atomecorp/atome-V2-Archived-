@@ -3,7 +3,7 @@
 
 module Proton
   def self.properties
-    properties = {atome_id: :xxxxxxx, id: :my_object, preset: :default, touch: :hello, content: :lorem, color: :gray, x: 0, y: 0, z: 0, width: 100, height: 100, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}
+    properties = {atome_id: :xxxxxxx, id: :my_object, preset: :default,touch: :hello, content: :lorem, color: :black, x: 0, y: 0, z: 0, width: 100, height: 100, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}
   end
 
   def self.atome_methods
@@ -34,13 +34,12 @@ module Proton
   end
 
   def self.default_visuals
-    default_visuals = {x: [0], y: [0], width: [100], height: [300], color: [:black]}
+    default_visuals={}
+    visuals_presets=[:x,:y,:width,:height,:color]
+    visuals_presets.each do |visual_property|
+      default_visuals[visual_property] =  properties[visual_property]
+    end
+    return default_visuals
   end
 
 end
-
-
-## @@default_components = {display: :local, language: :english, renderer: :zim}
-##@@atomes_to_display = []
-#puts Proton.properties.class
-#puts atome_properties.class

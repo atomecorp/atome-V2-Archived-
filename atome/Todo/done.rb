@@ -1,5 +1,9 @@
 
 task_done =<<Strdelim
+- temporary methods to change font size of sytem object :
+  exemple:
+        Console.text(25)
+        Ide.text(25)
 - creating Automatic unit-test
         location : wwww/utils/tests/unit_test.rb
         added 28/01/2020

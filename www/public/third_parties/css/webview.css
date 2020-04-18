@@ -9,13 +9,12 @@ html, body {
     font-size: 12px;
     margin: 0px;
     padding: 0px;
-    background: rgba(43, 43, 43, 1);
+    background: rgba(120, 43, 43, 1);
     overflow: hidden;
 }
 
 
-
-#html_view{
+#html_view {
     left: 0px;
     right: 0px;
     top: 0px;
@@ -24,6 +23,7 @@ html, body {
     position: absolute;
     display: block;
     overflow: hidden;
+    font-size: 25px;
 }
 
 #zim_canvas {
@@ -34,7 +34,6 @@ html, body {
 #ide_container {
     display: none;
     /* box-shadow: 0px 0px 9px rgba(255,0,0,0.7) inset; */
-    background-color: orange;
     position: absolute;
     width: 100%;
     left: 0px;

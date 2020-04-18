@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # atome object and apis below
 class Atome
-  @@definition_order = %i[type preset content]
+  #@@definition_order = %i[type preset content]
   @@atomes = {}
   @@black_hole = [] # deleted atomes
   @@project_displayed = 'project_0'
@@ -25,20 +25,21 @@ class Atome
         end
       elsif option.class == Symbol || option.class == String
         # if it's a symbol or a string whe try to find if the user send a preset otr a type
-        if Proton.presets.include?(option)
-          # so it's a preset we seach for its type
-          preset = {}
-          type = {}
-          preset[:preset] = option
-          type[:type] = Proton.types.key(option)
-          options = [preset, type]
-        elsif Proton.types.include?(option)
-          # so it's a type we seach for its preset
-          preset = {}
-          type = {type: option}
-          preset[:preset] = Proton.types[option]
-          options = [type, preset]
-        end
+        #:todo buggy code below must be re work
+        #if Proton.presets.include?(option)
+        #  # so it's a preset we seach for its type
+        #  preset = {}
+        #  type = {}
+        #  preset[:preset] = option
+        #  type[:type] = Proton.types.key(option)
+        #  options = [preset, type]
+        #elsif Proton.types.include?(option)
+        #  # so it's a type we seach for its preset
+        #  preset = {}
+        #  type = {type: option}
+        #  preset[:preset] = Proton.types[option]
+        #  options = [type, preset]
+        #end
       end
     end
     item_to_delete.each do |item|
@@ -245,7 +246,6 @@ class Atome
         # Attention here we have to find if the type of the atome correspond to the property requested !!
         props.each do |atome|
           next unless atome.class == Hash
-
           if atome.keys[0] == :type && atome.values[0] == property
             found_prop << props
           end

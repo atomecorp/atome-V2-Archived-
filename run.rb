@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 puts "rename opal-parser to opal-utils and move opal parser"
 puts " default to headless for rspec compatibility"

@@ -20,14 +20,14 @@ end
 opal_utils  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
 api = Dir['atome/lib/kernel/apis/*.rb']
-render_engine = Dir['atome/lib/kernel/apis/render_engine.rb']
+photon = Dir['atome/lib/kernel/photon.rb']
 render_engines = Dir['atome_abstraction_layer/render_engines/*.rb']
-proton = Dir['atome/lib/kernel/core/proton.rb']
-atome = Dir['atome/lib/kernel/core/atome.rb']
-electron = Dir['atome/lib/kernel/core/electron.rb']
-neutron = Dir['atome/lib/kernel/core/neutron.rb']
+proton = Dir['atome/lib/kernel/proton.rb']
+atome = Dir['atome/lib/kernel/atome.rb']
+electron = Dir['atome/lib/kernel/electron.rb']
+neutron = Dir['atome/lib/kernel/neutron.rb']
 init = Dir['atome/tests/kickstart_test.rb']
-kernel = opal_utils.concat(core_ext).concat(api).concat(proton).concat(neutron).concat(render_engine).concat(render_engines).concat(atome).concat(electron).concat(init)
+kernel = opal_utils.concat(core_ext).concat(api).concat(proton).concat(neutron).concat(photon).concat(render_engines).concat(atome).concat(electron).concat(init)
 
 join_files kernel, 'www/public/atome/atome.rb'
 

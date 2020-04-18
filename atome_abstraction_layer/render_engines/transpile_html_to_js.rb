@@ -21,9 +21,6 @@ module Html
     end
   end
 
-  def initialize(*val)
-    ;
-  end
 
   def self.init(properties, atome_id)
     properties.each do |property|

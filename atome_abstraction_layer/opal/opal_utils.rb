@@ -1,6 +1,10 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+################### temp methods ##############
+
+#todo puts opal utils in a module
+
 def send_to_get_proc_content(proc)
   #puts proc
   lines = JS.get_proc_content(proc)
@@ -47,6 +51,16 @@ def to_js(fct, val)
   val = val.gsub('"', '\"')
   js = fct + '("' + val + '")'
   `eval(#{js})`
+end
+
+def ide_text_size size
+  puts "size is : #{size}"
+
+  `$(".CodeMirror ").css("font-size",#{size}+"px");`
+end
+
+def console_text_size size
+  `$("#ruby_console ").css("font-size",#{size}+"px");`
 end
 
 

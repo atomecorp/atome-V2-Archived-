@@ -73,7 +73,6 @@ else
   Number = Integer
 end
 
-
 def class_exists?(class_name)
   klass = Module.const_get(class_name)
   return true

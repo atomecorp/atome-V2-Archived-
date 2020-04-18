@@ -3,37 +3,40 @@ var html = {
         switch (param) {
             case 'box':
                 if (!document.getElementById(atome_id)) {
-                    $('#html_view').append("<" + param + " id=" + atome_id + " style='width:100px;height:100px;position:absolute;color:red;background-color:orange;display:block'></" + param + ">");
+                    $('#html_view').append("<" + param + " id=" + atome_id + " style='display:block'></" + param + ">");
                 }
                 break;
             case 'text':
                 if (!document.getElementById(atome_id)) {
-                    $('#html_view').append("<label contenteditable=\"true\" id=" + atome_id + " style='font-size:37px;outline: none; -webkit-user-select: text;-khtml-user-select: text;-moz-user-select: text;-o-user-select: text; user-select: text;position:absolute;color:red;display:block'>text to replace</label>");
+                    $('#html_view').append("<label contenteditable=\"true\" id=" + atome_id + " style='outline: none; -webkit-user-select: text;-khtml-user-select: text;-moz-user-select: text;-o-user-select: text; user-select: text;position:absolute;display:block'>text to replace</label>");
 
                 }
             // <label contenteditable="true">Exemple</label>
-                console.log('text is div + text');
+            //     console.log('text is div + text');
                 break;
             case 'circle':
-                console.log('circle is div');
-                // expected output: "Mangoes and papayas are $2.79 a pound."
+                // console.log('circle is div');
                 break;
             default:
-                console.log('Sorry, we are out of ' + expr + '.');
+                //console.log('Sorry, we are out of ' + expr + '.');
         }
 
     },
 
-    color: function (color, atome_id) {
-        document.getElementById(atome_id).style.backgroundColor = color;
-
+    color: function (value, atome_id) {
+      var  objectType= Opal.Object.$grab(atome_id).$type();
+       if (objectType== "text"){
+           document.getElementById(atome_id).style.color = value;
+       }
+       else {
+           document.getElementById(atome_id).style.backgroundColor = value;
+       }
     },
 
     content: function (value, atome_id) {
         document.getElementById(atome_id).innerText = value ;
 
     },
-
 
     x: function (value, atome_id) {
         var x_position = document.getElementById(atome_id);
@@ -60,9 +63,13 @@ var html = {
     height: function (value, atome_id) {
         document.getElementById(atome_id).style.height = value + "px";
     },
+
     type: function (value, atome_id) {
+
+        // console.log(value);
         // document.getElementById(atome_id).style.height = value;
     },
+
     shadow: function (shadow_x, shadow_y, blur_radius, spread_radius, atome_id, color) {
         shadow_x = 0;
         shadow_y = 0;
@@ -77,6 +84,7 @@ var html = {
         border_style = ['none', 'dotted', 'inset', 'solid'];
         document.getElementById(atome_id).style.border = width_border + 'px ' + border_style + ' ' + color;
     },
+
     touch: function (value, atome_id) {
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
@@ -104,8 +112,12 @@ var html = {
                     }
                 },
                 drag: function () {
-                    Opal.Object.$replace("get(\"" + id + "\").x(" + parseInt(document.getElementById(atome_id).style.left) + ")", x_def_pos);
-                    Opal.Object.$replace("get(\"" + id + "\").y(" + parseInt(document.getElementById(atome_id).style.top) + ")", y_def_pos);
+                    x_position=parseInt(document.getElementById(atome_id).style.left);
+                    y_position=parseInt(document.getElementById(atome_id).style.top);
+                    Opal.Object.$replace("get(\"" + id + "\").x(" + x_position + ")", x_def_pos);
+                    Opal.Object.$replace("get(\"" + id + "\").y(" + y_position + ")", y_def_pos);
+                    // Opal.Object.$grab(atome_id).$x=x_position;
+                    // Opal.Object.$grab(atome_id).$y=y_position;
 //Opal.Object.$grab(#{id}).x(x_def_pos);
 //Opal.Object.$grab(#{id}).y(y_def_pos);
                 },

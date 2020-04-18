@@ -1,6 +1,10 @@
 todo =<<StrDelim
 todo:
-
+- font)size exemple : (problem of confusion betwwen lines and letters)
+  t=text("hello")
+  t.width=50
+  t.childrens({scale: :50})
+- puts opal utils in a module
 - create a series of default scripts install at first launch of eVe, with optional "run at boot time" for some of them
 - create a developer mode to allow "eVe made by eVe" : the add  source code and install it in client ressources at first launch of the app
 - save files to icloud ion iOS

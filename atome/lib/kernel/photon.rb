@@ -38,14 +38,14 @@ class Render_engine
             atome_to_render << prop
           end
         end
-        # here we send the atome and its id to the renderer
+        # here we send the atome and its id to the transpil render engine
         constantize(render_engine).init(atome_to_render, atome_id)
       end
     end
   end
 
   def self.render(atome_id)
-    # after a bit of analysis we send the result to the different render engines
+    # after a bit of analysis we send the result to the differents render engines
     if class_exists?(:Atome)
       atome = Atome.atomes[atome_id.to_s]
       atome = atome.to_array
