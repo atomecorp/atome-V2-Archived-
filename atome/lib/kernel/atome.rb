@@ -491,6 +491,6 @@ class Atome
   end
 
   def self.version
-    return "v:0.02"
+    return "v:0.03"
   end
 end

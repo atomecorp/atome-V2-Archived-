@@ -1,5 +1,11 @@
 todo =<<StrDelim
-todo:
+todo- maybe add a third item (option) to all properties to allow link with ratio and also touch with option 
+- add event callback when drag
+- create and better edit mode ( ediatble so dragged item and text modification only  generated code when in edit mode)
+- link size by default ratio  link(text.x, text.y, ratio) 
+-  bug when box param is a hash : ex box({color: :red, x: 200})
+- drag only generate code if editable is on
+-  text param to_s in case of integer
 - font)size exemple : (problem of confusion betwwen lines and letters)
   t=text("hello")
   t.width=50
