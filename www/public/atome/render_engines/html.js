@@ -11,31 +11,29 @@ var html = {
                     $('#html_view').append("<label contenteditable=\"true\" id=" + atome_id + " style='outline: none; -webkit-user-select: text;-khtml-user-select: text;-moz-user-select: text;-o-user-select: text; user-select: text;position:absolute;display:block'>text to replace</label>");
 
                 }
-            // <label contenteditable="true">Exemple</label>
-            //     console.log('text is div + text');
+                // <label contenteditable="true">Exemple</label>
+                //     console.log('text is div + text');
                 break;
             case 'circle':
                 // console.log('circle is div');
                 break;
             default:
-                //console.log('Sorry, we are out of ' + expr + '.');
+            //console.log('Sorry, we are out of ' + expr + '.');
         }
 
     },
 
     color: function (value, atome_id) {
-      var  objectType= Opal.Object.$grab(atome_id).$type();
-       if (objectType== "text"){
-           document.getElementById(atome_id).style.color = value;
-       }
-       else {
-           document.getElementById(atome_id).style.backgroundColor = value;
-       }
+        var objectType = Opal.Object.$grab(atome_id).$type();
+        if (objectType == "text") {
+            document.getElementById(atome_id).style.color = value;
+        } else {
+            document.getElementById(atome_id).style.backgroundColor = value;
+        }
     },
 
     content: function (value, atome_id) {
-        document.getElementById(atome_id).innerText = value ;
-
+        document.getElementById(atome_id).innerText = value;
     },
 
     x: function (value, atome_id) {
@@ -85,57 +83,82 @@ var html = {
     },
 
     /////////////// events
-    editable: function (value, atome_id) {
-        alert("editable");
-        // $("#" + atome_id).unbind("click");
-        // $("#" + atome_id).click(function () {
-        //     x_position=parseInt(document.getElementById(atome_id).style.left);
-        //     Opal.Object.$trig(atome_id);
-        // });
+    key: function (value, atome_id) {
+alert("we have to create the proc")
+
+        $("#" + atome_id).keyup(function () {
+            Opal.Object.$trig(atome_id);
+
+        });
     },
 
+    find_property_declaration_in_ide: function (value, property, id) {
+        search_content = "get(\"" + id + "\")." + property;
+        code = editor.getDoc().getValue("\n");
+        code_lines = code.split("\n");
+        nb_of_lines = code_lines.length;
+        var lastItem = code_lines.pop();
+        // if the last line is fill then we must add a new line
+        if (lastItem !=""){
+            Opal.Object.$replace("", nb_of_lines);
+        }
+        found_pos = Opal.Object.$find(code, search_content);
+        return found_pos;
+    },
+    insert_in_ide: function (value, property,find_property_declaration_position, id) {
+        Opal.Object.$replace("get(\"" + id + "\")."+property+"(\"" + value + "\")", find_property_declaration_position);
+    },
+    editable: function (value, atome_id) {
+
+        $("#" + atome_id).keyup(function () {
+            var id = Opal.Object.$grab(atome_id).$id();
+            var text_found = document.getElementById(atome_id).innerText;
+            content_property_declaration_position=html.find_property_declaration_in_ide(text_found, "content", id);
+            html.insert_in_ide(text_found, "content",content_property_declaration_position, id);
+        });
+
+    },
 
     touch: function (value, atome_id) {
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
-            x_position=parseInt(document.getElementById(atome_id).style.left);
+            x_position = parseInt(document.getElementById(atome_id).style.left);
             Opal.Object.$trig(atome_id);
         });
     },
 
-    draggable: function (value, atome_id, id) {
-
+    draggable: function (value, atome_id) {
+        var id = Opal.Object.$grab(atome_id).$id();
         if (value == "true") {
             $("#" + atome_id).draggable({
                 start: function () {
-                    search_x = "get(\"" + id + "\").x";
-                    search_y = "get(\"" + id + "\").y";
-                    code = editor.getDoc().getValue("\n");
-// we add a line if the last line is not empty
-                    code_lines = code.split("\n");
-                    code_length = code_lines.length;
-                    last_line = code_lines[code_length - 1];
-                    x_def_pos = Opal.Object.$find(code, search_x);
-                    Opal.Object.$replace("", code_length);
-                    y_def_pos = Opal.Object.$find(code, search_y);
-                    if (x_def_pos == y_def_pos) {
-                        y_def_pos = y_def_pos + 1;
-                    }
+                    x_position = parseInt(document.getElementById(atome_id).style.left);
+                    x_property_declaration_position=html.find_property_declaration_in_ide(x_position, "x", id);
+                    html.insert_in_ide(x_position, "x",x_property_declaration_position, id);
+
+                    y_position = parseInt(document.getElementById(atome_id).style.top);
+                    y_property_declaration_position=html.find_property_declaration_in_ide(y_position, "y", id);
+                    html.insert_in_ide(y_position, "y",y_property_declaration_position, id);
+                    Opal.Object.$opal_setter(atome_id, "x", x_position);
+                    Opal.Object.$opal_setter(atome_id, "y", y_position);
                 },
                 drag: function () {
-                    x_position=parseInt(document.getElementById(atome_id).style.left);
-                    y_position=parseInt(document.getElementById(atome_id).style.top);
-                    Opal.Object.$replace("get(\"" + id + "\").x(" + x_position + ")", x_def_pos);
-                    Opal.Object.$replace("get(\"" + id + "\").y(" + y_position + ")", y_def_pos);
+                    x_position = parseInt(document.getElementById(atome_id).style.left);
+                    x_property_declaration_position=html.find_property_declaration_in_ide(x_position, "x", id);
+                    html.insert_in_ide(x_position, "x",x_property_declaration_position, id);
+
+                    y_position = parseInt(document.getElementById(atome_id).style.top);
+                    y_property_declaration_position=html.find_property_declaration_in_ide(y_position, "y", id);
+                    html.insert_in_ide(y_position, "y",y_property_declaration_position, id);
                     Opal.Object.$opal_setter(atome_id, "x", x_position);
                     Opal.Object.$opal_setter(atome_id, "y", y_position);
 
                 },
                 stop: function () {
-                    x_position=parseInt(document.getElementById(atome_id).style.left);
-                    y_position=parseInt(document.getElementById(atome_id).style.top);
-                    Opal.Object.$replace("get(\"" + id + "\").x(" + x_position + ")", x_def_pos);
-                    Opal.Object.$replace("get(\"" + id + "\").y(" + y_position + ")", y_def_pos);
+                    x_position = parseInt(document.getElementById(atome_id).style.left);
+                    y_position = parseInt(document.getElementById(atome_id).style.top);
+                    html.insert_in_ide(x_position, "x",x_property_declaration_position, id);
+                    html.insert_in_ide(y_position, "y",y_property_declaration_position, id);
                     Opal.Object.$opal_setter(atome_id, "x", x_position);
                     Opal.Object.$opal_setter(atome_id, "y", y_position);
                 }
@@ -145,6 +168,6 @@ var html = {
         } else {
             $("#" + atome_id + "").draggable('disable');
         }
-    }
+    },
 
 };

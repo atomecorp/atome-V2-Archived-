@@ -80,15 +80,13 @@ EOT
 
 content = <<EOT
 run
+t=text("lkjlk")
+t.editable(:true)
 b=box()
-
-b.draggable=:true
-
-b.touch do
-
-  b.color= :red
-
+b.touch do 
+b.color=:red
 end
+b.draggable(:true)
 EOT
 
 write content

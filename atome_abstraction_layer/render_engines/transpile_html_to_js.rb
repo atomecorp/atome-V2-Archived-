@@ -6,21 +6,9 @@ module Html
   #atome_methods=[:color,:width]
   Proton.atome_methods.each do |property_fct|
     self.define_singleton_method(property_fct) do |param, atome_id, &proc|
-      #if property_fct==:preset
-      #  param = :div if param.to_sym == :box
-      #  param = :div if param.to_sym == :box
-      #end
-      if  property_fct==:draggable
-        atome_id = atome_id.to_s
-        id = Atome.atomes[atome_id].id
-        JS.opalizer("html."+property_fct,param,atome_id, id)
-
-      else
-        JS.opalizer("html."+property_fct,param,atome_id, id="")
-      end
+      JS.opalizer("html."+property_fct,param,atome_id)
     end
   end
-
 
   def self.init(properties, atome_id)
     properties.each do |property|

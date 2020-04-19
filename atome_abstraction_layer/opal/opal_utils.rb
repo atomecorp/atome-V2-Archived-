@@ -428,16 +428,16 @@ def sanitizer(string)
 end
 
 
-def find(script, string)
-  script = script.split("\n")
-  line_nb = nil
-  script.each_with_index do |line, index|
-    line = line.gsub("'", '"')
-    line_nb = index if line.include? string
-  end
-  line_nb = script.length + 1 if line_nb.nil?
-  line_nb
-end
+#def find(script, string)
+#  script = script.split("\n")
+#  line_nb = nil
+#  script.each_with_index do |line, index|
+#    line = line.gsub("'", '"')
+#    line_nb = index if line.include? string
+#  end
+#  line_nb = script.length + 1 if line_nb.nil?
+#  line_nb
+#end
 
 def replace(content, line)
   `editor.replaceRange(#{content}+"\n", CodeMirror.Pos(#{line},0) , CodeMirror.Pos(#{line + 1},0))`

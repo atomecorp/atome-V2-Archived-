@@ -96,7 +96,7 @@ class Atome
     end
     if create_atome_id
       #atome_id generation here
-      atome_id=object_id
+      atome_id = object_id
       @atome_initial_state.unshift(atome_id: atome_id)
     end
     unless renderer_define
@@ -264,7 +264,7 @@ class Atome
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the corresponding value ex: - puts a.color => :black
-        Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
+      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
 
@@ -479,9 +479,15 @@ class Atome
     @@properties
   end
 
+  def methods
+    Proton.atome_methods
+  end
 
+  def self.methods
+    Proton.atome_methods
+  end
   def self.presets
-    return  Proton.presets
+    return Proton.presets
   end
 
 end

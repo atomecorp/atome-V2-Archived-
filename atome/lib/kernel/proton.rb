@@ -3,7 +3,7 @@
 # proton provide namespaced methods used mainly by the atome obejct but also by abastraction layer and end users
 module Proton
   def self.properties
-    properties = {atome_id: :xxxxxxx, id: :my_object, preset: :default,touch: :hello, content: :lorem, color: :black, x: 0, y: 0, z: 0, width: 100, height: 100, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}
+    properties = {atome_id: :xxxxxxx,key: :false, id: :my_object, preset: :default,touch: :hello, content: :lorem, color: :black, x: 0, y: 0, z: 0, width: 100, height: 100, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}
   end
 
   def self.atome_methods
@@ -23,14 +23,11 @@ module Proton
 
   def self.types
     types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo}.merge(visual_types)
-
   end
 
   def self.presets
-    ##presets's key is the preset name, the value is the content of the presets
-
+    #presets's key is the preset name, the value is the content of the presets
   presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
-
   end
 
   def self.default_visuals
