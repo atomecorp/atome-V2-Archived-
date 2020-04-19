@@ -7,7 +7,7 @@ require 'uglifier'
 
 #we erase rb test files
 atome_source = File.open('www/public/atome/atome.rb', 'w')
-atome_source.puts "#code compiled erased"
+atome_source.puts "#code source erased"
 atome_source.close
 
 if !ARGV.empty?

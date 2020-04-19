@@ -1,5 +1,5 @@
 # here is alll methods that fazcilitate the atome creation
-
+#electron  provide public methods for end users that simplify atome creation
 def box(options)
   obj_prop= Proton.default_visuals
   obj_prop[:type]=:shape

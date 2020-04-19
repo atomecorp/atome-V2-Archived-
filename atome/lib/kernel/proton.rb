@@ -1,6 +1,6 @@
 # here is alll methods that facilitate the atome creation
 # frozen_string_literal: true
-
+# proton provide namespaced methods used mainly by the atome obejct but also by abastraction layer and end users
 module Proton
   def self.properties
     properties = {atome_id: :xxxxxxx, id: :my_object, preset: :default,touch: :hello, content: :lorem, color: :black, x: 0, y: 0, z: 0, width: 100, height: 100, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}

@@ -452,3 +452,14 @@ class Context
     return Ruby_Opal
   end
 end
+
+
+def opal_setter(atome_id, property, value)
+  puts "atome id is #{atome_id}, property #{property}, value is #{value}"
+  atomes = Atome.atomes
+  atomes.each do |_id, atome|
+    if atome.atome_id == atome_id
+       atome.send( property, value)
+    end
+  end
+end

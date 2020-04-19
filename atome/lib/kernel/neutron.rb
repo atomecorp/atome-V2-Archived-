@@ -1,7 +1,7 @@
 #here is all general mthods helper for atomes
 
 # frozen_string_literal: true
-
+#neutron provide public methods used both by end users and needed by the atome object
 def trig atome_id
   atomes = Atome.atomes
   atomes.each do |_id, atome|
@@ -17,6 +17,7 @@ def grab(atome_id)
     return atome if atome.atome_id == atome_id
   end
 end
+
 
 def get(id)
   atomes = Atome.atomes

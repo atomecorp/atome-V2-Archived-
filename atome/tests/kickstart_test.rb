@@ -56,16 +56,41 @@ t=text("salut !!")
 t.x=250
 EOT
 
-#content = <<EOT
-#clear
-#run
-#read "atome/atome.rb"
-#EOT
+content = <<EOT
+b=box()
+#b.x=300
 
+#b.x=40
+b.draggable=:true
+i=0
+b.touch do 
+  clear
+  b.color= :red
+
+  puts i=i+1
+  puts b
+puts "x : "+(b.x).to_s
+get("shape_0").x(102)
+get("shape_0").y(49)
+end
+clear
+
+
+EOT
+
+content = <<EOT
+run
+b=box()
+
+b.draggable=:true
+
+b.touch do
+
+  b.color= :red
+
+end
+EOT
 
 write content
-#read "atome/atome.rb"
-#open_ide(:true)
-#open_console(:true)
-#auto_run
+
 

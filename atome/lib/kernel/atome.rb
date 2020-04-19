@@ -5,6 +5,8 @@ class Atome
   @@atomes = {}
   @@black_hole = [] # deleted atomes
   @@buffer = []
+  attr_reader :atome
+
   def initialize(*options)
     create_atome_id = true
     create_id = true
@@ -105,7 +107,6 @@ class Atome
     end
   end
 
-
   def class_exec proc
     instance_eval(&proc)
   end
@@ -124,6 +125,7 @@ class Atome
         else
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
+          puts "property_fct #{property_fct} => options #{options}}"
           set({property_fct => options})
         end
       end
@@ -261,8 +263,8 @@ class Atome
     elsif property == :touch
       return found_prop[found_prop.length - 1]
     else
-      # Here we create an atome to allow getter properties to respond to methods then return the correponding value ex: - puts a.color => :black
-      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
+      # Here we create an atome to allow getter properties to respond to methods then return the corresponding value ex: - puts a.color => :black
+        Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
 
@@ -459,8 +461,6 @@ class Atome
   def self.atomes
     @@atomes
   end
-
-  attr_reader :atome
 
   def nuke
     @@atomes = {}

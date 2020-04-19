@@ -59,7 +59,6 @@ var html = {
 
     },
 
-
     height: function (value, atome_id) {
         document.getElementById(atome_id).style.height = value + "px";
     },
@@ -85,9 +84,21 @@ var html = {
         document.getElementById(atome_id).style.border = width_border + 'px ' + border_style + ' ' + color;
     },
 
+    /////////////// events
+    editable: function (value, atome_id) {
+        alert("editable");
+        // $("#" + atome_id).unbind("click");
+        // $("#" + atome_id).click(function () {
+        //     x_position=parseInt(document.getElementById(atome_id).style.left);
+        //     Opal.Object.$trig(atome_id);
+        // });
+    },
+
+
     touch: function (value, atome_id) {
         $("#" + atome_id).unbind("click");
         $("#" + atome_id).click(function () {
+            x_position=parseInt(document.getElementById(atome_id).style.left);
             Opal.Object.$trig(atome_id);
         });
     },
@@ -116,16 +127,17 @@ var html = {
                     y_position=parseInt(document.getElementById(atome_id).style.top);
                     Opal.Object.$replace("get(\"" + id + "\").x(" + x_position + ")", x_def_pos);
                     Opal.Object.$replace("get(\"" + id + "\").y(" + y_position + ")", y_def_pos);
-                    // Opal.Object.$grab(atome_id).$x=x_position;
-                    // Opal.Object.$grab(atome_id).$y=y_position;
-//Opal.Object.$grab(#{id}).x(x_def_pos);
-//Opal.Object.$grab(#{id}).y(y_def_pos);
+                    Opal.Object.$opal_setter(atome_id, "x", x_position);
+                    Opal.Object.$opal_setter(atome_id, "y", y_position);
+
                 },
                 stop: function () {
                     x_position=parseInt(document.getElementById(atome_id).style.left);
                     y_position=parseInt(document.getElementById(atome_id).style.top);
                     Opal.Object.$replace("get(\"" + id + "\").x(" + x_position + ")", x_def_pos);
                     Opal.Object.$replace("get(\"" + id + "\").y(" + y_position + ")", y_def_pos);
+                    Opal.Object.$opal_setter(atome_id, "x", x_position);
+                    Opal.Object.$opal_setter(atome_id, "y", y_position);
                 }
             });
 
