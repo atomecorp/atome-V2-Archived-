@@ -4,7 +4,6 @@ class Atome
   #@@definition_order = %i[type preset content]
   @@atomes = {}
   @@black_hole = [] # deleted atomes
-  @@project_displayed = 'project_0'
   @@buffer = []
   def initialize(*options)
     create_atome_id = true

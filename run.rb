@@ -5,6 +5,10 @@ puts " default to headless for rspec compatibility"
 puts " create an an environement variable that define the environment : web(opal); native(urho3D), this variable will be used to condition files and Apis to load cf : opal-utils  "
 require 'uglifier'
 
+#we erase rb test files
+atome_source = File.open('www/public/atome/atome.rb', 'w')
+atome_source.puts "#code compiled erased"
+atome_source.close
 
 if !ARGV.empty?
   if ARGV[0] == 'server' || ARGV[0] == 'puma'

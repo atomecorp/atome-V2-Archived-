@@ -53,15 +53,13 @@ def to_js(fct, val)
   `eval(#{js})`
 end
 
-def ide_text_size size
-  puts "size is : #{size}"
-
-  `$(".CodeMirror ").css("font-size",#{size}+"px");`
-end
-
-def console_text_size size
-  `$("#ruby_console ").css("font-size",#{size}+"px");`
-end
+#def ide_text_size size
+#  `$(".CodeMirror ").css("font-size",#{size}+"px");`
+#end
+#
+#def console_text_size size
+#  `$("#ruby_console ").css("font-size",#{size}+"px");`
+#end
 
 
 ################## file operation ##############

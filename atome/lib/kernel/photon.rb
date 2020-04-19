@@ -19,7 +19,7 @@ class Render_engine
     else
       if props.keys[0] == :renderer
         render_engine = props.values[0].capitalize
-        # the line below call the render engine, first it turn the value passed (render_engine) into a constant, then caal the init function of the render engine callles
+        # the line below call the render engine, first it turn the value passed (render_engine) into a constant, then call the init function of the render engine callles
         atome.each_with_index do |prop, index|
           if prop.class == Hash
             prop.each do |key, value|
