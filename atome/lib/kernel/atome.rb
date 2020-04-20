@@ -125,7 +125,7 @@ class Atome
         else
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
-          puts "property_fct #{property_fct} => options #{options}}"
+          puts "property_fct (atome.rb line 128 say) #{property_fct} => options #{options}}"
           set({property_fct => options})
         end
       end

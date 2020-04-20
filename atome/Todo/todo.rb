@@ -1,12 +1,17 @@
 todo =<<StrDelim
-todo- maybe add a third item (option) to all properties to allow link with ratio and also touch with option 
+- delete object : a.delete()
+- require to test
+- rotation
+- transparency
+- drag only and text editable only generate code if editable is on
+- check the possiblity to add opal-jquery
+- maybe add a third item (option) to all properties to allow link with ratio and also touch with option 
 - add event callback when drag
 - create and better edit mode ( ediatble so dragged item and text modification only  generated code when in edit mode)
 - link size by default ratio  link(text.x, text.y, ratio) 
 -  bug when box param is a hash : ex box({color: :red, x: 200})
-- drag only generate code if editable is on
 -  text param to_s in case of integer
-- font)size exemple : (problem of confusion betwwen lines and letters)
+- font-size exemple : (problem of confusion betwwen lines and letters)
   t=text("hello")
   t.width=50
   t.childrens({scale: :50})
@@ -16,7 +21,7 @@ todo- maybe add a third item (option) to all properties to allow link with ratio
 - save files to icloud ion iOS
 - check multi prop api ( shadows, border, etc..)
 - debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode 
-- add missing  splashscrens (iPad)
+- add missing splashscrens (iPad)
 - create a fast compile mode for fastest test 
 - write install dev poste on FreeBSD
 - externalise js methods from ruby
