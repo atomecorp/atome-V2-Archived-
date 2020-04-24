@@ -6,15 +6,15 @@ function get_proc_content(proc_send){
 }
 
 
-function opalizer(nameSpace,functionToCall, param, atome_id, id) {
+function opalizer(nameSpace,functionToCall, param, atome_id, add) {
    // console.log("msg from api.js line 10, param: "+param +" "+typeof (param));
 // alert(typeof(param) )
     if (typeof(param)=="function"){
-        window[nameSpace][functionToCall](param,atome_id.toString());
+        window[nameSpace][functionToCall](param,atome_id.toString(), add);
        // eval(functionToCall+"("+param+",'"+atome_id+"')");
     }
     else if (typeof(param)=="object"){
-        window[nameSpace][functionToCall](param,atome_id.toString());
+        window[nameSpace][functionToCall](param,atome_id.toString(), add);
      // var a =  Opal.hash(param[0]).$$keys;
      // var b =  Opal.hash(param[0]);
 

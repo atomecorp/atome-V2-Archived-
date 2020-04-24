@@ -5,7 +5,7 @@ clear(:ide)
 EOT
 
 
-content = <<EOT
+content_test = <<EOT
 run
 a=circle()
 a.blur(20)
@@ -33,7 +33,7 @@ end
 bb=box()
 bb.shadow({color: :black,blur: 5,x: 1, y: 1,  invert: :true})
 bb.draggable(:true)
-bb.color("rgba(30,30,30,1)")
+bb.color("rgba(30,30,30,0.5)")
 t=text("hello folks !!")
 t.color(:yellow)
 t.shadow({color: :black, x: 7, blur: 9})

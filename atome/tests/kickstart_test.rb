@@ -91,6 +91,11 @@ puts b.color(:red)
 clear
 EOT
 
+content = <<EOT
+run
+require :shade
+EOT
+
 write content
 open_ide(:true)
 open_console(:true)

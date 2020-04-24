@@ -68,6 +68,10 @@ var html = {
         document.getElementById(atome_id).style.opacity = value;
     },
 
+    smooth: function (value, atome_id) {
+        document.getElementById(atome_id).style.borderRadius = value+"px";
+    },
+
     blur: function (value, atome_id) {
         document.getElementById(atome_id).style.filter = "blur(" + value + "px)";
     },
@@ -105,7 +109,7 @@ var html = {
     name: function (value, atome_id) {
     },
 
-    shadow: function (value, atome_id) {
+    shadow: function (value, atome_id, add) {
         var x = Opal.Object.$get_hash_value(value, "x");
         var y = Opal.Object.$get_hash_value(value, "y");
         var blur = Opal.Object.$get_hash_value(value, "blur");
@@ -136,14 +140,23 @@ var html = {
         }
 
         var objectType = Opal.Object.$grab(atome_id).$type();
-        if (objectType == "text") {
-           document.getElementById(atome_id).style.textShadow = color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
-            // document.getElementById(atome_id).style.textShadow = "black 3px 3px 10px";
 
-        } else {
-            document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+        if (add==true){
+            if (objectType == "text") {
+                document.getElementById(atome_id).style.textShadow = document.getElementById(atome_id).style.textShadow +","+color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
+            } else {
+                document.getElementById(atome_id).style.boxShadow = document.getElementById(atome_id).style.boxShadow+","+x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+            }
+        }
+        else{
+            if (objectType == "text") {
+                document.getElementById(atome_id).style.textShadow = color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
+            } else {
+                document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+            }
 
         }
+
 
 
     },
@@ -175,6 +188,7 @@ var html = {
     },
 
     find_property_declaration_in_ide: function (value, property, id) {
+        // todo : Attention bug if many empty line at the end of the IDE only the y is written in IDE
         search_content = "get(\"" + id + "\")." + property;
         code = editor.getDoc().getValue("\n");
         code_lines = code.split("\n");
@@ -217,23 +231,22 @@ var html = {
             document.getElementById(atome_id).style.pointerEvents="auto";
             $("#" + atome_id).draggable({
                 start: function () {
+                    // todo : Attention bug if many empty line at the end of the IDE only the y is written in IDE
                     x_position = parseInt(document.getElementById(atome_id).style.left);
-                    x_property_declaration_position = html.find_property_declaration_in_ide(x_position, "x", id);
-                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
-
                     y_position = parseInt(document.getElementById(atome_id).style.top);
-                    y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id);
-                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
+                    x_property_declaration_position = html.find_property_declaration_in_ide(x_position, "x", id);
+                    y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id)
+
+                    html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
+                    html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
+
                     // Opal.Object.$opal_setter(atome_id, "x", x_position);
                     // Opal.Object.$opal_setter(atome_id, "y", y_position);
                 },
                 drag: function () {
                      x_position = parseInt(document.getElementById(atome_id).style.left);
-                    // x_property_declaration_position = html.find_property_declaration_in_ide(x_position, "x", id);
-                    html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
-
                      y_position = parseInt(document.getElementById(atome_id).style.top);
-                    // y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id);
+                    html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
                     //Important $opal_setter may trig an infinite loop tha'ts why it's so slow
                     // Opal.Object.$opal_setter(atome_id, "x", x_position);
@@ -243,8 +256,8 @@ var html = {
                 stop: function () {
                     x_position = parseInt(document.getElementById(atome_id).style.left);
                     y_position = parseInt(document.getElementById(atome_id).style.top);
-                    // html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
-                    // html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
+                    html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
+                    html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
                     Opal.Object.$opal_setter(atome_id, "x", x_position);
                     Opal.Object.$opal_setter(atome_id, "y", y_position);
                 }

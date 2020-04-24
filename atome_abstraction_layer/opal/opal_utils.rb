@@ -99,13 +99,10 @@ end
 
 
 def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false, system_file = false)
-  if fct_to_call.to_sym == :human
-    #Atome.human = filename
-    load :eDen, :set_last_user
-  end
   filename = filename.to_s
   if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
   end
+  puts "msg from opal_utils line 105, filename : #{filename} "
   `
    read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
    `
@@ -147,12 +144,18 @@ def write(content)
   `add_to_ide(#{content})`
 end
 
+def dynamic_code *code
+  puts "msg from opal_utils line 148 code : #{code.length}"
+  puts "msg from opal_utils line 149 code : "+code.to_s
+end
+
+
 
 def deep_analysis(code)
   #for Atome mode only
-  if class_exists?(:Atome)
-    Atome.delete(:code)
-  end
+  #if class_exists?(:Atome)
+  #  Atome.delete(:code)
+  #end
   # we store the whole code in Atome.code
   # we parse code to remove in case of commented require
   code = code.gsub('#require', '#')
@@ -191,7 +194,6 @@ def run_code
     run_script(#{code})
   `
   end
-
   nil
 end
 
