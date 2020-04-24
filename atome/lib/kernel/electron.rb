@@ -159,6 +159,9 @@ a.blur(7)
 a.border({x: 5}, {y: 5}, {thickness: 3}, {color: :green}, {invert: :true})
 #14 shadow thikness color pattern
 a.shadow({thikness: 5}, {color: :green}, {pattern: :dashed})
+#15 Smooth make curve angles
+a.smooth(15)
+
 ######################## events ########################
 #1 touch
 b=text("my text")
