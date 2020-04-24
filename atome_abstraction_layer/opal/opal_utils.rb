@@ -4,6 +4,24 @@
 ################### temp methods ##############
 
 #todo puts opal utils in a module
+#
+#class Opal_apis
+#
+#  def get_hash_val value, property
+#    return value[property]
+#  end
+#
+#end
+
+def get_hash_value prop_array, property
+  prop_found=""
+  prop_array.each do |value|
+    if value.keys[0]==property
+      prop_found= value[property]
+    end
+  end
+  return prop_found
+end
 
 def send_to_get_proc_content(proc)
   #puts proc
@@ -54,11 +72,11 @@ def to_js(fct, val)
 end
 
 def ide_text_size size
-  `$(".CodeMirror ").css("font-size",#{size}+"px");`
+  `$(".CodeMirror ").css("font-size",#{size}+"px")`
 end
 
 def console_text_size size
-  `$("#ruby_console ").css("font-size",#{size}+"px");`
+  `$("#ruby_console ").css("font-size",#{size}+"px")`
 end
 
 
@@ -455,7 +473,7 @@ end
 
 
 def opal_setter(atome_id, property, value)
-  puts "atome id is #{atome_id}, property #{property}, value is #{value}"
+  #puts "msg from opal_utils line 480 : atome id is #{atome_id}, property #{property}, value is #{value}"
   atomes = Atome.atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id

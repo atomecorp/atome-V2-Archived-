@@ -20,7 +20,6 @@ end
 opal_requirement  = Dir['atome_abstraction_layer/opal/opal_requirement.rb']
 opal_utils  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
-api = Dir['atome/lib/kernel/apis/*.rb']
 photon = Dir['atome/lib/kernel/photon.rb']
 render_engines = Dir['atome_abstraction_layer/render_engines/*.rb']
 proton = Dir['atome/lib/kernel/proton.rb']
@@ -28,9 +27,8 @@ atome = Dir['atome/lib/kernel/atome.rb']
 electron = Dir['atome/lib/kernel/electron.rb']
 neutron = Dir['atome/lib/kernel/neutron.rb']
 init = Dir['atome/lib/kickstart.rb']
-kernel = opal_requirement.concat(opal_utils).concat(core_ext).concat(proton).concat(api).concat(neutron).concat(photon).concat(render_engines).concat(atome).concat(electron).concat(init)
+kernel = opal_requirement.concat(opal_utils).concat(core_ext).concat(proton).concat(neutron).concat(photon).concat(render_engines).concat(atome).concat(electron).concat(init)
 
-#we erase rb test files
 atome_source = File.open('www/public/atome/atome.rb', 'w')
 atome_source.puts "#code source erased"
 atome_source.close
@@ -46,6 +44,7 @@ uglified = Uglifier.new(harmony: true).compile(File.read('./www/public/atome/app
 open('./www/public/atome/atome.js', 'w') do |f|
   f.puts uglified
 end
+
 `rm -r ./www/public/atome/app.js`
 
 if !ARGV.empty?

@@ -1,17 +1,31 @@
 todo =<<StrDelim
-- delete object : a.delete()
+- on drag kill touch 
+- add select tag (edit mode activation ?)
+- object ons scene listing
+- script listing
+- get info on touch object 
 - require to test
-- rotation
-- transparency
-- drag only and text editable only generate code if editable is on
+- add event callback when drag
+- drag vs click
+- replace true instead of :true
+- doc to be unified
+- unbind touch and don't forget to set pointer-events to  none;
+- send multiple identical prop to the renderer
+- add tags
+- find to way to get color of an object and compare it with another color (problem with atome object returned)
+- Domotique
+- new project with default name and save
+- animation
+- delete object : a.delete()
+- import medias
+- multiple audio renderer 
 - check the possiblity to add opal-jquery
 - maybe add a third item (option) to all properties to allow link with ratio and also touch with option 
-- add event callback when drag
-- create and better edit mode ( ediatble so dragged item and text modification only  generated code when in edit mode)
+- create and better edit mode (editable so dragged item and text modification only  generated code when in edit mode) drag only and text editable only generate code if editable is on
 - link size by default ratio  link(text.x, text.y, ratio) 
 -  bug when box param is a hash : ex box({color: :red, x: 200})
 -  text param to_s in case of integer
-- font-size exemple : (problem of confusion betwwen lines and letters)
+- font-size example : (problem of confusion betwween lines and letters)
   t=text("hello")
   t.width=50
   t.childrens({scale: :50})
@@ -19,16 +33,13 @@ todo =<<StrDelim
 - create a series of default scripts install at first launch of eVe, with optional "run at boot time" for some of them
 - create a developer mode to allow "eVe made by eVe" : the add  source code and install it in client ressources at first launch of the app
 - save files to icloud ion iOS
-- check multi prop api ( shadows, border, etc..)
-- debug touch position not persistent beacause set in atome Hash: create two behviors one that store (edit mode) one not store consult mode 
+- debug touch position not persistent because set in atome Hash: create two behaviors one that store (edit mode) one not store consult mode 
 - add missing splashscrens (iPad)
-- create a fast compile mode for fastest test 
-- write install dev poste on FreeBSD
 - externalise js methods from ruby
 - debug renderer to make renderer engine choice persistent
 - save to db
 - create user and account
-- debug drag : touch is triggered everytime
+- debug drag : touch is triggered every time
 - create on drag events
 - create events options : down, up 
 - create over events

@@ -107,7 +107,9 @@ class Atome
     end
   end
 
-  def class_exec proc
+  def class_exec proc, event
+    #puts "--------------------------- msg from class_exec in atome line 111 : #{event} ---------------------------"
+    # solution self.current meth event
     instance_eval(&proc)
   end
 
@@ -125,7 +127,6 @@ class Atome
         else
           # here the method call is a setter
           property_fct = property_fct.to_s.chomp('=').to_sym
-          puts "property_fct (atome.rb line 128 say) #{property_fct} => options #{options}}"
           set({property_fct => options})
         end
       end
@@ -139,12 +140,16 @@ class Atome
       instance_exec(&proc)
     else
       properties.each do |props|
-        if props.class == Array
-          # TODO: maybe we have analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
-          props = sanitize_prop(nil, props)
-          insert_properties_in_atome(props)
-          return self
-        end
+        #if props.class == Array
+        #  # TODO: buggy code below maybe never used,anyway we have to analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
+        #  puts "atome line 148 #{props}"
+        #  props = sanitize_prop(nil, props)
+        #  insert_properties_in_atome(props)
+        #  return self
+        #elsif props.class == Hash
+        #  insert_properties_in_atome(props)
+        #  puts "okokokokoko goody"
+        #end
         master_prop = props.keys[0]
         new_values = props.values[0]
         new_values = [new_values] if new_values.class != Array
@@ -253,6 +258,7 @@ class Atome
         end
       end
     end
+    events= Proton.events.keys
     if pluralize
       found_prop
     elsif property == :atome_id || property == :id || property == :label
@@ -260,10 +266,11 @@ class Atome
       #:todo make an exeption list of type that shouldn't return an atome
       found_prop[0].to_s
       # if its an event, todo : create a list of prop of all events,   todo : get content using parser or Opal
-    elsif property == :touch
+    elsif events.include? property ##if the val is an event then we return the prop instead of a an atome object
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the corresponding value ex: - puts a.color => :black
+
       Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
@@ -272,8 +279,8 @@ class Atome
     class_exec(proc)
   end
 
-  def trig proc
-    class_exec(proc)
+  def trig proc , event
+    class_exec(proc, event)
   end
 
   def enhance(*properties)
@@ -401,12 +408,15 @@ class Atome
     # this method is called when a property is added or modified , the insert_properties_in_atome method is call by the set method.
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
-    if properties.values[0].class == Proc
+    if properties.class==Hash && properties.values[0].class == Proc
       proc = properties.values[0]
       proc = send_to_get_proc_content(proc)
-      puts "------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
-      puts proc
+      #----------- todo get proc conetnt here -----------
+      #puts "msg from atome line 416 ------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
+      #puts proc
+      #puts "----------"
     end
+
     @atome << properties
     # now we store the current @atome id in the current @atomes array
     @@atomes[atome_id.to_s] = self
@@ -491,6 +501,6 @@ class Atome
   end
 
   def self.version
-    return "v:0.03"
+    return "v:0.04"
   end
 end

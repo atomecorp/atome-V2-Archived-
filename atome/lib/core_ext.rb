@@ -40,6 +40,7 @@ class Array
 end
 
 def constantize(camel_cased_word)
+  # this method is used to call a class from it's String or symbole name
   names = camel_cased_word.to_s.split('::')
   # Trigger a built-in NameError exception including the ill-formed constant in the message.
   Object.const_get(camel_cased_word) if names.empty?

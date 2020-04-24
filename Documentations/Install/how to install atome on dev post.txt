@@ -10,7 +10,7 @@ brew install node
 # 5 install cordova
 npm install -g cordova
 # 6 install atome server
-gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh -N
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh  opal-query N
 gem install roda -v 2.26 -N
 bundle update
 bundle install
@@ -26,7 +26,7 @@ export PATH="/usr/local/bin:$PATH"
     rvm reload
     vm install 2.7
     rvm use 2.7 --default
-    gem install bundler roda sqlite3 sequel rack-unreloader faye-websocket  websocket-extensions websocket-driver puma rack uglifier net-ssh --N
+    gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh  opal-query N
 
 
 #on windows
@@ -39,7 +39,7 @@ test installation by typing:
 ruby -v
 
 install the gems
-gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh -N
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh  opal-query N
 gem install roda -v 2.26 -N
 test installation by typing:
 gem list
@@ -54,4 +54,19 @@ npm install -g Cordova
 Test installation by typing:
 cordova --version
 
+#on FreeBSD
+pkg install git
 
+gem install bundler sqlite3 sequel rack-unreloader faye-websocket websocket-extensions websocket-driver puma rack opal uglifier net-ssh  opal-query N
+
+pkg install node
+pkg install npm
+
+npm install -g Cordova
+
+
+# test
+cordova create my_app
+cd my_app
+cordova platform add browser
+cordova run browser

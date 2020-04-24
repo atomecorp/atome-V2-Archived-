@@ -5,19 +5,18 @@ ctrl-R #or click on the bar above the code editor
 ctrl-c
 #reformat code (selection only):
 ctrl-j
-#reformat code (all ide code):
+#reformat code (all ide code) :
 ctrl-e
-#open/close the code editor
+#open/close the code editor :
 ctrl-i
-#open/close the console
+#open/close the console :
 ctrl-t
-#clear the console
-ctrl-x #or type clear in the code editor then run
-#activate/desactivate auto run code
+#clear the console :
+ctrl-x #or type clear in the code editor then run :
+#activate/desactivate auto run code :
 ctrl-a
-#reboot
+#reboot :
 ctrl-y
-
 
 ######################## Miscellaneous ########################
 #1 clear console:
@@ -25,9 +24,9 @@ clear
 #2 clear ide :
 clear ide
 #3 save file :
-save :doc
+save :my_script
 #4 load file :
-load :doc
+load :my_script
 #5 get help :
 help
 #6 close the code editor
@@ -80,26 +79,32 @@ a.x(50)
 #6 y
 a=box()
 a.y(250)
-#7 move
+#7 z (object order when in 2D)
+a=box()
+a.z(2)
+#8 move
 a=box()
 a.draggable(:true)
-#7b stop move
+#8b stop move
 a.draggable(:false)
-#8 edit content (texte)
+#9 edit content (texte)
 b=text("my text")
 b.editable(:true)
-#8b stop edit
+#9b stop edit
 b.editable(:false)
-#9 transparency (range 0 to 1)
+#10 transparency (range 0 to 1)
 a=box()
 a.transparency(0.5)
-#10 rotation  (degre)
+#11 rotation  (degre)
 a=box()
 a.rotate(20)
-#11 blur (set in pixels)
+#12 blur (set in pixels)
 a=box()
 a.blur(7)
-
+#13 shadow offset x , offset y, thickness, color, invert(shadow inside object)
+a.border({x: 5}, {y: 5}, {thickness: 3}, {color: :green}, {invert: :true})
+#14 shadow thikness color pattern
+a.shadow({thikness: 5}, {color: :green}, {pattern: :dashed})
 
 ######################## events ########################
 #1 touch
@@ -109,8 +114,4 @@ b.touch do
   b.content("hello")
 end
 #2 drag
-#not implemnetd for now!!
-
-
-
-
+#not implemented for now!!

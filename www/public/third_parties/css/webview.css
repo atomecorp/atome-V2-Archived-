@@ -11,6 +11,7 @@ html, body {
     padding: 0px;
     background: rgba(120, 43, 43, 1);
     overflow: hidden;
+
 }
 
 
@@ -24,10 +25,35 @@ html, body {
     display: block;
     overflow: hidden;
     font-size: 25px;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    -moz-transform: translate3d(0px, 0px, 0px);
+    -ms-transform: translate3d(0px, 0px, 0px);
+    -o-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+
 }
 
 #zim_canvas {
     z-index: 1;
+}
+
+.atomes {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    -moz-transform: translate3d(0px, 0px, 0px);
+    -ms-transform: translate3d(0px, 0px, 0px);
+    -o-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+    overflow: visible;
+    outline: none;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -o-user-select: text;
+    user-select: text;
+    position: absolute;
+    display: block ;
+    pointer-events: none;
+
 }
 
 

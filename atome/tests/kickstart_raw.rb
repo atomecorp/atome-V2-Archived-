@@ -80,21 +80,12 @@ EOT
 
 content = <<EOT
 run
-clear
-b=box()
-b.x=250
-b.drag do |e|
-puts e
-  b.x=200
-end
-puts b.color(:red)
-clear
+load :atome_core
 EOT
+
 
 write content
 open_ide(:true)
 open_console(:true)
 auto_run
-
-
 

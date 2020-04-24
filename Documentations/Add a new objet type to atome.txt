@@ -1,0 +1,16 @@
+How to add a new object type  to atome object:
+1 : in the Proton file add the object type name and it's associated default preset, either in the Proton's self.visual_types if the type of object have a visual represntation or Proton's self.types method if not.
+
+2 - In the Electron file, if you want to create a method that simplify the creation of an object based on default preset. add this method here. ex:
+def circle(options)
+  obj_prop = Proton.default_visuals
+  obj_prop[:type] = :shape
+  # we add the box preset to the default visual
+  obj_prop = Hash[:preset, :circle].merge!(obj_prop)
+  if options
+    atome = Atome.new(obj_prop, options)
+  else
+    atome = Atome.new(obj_prop)
+  end
+  return atome
+end

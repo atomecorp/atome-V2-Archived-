@@ -16,20 +16,36 @@ def join_files(files, target = 'join.text')
 end
 
 # first we get all works file and join them in a new file called all_files.rb
-
+#
+opal_requirement  = Dir['atome_abstraction_layer/opal/opal_requirement.rb']
 opal_utils  = Dir['atome_abstraction_layer/opal/opal_utils.rb']
 core_ext = Dir['atome/lib/core_ext.rb']
-
-photon = Dir['atome/lib/kernel/photon.rb']
-render_engines = Dir['atome_abstraction_layer/render_engines/*.rb']
-proton = Dir['atome/lib/kernel/proton.rb']
-atome = Dir['atome/lib/kernel/atome.rb']
-electron = Dir['atome/lib/kernel/electron.rb']
+#photon = Dir['atome/lib/kernel/photon.rb']
+#render_engines = Dir['atome_abstraction_layer/render_engines/*.rb']
+#proton = Dir['atome/lib/kernel/proton.rb']
+#atome = Dir['atome/lib/kernel/atome.rb']
+#electron = Dir['atome/lib/kernel/electron.rb']
 neutron = Dir['atome/lib/kernel/neutron.rb']
-init = Dir['atome/tests/kickstart_test.rb']
-kernel = opal_utils.concat(core_ext).concat(proton).concat(neutron).concat(photon).concat(render_engines).concat(atome).concat(electron).concat(init)
+init = Dir['atome/lib/kickstart_raw.rb']
+kernel = opal_requirement.concat(opal_utils).concat(core_ext).concat(neutron).concat(init)
 
-join_files kernel, 'www/public/atome/atome.rb'
+#we erase rb test files
+atome_source = File.open('www/public/atome/atome.rb', 'w')
+atome_source.puts "#code source erased"
+atome_source.close
+
+join_files kernel, 'kernel.rb'
+
+# then we compile the new generated file to js in the app.js file
+`opal --compile kernel.rb > ./www/public/atome/atome.js`
+
+## now we compress uglify and Obfuscate the js file and rewrite it
+#uglified = Uglifier.new(harmony: true).compile(File.read('./www/public/atome/app.js'))
+#
+#open('./www/public/atome/atome.js', 'w') do |f|
+#  f.puts uglified
+#end
+#`rm -r ./www/public/atome/app.js`
 
 if !ARGV.empty?
   if ARGV[0] == 'server' || ARGV[0] == 'puma'
@@ -42,5 +58,4 @@ if !ARGV.empty?
   end
 else
   `cordova run browser`
-
 end

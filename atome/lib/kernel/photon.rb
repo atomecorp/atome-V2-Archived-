@@ -7,6 +7,27 @@ class Render_engine
   # Please notte that the same part could be send simulteanoulsy to multiples render engine
   @@render_engines = %i[Fabric Headless Html Konva Three Zim Vocal]
 
+  def self.atomize atome
+    new_structure = {}
+    prop_found = []
+    atome.each_with_index do |particle, index|
+      # we put all particle found in this array to check if this particle is present many times
+      if new_structure.key?(particle.keys[0])
+        new_structure[particle.keys[0]] = new_structure[particle.keys[0]] << particle.values[0]
+      else
+        if particle.values[0].class == Array
+          if particle.values[0].length > 1
+            new_structure[particle.keys[0]] = [particle.values[0]]
+          else
+            new_structure[particle.keys[0]] = particle.values[0]
+          end
+        else
+          new_structure[particle.keys[0]] = particle.values[0]
+        end
+      end
+    end
+    return new_structure
+  end
 
   def self.inception(props, atome)
     atome_to_render = []
@@ -23,6 +44,7 @@ class Render_engine
         atome.each_with_index do |prop, index|
           if prop.class == Hash
             prop.each do |key, value|
+              # we delete all key pair the renderer doesn't need to render (id renderer atome_id)
               if key == :atome_id
                 atome_id = value
                 properties_to_delete << index
@@ -31,14 +53,32 @@ class Render_engine
               elsif key == :renderer
                 properties_to_delete << index
               else
-                atome_to_render << { key => value }
+                atome_to_render << {key => value}
               end
             end
           elsif prop.class == Array
-            atome_to_render << prop
+            #in this case multiple value are send to the renderer so it's a sub prop such as shadow(color, blur, x , y) or a gradient, ...
+            #todo : "msg from photon line 38 : we must recursively get array to find type to send it to the render"
+            property_found_from_type = ""
+            value_found_in_array = []
+            prop.each do |property|
+              if property.keys[0].to_sym == :type
+                #here we get the sub property name
+                property_found_from_type = property.values[0]
+              else
+                #here we get the sub property values and put it in array formmated like this [sub_prop_name, value,sub_prop_name, value] so Javascript can re constitute the hash
+                #value_found_in_array << property.keys[0]
+                #value_found_in_array << property.values[0]
+                # uncomment below to send a hash and comment above
+                value_found_in_array << {property.keys[0] => property.values[0]}
+              end
+            end
+            atome_to_render << {property_found_from_type => value_found_in_array}
           end
         end
-        # here we send the atome and its id to the transpil render engine
+        #atome_to_render2=atomize(atome_to_render) #we restructure the atome (we group properties define more than on time) to facilitate rendering
+        # here we send the atome and it's id to the transpile render engine ex send to module HTML module fould in transpile_html_to_js  file
+        #puts "msg from photon line 81 : render_engine  #{render_engine} atome_to_render #{atome_to_render} atome_id #{atome_id}"
         constantize(render_engine).init(atome_to_render, atome_id)
       end
     end
@@ -49,12 +89,21 @@ class Render_engine
     if class_exists?(:Atome)
       atome = Atome.atomes[atome_id.to_s]
       atome = atome.to_array
+      #puts "msg from photon line 66 props "
+      #puts "-----------------------"
+      #puts atome
+      #puts atome.class
+      #puts "-----------------------"
       atome.each do |props|
+        #puts "msg from photon line 52 props : #{props}"
         if props.class == Array
+          #puts "msg from photon line 69 props : #{props} "
           props.each do |prop|
             inception prop, props
           end
         else
+          #puts "msg from photon line 78 hash props "
+          #puts props
           inception props, atome
         end
       end

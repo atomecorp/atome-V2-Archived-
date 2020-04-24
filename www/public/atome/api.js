@@ -6,14 +6,35 @@ function get_proc_content(proc_send){
 }
 
 
-function opalizer(functionToCall, param, atome_id, id) {
-
+function opalizer(nameSpace,functionToCall, param, atome_id, id) {
+   // console.log("msg from api.js line 10, param: "+param +" "+typeof (param));
+// alert(typeof(param) )
     if (typeof(param)=="function"){
-        eval(functionToCall+"("+param+",'"+atome_id+"')");
-    }else
-    {
-        eval(functionToCall+"('"+param+"','"+atome_id+"','"+id+"')");
+        window[nameSpace][functionToCall](param,atome_id.toString());
+       // eval(functionToCall+"("+param+",'"+atome_id+"')");
+    }
+    else if (typeof(param)=="object"){
+        window[nameSpace][functionToCall](param,atome_id.toString());
+     // var a =  Opal.hash(param[0]).$$keys;
+     // var b =  Opal.hash(param[0]);
 
+        // alert("api line 16 : "+b);
+
+        // alert("api line 16"+typeof(param[0])+" "+param[0]);
+
+        // eval(functionToCall+"("+param+",'"+atome_id+"')");
+       // eval(functionToCall+"(['"+param+"'],'"+atome_id+"','"+id+"')");
+    }
+
+    else
+    {
+ // console.log('kjhkjh');
+ //        Opal.Object.$puts("msg from api.js line 30  : "+nameSpace+'.'+functionToCall+"('"+param+"','"+atome_id+"','"+id+"')");
+        // console.log(functionToCall+" : "+param)
+     // eval(functionToCall+"('"+param+"','"+atome_id+"','"+id+"')");
+     //    window[nameSpace.toString()][functionToCall.toString()](param.toString(),atome_id.toString(),id.toString());
+        window[nameSpace][functionToCall](param,atome_id.toString());
+        //window["html"]["x"](200,652321,atome_id);
     }
 }
 

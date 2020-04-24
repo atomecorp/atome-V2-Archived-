@@ -1,14 +1,32 @@
-#here is all general mthods helper for atomes
+#here is all general methods helper for atomes
 
 # frozen_string_literal: true
 #neutron provide public methods used both by end users and needed by the atome object
-def trig atome_id
+
+def trig atome_id, event
   atomes = Atome.atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id.to_s
-      atome.trig(atome.touch)
+      atome.trig(atome.touch, event)
     end
   end
+end
+
+def drag atome_id, event
+
+
+  #atomes = Atome.atomes
+  #atomes.each do |_id, atome|
+  #  if atome.atome_id == atome_id.to_s
+  #    atome.trig(atome.drag, event)
+  #  end
+  #end
+end
+
+def find_key hash, key
+
+  return hash[key]
+
 end
 
 def grab(atome_id)

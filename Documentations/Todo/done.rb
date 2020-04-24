@@ -1,5 +1,14 @@
 
 task_done =<<Strdelim
+- write install dev post on FreeBSD
+- create a fast compile mode for fastest test 
+- rotation
+- transparency
+- pass multiple params to js options ( shadow border)
+- object block touch event if place in front of another solution : pointer-events: none;
+- blur is cropped when large value on circle and box (the pb was not overflow but hardware accelearation)
+- b.name crash html rendering
+- bug text width should be 100% or innerwidth
 - temporary methods to change font size of sytem object :
   exemple:
         Console.text(25)

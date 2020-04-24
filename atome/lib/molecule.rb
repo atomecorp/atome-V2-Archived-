@@ -1,4 +1,5 @@
-require 'core_ext'
-require 'kernel/core/proton'
-require 'kernel/core/atome'
-require 'kernel/apis/render_engine'
+require './core_ext'
+require './kernel/proton'
+require './kernel/atome'
+require './kernel/photon'
+
