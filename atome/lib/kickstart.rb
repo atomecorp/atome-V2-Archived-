@@ -82,6 +82,16 @@ get("box_2").x("357")
 get("box_2").y("62")
 get("box_1").x("618")
 get("box_1").y("86")
+
+first_script=<<Strdelim
+a=circle
+a.touch do 
+  load :demo
+end
+Strdelim
+wait 0.5 do
+save(:test,first_script)
+end
 EOT
 
 write content_test
