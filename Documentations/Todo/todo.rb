@@ -1,10 +1,12 @@
 todo =<<StrDelim
+- require to test
+-gradient
+- ondrag id of box is shape instead of box
 - on drag kill touch 
 - add select tag (edit mode activation ?)
 - object ons scene listing
 - script listing
 - get info on touch object 
-- require to test
 - add event callback when drag
 - drag vs click
 - replace true instead of :true

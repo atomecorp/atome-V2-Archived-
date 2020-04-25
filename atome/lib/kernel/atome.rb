@@ -83,12 +83,14 @@ class Atome
     end
     # we create an automaticaly generated id
     if create_id
-      id = 'unknown_'
+      id=:unknown
       @atome_initial_state.each do |property_key_pair|
-        if property_key_pair.keys[0].to_sym == :preset
-          id = property_key_pair.values[0].to_s + '_'
-        elsif property_key_pair.keys[0].to_sym == :type
-          id = property_key_pair.values[0].to_s + '_'
+        @atome_initial_state.each do |property_key_pair|
+          if property_key_pair.keys[0].to_sym == :preset
+            id = property_key_pair.values[0].to_s + '_'
+          elsif property_key_pair.keys[0].to_sym == :type && id== :unknown_
+            id = property_key_pair.values[0].to_s + '_'
+          end
         end
       end
       id = (id + @@atomes.length.to_s).to_sym
