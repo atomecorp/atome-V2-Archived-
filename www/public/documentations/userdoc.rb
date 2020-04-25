@@ -18,7 +18,8 @@ ctrl-a
 #reboot :
 ctrl-y
 
-######################## Miscellaneous ########################
+######################## general methods ########################
+
 #1 clear console:
 clear
 #2 clear ide :
@@ -41,6 +42,11 @@ open_console(:false)
 open_console(:true)
 #11 toggle the the console
 open_console(:toggle)
+#12wait
+b=box()
+wait 2 do
+  b.color(:red)
+end
 
 ######################## system settings ########################
 # Ide font size

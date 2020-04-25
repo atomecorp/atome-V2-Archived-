@@ -14,10 +14,10 @@
 #end
 
 def get_hash_value prop_array, property
-  prop_found=""
+  prop_found = ""
   prop_array.each do |value|
-    if value.keys[0]==property
-      prop_found= value[property]
+    if value.keys[0] == property
+      prop_found = value[property]
     end
   end
   return prop_found
@@ -98,11 +98,18 @@ module Opal_library
 end
 
 
-def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false, system_file = false)
-  filename = filename.to_s
-  if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
+def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false)
+
+  if fct_to_call=="run"
+    fct_to_call = 'add_to_screen'
+  elsif fct_to_call=="console"
+    fct_to_call = 'add_to_console'
+  else
+    fct_to_call = 'ide'
   end
-  puts "msg from opal_utils line 105, filename : #{filename} "
+  filename = filename.to_s
+  #if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
+  #end
   `
    read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
    `
@@ -123,17 +130,53 @@ $.ajax({
 `
 end
 
-###################### exec user script ####################
+def htmlize data
+  data=data.gsub("\n","<br>")
+  return data
+end
 
-def add_to_screen(content)
+def reader filename , view_on="console"
+
+  `
+$.ajax({
+    url: #{filename},
+    dataType: 'text',
+    success: function (data) {
+if (#{view_on}=="console"){
+data=Opal.Object.$htmlize(data)
+Opal.Object.$puts(data);
+}
+else{
+alert(data)
+}
+
+    }
+});
+
+`
+end
+
+def help
+
+  reader("documentations/userdoc.rb","console")
+end
+###################### exec user script ####################
+#@code_to_exec=[]
+def add_to_screen(content, run=false)
   #$PROCESS_ID.add_to_ide(content)
-  JS.add_to_ide(content)
+  JS.add_to_ide(content, run)
   #`add_to_ide(#{content})`
 end
 
-def ide(content = nil)
+def add_to_console(content)
+  puts content.gsub("\n","<br>")
+end
+
+
+
+def ide(content = nil, run=false)
   if content
-    `add_to_ide(#{content})`
+    JS.add_to_ide(content, run)
   else
     code = `code=editor.getDoc().getValue("\n")`
     return code
@@ -146,9 +189,9 @@ end
 
 def dynamic_code *code
   puts "msg from opal_utils line 148 code : #{code.length}"
-  puts "msg from opal_utils line 149 code : "+code.to_s
+  puts "msg from opal_utils line 149 code  1:#{code[0]} "
+  puts "msg from opal_utils line 149 code 2:#{code[1]} "
 end
-
 
 
 def deep_analysis(code)
@@ -161,18 +204,20 @@ def deep_analysis(code)
   code = code.gsub('#require', '#')
   if code.include? 'require'
     lines = code.split("\n")
-    require_list = []
-    lines.each_with_index do |line, _index|
-      require_list << line.strip if line.start_with? 'require'
-    end
-    require_list.each_with_index do |get_this, index|
-      get_this = get_this.sub('require', '').gsub("'", '').gsub('"', '').gsub(':', '').strip
-      if index == require_list.length - 1
-        load get_this, 'dynamic_code', true
-      else
-        load get_this, 'dynamic_code', false
-      end
-    end
+    puts puts "msg from opal_utils line 164 code 2:#{lines} "
+    #@code_to_exec << code
+    #require_list = []
+    #lines.each_with_index do |line, _index|
+    #  require_list << line.strip if line.start_with? 'require'
+    #end
+    #require_list.each_with_index do |get_this, index|
+    #  get_this = get_this.sub('require', '').gsub("'", '').gsub('"', '').gsub(':', '').strip
+    #  if index == require_list.length - 1
+    #    load get_this, 'dynamic_code', true
+    #  else
+    #    load get_this, 'dynamic_code', false
+    #  end
+    #end
   else
     `
     run_script(#{code})
@@ -180,20 +225,26 @@ def deep_analysis(code)
   end
 end
 
-def run_code
-  ## allow eVe to remove all object expet the two first :  the human (the user) and eDen ( the machine)
-  if class_exists?(:Atome)
-    Atome.purge
-  end
+def run_code (clear = false)
+  #@code_to_exec=[]
   code = `code=editor.getDoc().getValue("\n")`
-  clear(:view)
-  if code.include? 'require'
-    deep_analysis code
-  else
-    `
+  ## allow eVe to remove all object expet the two first :  the human (the user) and eDen ( the machine)
+  if clear
+    if class_exists?(:Atome)
+      Atome.purge
+    end
+    clear(:view)
+  end
+  `
     run_script(#{code})
   `
-  end
+  #if code.include? 'require'
+  #  deep_analysis code
+  #else
+  #  `
+  #  run_script(#{code})
+  #`
+  #end
   nil
 end
 
@@ -206,11 +257,13 @@ def code(code = nil)
 end
 
 def timeout(time)
+  time=time.to_f
   `setTimeout(function(){ #{yield} }, #{time})`
 end
 
 def wait(time)
-  `setTimeout(function(){ #{yield} }, #{time})`
+  time=time.to_f
+  `setTimeout(function(){ #{yield} }, #{time*1000})`
 end
 
 
@@ -349,14 +402,14 @@ end
 #  # end
 #end
 
-def auto_run
+def perpetual_run
   `
     if(!auto_run_active){
         function start_auto_run_countdown(){
   if (typeof(auto_run_countdown) != "undefined"){
       clearTimeout(auto_run_countdown);
   }
-    auto_run_countdown = setTimeout(function(){ #{clear(:console)};#{run_code}}, 500);
+    auto_run_countdown = setTimeout(function(){ #{clear(:console)};#{run_code(true)}}, 500);
 }
 editor.on('keyup', function auto_run_binding(event) {
   if(auto_run_active==true){
@@ -378,7 +431,7 @@ setTimeout(function(){#{auto_save}}, 300);
     }
 document.addEventListener('keydown', function(event) {
   if (event.ctrlKey && event.key === 'r') {
-#{run_code}
+#{run_code(true)}
   }
    else if (event.ctrlKey && event.key === 'i') {
 #{open_ide(:toggle)}
@@ -399,7 +452,7 @@ document.addEventListener('keydown', function(event) {
 #{clear(:console)}
   }
       else  if (event.ctrlKey && event.key === 'a') {
-#{auto_run}
+#{perpetual_run}
   }
       else   if (event.ctrlKey && event.key === 'y') {
 #{reboot}
@@ -479,7 +532,7 @@ def opal_setter(atome_id, property, value)
   atomes = Atome.atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id
-       atome.send( property, value)
+      atome.send(property, value)
     end
   end
 end

@@ -58,7 +58,7 @@ $('#ide_drag_bar').draggable({
 });
 
 $('#ide_drag_bar').click(function () {
-    Opal.Atome.$run_code();
+    Opal.Atome.$run_code(true);
 })
 
 $("body").append("<div id='ruby_console_back'></div>");

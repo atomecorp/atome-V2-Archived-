@@ -87,5 +87,5 @@ EOT
 write content
 open_ide(:true)
 open_console(:true)
-auto_run
+perpetual_run
 

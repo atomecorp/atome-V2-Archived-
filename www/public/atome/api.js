@@ -108,13 +108,22 @@ function add_to_ide(content, run) {
         Opal.Object.$open_console("open");
     }
 // below code to check if code must be run at startup
-    if (content.includes("#run")) {
-        // only to ensure run is not triggered when it is commented
-    } else if (content.includes("run")) {
-        Opal.Object.$run_code();
-    }
+    file_content=content.split("\n");
+    file_content.forEach(function(line) {
+   if (line.startsWith("run")){
+            Opal.Object.$run_code();
+        }
+   if (run){
+       Opal.Object.$run_code();
+   }
+    });
 
 }
+
+// function add_to_console(content){
+//     Opal.Object.$puts(content);
+// }
+
 
 function browser_location() {
     // todo install : cordova-plugin-geolocation plugin to make it work

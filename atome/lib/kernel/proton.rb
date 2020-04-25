@@ -4,11 +4,11 @@
 module Proton
 
   def self.events
-    events={touch_me: :false, touch: :false, drag: :false, over: :false}
+    events={touch_me: :false, touch: :false, drag: :true, over: :false}
   end
 
   def self.properties
-    properties = {atome_id: :xxxxxxx,key: :false, id: :my_object, preset: :default, content: :lorem, color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100,size: 16, rotate: 0,blur: 0,transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :false}.merge(events)
+    properties = {atome_id: :xxxxxxx,key: :false, id: :my_object, preset: :default, content: :lorem, color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100,size: 16, rotate: 0,blur: 0,transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true}.merge(events)
   end
 
   def self.atome_methods

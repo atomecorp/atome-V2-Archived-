@@ -1,8 +1,11 @@
 todo =<<StrDelim
-- require to test
--gradient
-- ondrag id of box is shape instead of box
-- on drag kill touch 
+- require to make it work again
+- gradient
+- wait
+- on drag id of box is shape instead of box
+- on drag kill touc
+- if possible extened array core with atome fct  ex : a=[box_1, box_2] ; a.x=30
+- create complexe objet ( text + box) (circle+ text) etc....
 - add select tag (edit mode activation ?)
 - object ons scene listing
 - script listing

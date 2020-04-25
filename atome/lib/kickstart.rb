@@ -31,23 +31,60 @@ b.touch do
   end
 end
 bb=box()
-bb.shadow({color: :black,blur: 5,x: 1, y: 1,  invert: :true})
+bb.shadow({color: :black,blur: 5,x: 0, y: 0,  invert: :true})
+bb.add(:shadow => {color: :red, blur: 20})
 bb.draggable(:true)
-bb.color("rgba(30,30,30,0.5)")
+bb.color("rgba(100,100,100,0.5)")
 t=text("hello folks !!")
 t.color(:yellow)
 t.shadow({color: :black, x: 7, blur: 9})
-t.editable(:true)
 t.x=200
-get("shape_0").x("168")
-get("shape_0").y("84")
-get("shape_1").x("577")
-get("shape_1").y("92")
-get("shape_2").x("370")
-get("shape_2").y("60")
+t2=text("edit me!!")
+t2.y(200)
+t2.size(70)
+t2.color("orange")
+t2.editable=:true
+wait 3 do
+  t2.content("modify the content?")
+  wait 3 do
+	t2.content("yes, you can modify the content...")
+	t2.size(50)
+	t2.color=:white
+  end
+end
+x1=box()
+x2=box()
+[x1,x2].each do |boxes|
+  boxes.width(30)
+  boxes.height(30)
+  boxes.shadow({color: :black,blur: 3,x: 0, y: 0,  invert: :true})
+end
+x1.x=x1.y=0
+x2.x=500
+x2.y=0
+x1.color(:gray)
+x2.color(:orangered)
+x1.touch do
+  self.color(:white)
+  wait 0.3 do
+	self.color(:gray)
+  end
+  load :test
+end
+x2.touch do
+    self.color(:white)
+  wait 0.3 do
+	self.color(:orangered)
+  end
+  save :demo
+end
+get("box_2").x("357")
+get("box_2").y("62")
+get("box_1").x("618")
+get("box_1").y("86")
 EOT
 
-write content
+write content_test
 open_ide(:true)
 open_console(:true)
-auto_run
+perpetual_run

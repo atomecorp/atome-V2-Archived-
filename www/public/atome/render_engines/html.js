@@ -208,6 +208,7 @@ var html = {
 
     editable: function (value, atome_id) {
 
+       document.getElementById(atome_id).style.pointerEvents="auto";
         $("#" + atome_id).keyup(function () {
             var id = Opal.Object.$grab(atome_id).$id();
             var text_found = document.getElementById(atome_id).innerText;
@@ -235,7 +236,7 @@ var html = {
                     x_position = parseInt(document.getElementById(atome_id).style.left);
                     y_position = parseInt(document.getElementById(atome_id).style.top);
                     x_property_declaration_position = html.find_property_declaration_in_ide(x_position, "x", id);
-                    y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id)
+                    y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id);
 
                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
