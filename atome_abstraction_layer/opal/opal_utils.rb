@@ -130,10 +130,6 @@ $.ajax({
 `
 end
 
-def htmlize data
-  data=data.gsub("\n","<br>")
-  return data
-end
 
 def reader filename , view_on="console"
 
@@ -143,7 +139,6 @@ $.ajax({
     dataType: 'text',
     success: function (data) {
 if (#{view_on}=="console"){
-data=Opal.Object.$htmlize(data)
 Opal.Object.$puts(data);
 }
 else{
@@ -468,11 +463,15 @@ shortcut
 
 def p(string)
   string = string.to_s
-  #  string = string.gsub("\n", "<br>")
   `
   var prev_content=$("#ruby_console").html();
-  if(#{string}!=""){
-    var content = prev_content+#{string}+"<br>";
+  new_puts =#{string}
+  const regex = /</gi;
+new_puts=new_puts.replace(regex, '\<');
+  const regex2 = /\n/gi;
+new_puts=new_puts.replace(regex2, '<br>');
+  if(new_puts!=""){
+    var content = prev_content+new_puts+"<br>";
     $("#ruby_console").html(content);
 }
   `

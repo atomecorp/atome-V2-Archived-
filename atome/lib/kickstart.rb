@@ -22,7 +22,7 @@ i=0
 b.touch do 
   if i==0
 	i=1
-	a.color=:olive
+	a.color=:oliev
 	self.color(:cyan)
   else
 	self.color(:olive)
@@ -72,16 +72,12 @@ x1.touch do
   load :test
 end
 x2.touch do
-    self.color(:white)
+  self.color(:white)
   wait 0.3 do
 	self.color(:orangered)
   end
   save :demo
 end
-get("box_2").x("357")
-get("box_2").y("62")
-get("box_1").x("618")
-get("box_1").y("86")
 
 first_script=<<Strdelim
 a=circle
@@ -90,8 +86,14 @@ a.touch do
 end
 Strdelim
 wait 0.5 do
-save(:test,first_script)
+  save(:test,first_script)
 end
+get("box_2").x("341")
+get("box_2").y("47")
+get("box_1").x("443")
+get("box_1").y("84")
+get("circle_0").x("254")
+get("circle_0").y("85")
 EOT
 
 write content_test
