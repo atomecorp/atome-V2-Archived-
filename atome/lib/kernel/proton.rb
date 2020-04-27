@@ -4,11 +4,13 @@
 module Proton
 
   def self.events
-    events={touch_me: :false, touch: :false, drag: :true, over: :false}
+    events = {touch_me: :false, touch: :false, drag: :true, over: :false}
+    events
   end
 
   def self.properties
-    properties = {atome_id: :xxxxxxx,key: :false, id: :my_object, preset: :default, content: :lorem, color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100,size: 16, rotate: 0,blur: 0,transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true}.merge(events)
+    properties = {atome_id: :xxxxxxx, key: :false, delete: :false,id: :my_object, preset: :default, content: :lorem, color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100, size: 16, rotate: 0, blur: 0, transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: 3, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true}.merge(events)
+    properties
   end
 
   def self.atome_methods
@@ -22,24 +24,27 @@ module Proton
   end
 
   def self.visual_types
-    ##visual_types's key is the name of type, the value is the associated preset for the type
-    visual_types={shape: :box, image: :logo, text: :lorem}
+    #visual_types's key is the name of type, the value is the associated preset for the type
+    visual_types = {shape: :box, image: :logo, text: :lorem}
+    visual_types
   end
 
   def self.types
     types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo}.merge(visual_types)
+    types
   end
 
   def self.presets
     #presets's key is the preset name, the value is the content of the presets
-  presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
+    presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
+    presets
   end
 
   def self.default_visuals
-    default_visuals={}
-    visuals_presets=[:x,:y,:width,:height,:color]
+    default_visuals = {}
+    visuals_presets = [:x, :y, :width, :height, :color]
     visuals_presets.each do |visual_property|
-      default_visuals[visual_property] =  properties[visual_property]
+      default_visuals[visual_property] = properties[visual_property]
     end
     return default_visuals
   end

@@ -1,4 +1,7 @@
-How to add a new property to atome object:
+How to add a new property to the atome object:
+
 1 : in the Proton file add the property name and default value to the Proton's method self.properties
 
-2 - in each renderer add the corresponding methods ex :for opal add an HTML methods in www/public/atome/render_engines/htmls.js 
+2 - in each renderer add the corresponding methods ex :for opal add an HTML methods in www/public/atome/render_engines/htmls.js
+
+3 - update user_doc with example in www/public/documentations/userdoc.rb

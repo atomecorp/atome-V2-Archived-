@@ -96,6 +96,18 @@ get("circle_0").x("254")
 get("circle_0").y("85")
 EOT
 
+content_test = <<EOT
+run
+a=box()
+a.border({pattern: :dashed})
+a.shadow({x: 5}, {y: 5}, {thickness: 3}, {color: :black}, {invert: :true})
+a.smooth(20)
+clear
+a.delete(:shadow)
+EOT
+
+
+
 write(content_test)
 open_ide(:true)
 open_console(:true)

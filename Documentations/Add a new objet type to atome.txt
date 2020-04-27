@@ -1,4 +1,5 @@
-How to add a new object type  to atome object:
+How to add a new object type to the atome object:
+
 1 : in the Proton file add the object type name and it's associated default preset, either in the Proton's self.visual_types if the type of object have a visual represntation or Proton's self.types method if not.
 
 2 - In the Electron file, if you want to create a method that simplify the creation of an object based on default preset. add this method here. ex:
@@ -14,3 +15,5 @@ def circle(options)
   end
   return atome
 end
+
+3 - update user_doc with example in www/public/documentations/userdoc.rb

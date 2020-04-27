@@ -1,5 +1,6 @@
 todo =<<StrDelim
 ######## MVP #######
+- delete object : a.delete()
 - audio image video play back
 - multiple audio renderer 
 - effect node 
@@ -19,11 +20,11 @@ todo =<<StrDelim
 - debug drag : touch is triggered every time
 - create events options : down, up 
 - create over events
-- delete object : a.delete()
+- Automatise publish with auto increnment Atome version number
 - if possible extend array core with atome fct  ex : a=[box_1, box_2] ; a.x=30
 - create complexe objet ( text + box) (circle+ text) etc....
 - add atome Object implementation with basic methods(tags , history, help, infos, examples, tuto)
-- verify we can get all object oor by class /tags /types
+- verify we can get all object by class /tags /types
 - find to way to get color of an object and compare it with another color (problem with atome object returned)
 - new project with default name and save
 - animation
@@ -40,8 +41,10 @@ todo =<<StrDelim
 - debug ruby with line number anf file name (when using require)
 - maternal language coding description
 - node view
-- debug console and IDE U.I.
+- build a new U.I. for console and IDE 
+- create button to quit
 
+- create dir inside atome that contain:  atome atome_abstraction_layer www for easier search and debug
 - drag vs click
 - replace true instead of :true
 - check the possiblity to add opal-jquery

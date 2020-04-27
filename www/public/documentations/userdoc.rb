@@ -140,6 +140,10 @@ a.color
 puts a.color()
 #to get x position
 puts a.x
+#to delete
+a.delete()
+#to delete a property
+a.delete(:x)
 
 ######################## events ########################
 # touch

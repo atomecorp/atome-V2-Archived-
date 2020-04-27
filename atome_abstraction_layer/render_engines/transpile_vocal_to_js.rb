@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 ####### Vocal render engine #############
 module Vocal
-  def initialize(*val); end
+
+
 
   def self.init(properties, atome_id)
     properties.each do |property|
@@ -16,6 +17,12 @@ module Vocal
           end
         end
       end
+    end
+  end
+
+  Proton.atome_methods.each do |property_fct|
+    self.define_singleton_method(property_fct) do |param, atome_id,add, &proc|
+      JS.opalizer("vocal", property_fct, param, atome_id, add)
     end
   end
 

@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
 ####### Threejs render engine #############
-module Three_renderer
+module Three
+  def self.init(properties, atome_id)
+
+  end
+
+  Proton.atome_methods.each do |property_fct|
+    self.define_singleton_method(property_fct) do |param, atome_id,add, &proc|
+      JS.opalizer("html", property_fct, param, atome_id, add)
+    end
+  end
+
 end

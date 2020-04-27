@@ -12,11 +12,16 @@ def zim_clear(option = :view)
    zim_lib.app.stage.update();`
 end
 
-module Zim_renderer
+module Zim
   @visual_obj_list = []
   @code_footer = ''
   @code_header = ''
-  # # code constructor for zim display
+
+
+  def self.init(properties, atome_id)
+
+  end
+# code constructor for zim display
   def zim_formated_code
     code = ''
     code = @code_header + "\n" + @visual_obj_list.join("\n") + "\n" + @code_footer

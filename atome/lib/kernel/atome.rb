@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # atome object and apis below
 class Atome
-  #@@definition_order = %i[type preset content]
   @@atomes = {}
   @@black_hole = [] # deleted atomes
   @@buffer = []
@@ -110,7 +109,6 @@ class Atome
   end
 
   def class_exec proc, event
-    #puts "--------------------------- msg from class_exec in atome line 111 : #{event} ---------------------------"
     # solution self.current meth event
     instance_eval(&proc)
   end
@@ -144,13 +142,11 @@ class Atome
       properties.each do |props|
         #if props.class == Array
         #  # TODO: buggy code below maybe never used,anyway we have to analyse a bit before sending this to erase previous stored, even better factorise and externalise the whole analysis for the set method
-        #  puts "atome line 148 #{props}"
         #  props = sanitize_prop(nil, props)
         #  insert_properties_in_atome(props)
         #  return self
         #elsif props.class == Hash
         #  insert_properties_in_atome(props)
-        #  puts "okokokokoko goody"
         #end
         master_prop = props.keys[0]
         new_values = props.values[0]
@@ -272,7 +268,6 @@ class Atome
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the corresponding value ex: - puts a.color => :black
-
       Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
     end
   end
@@ -290,6 +285,7 @@ class Atome
   end
 
   def delete(*properties)
+    #attention delete is call often because each time a prop is set it delete the correponding pluralize props
     if !properties.empty?
       list_of_matching_prop = []
       index_to_delete = []
@@ -334,15 +330,31 @@ class Atome
         if !user_list_of_prop_to_delete.empty?
           if user_list_of_prop_to_delete && !user_list_of_prop_to_delete[0].nil?
             @atome.delete_at_multi(user_list_of_prop_to_delete)
+            #puts "msg from atome line 333 delete somthing in atome ?: #{@atome}"
           end
         else
-          @atome.delete_at_multi(list_of_matching_prop) if list_of_matching_prop
+          properties= @atome.delete_at_multi(list_of_matching_prop) if list_of_matching_prop
+          #puts "msg from atome line 337 delete pluralized prop atome  : #{properties}"
         end
       else
         last_item = list_of_matching_prop[list_of_matching_prop.length - 1]
-        @atome.delete_at(last_item) if last_item
+        # delete single atome prop
+        property=@atome.delete_at(last_item) if last_item
+        if property
+          if property.class==Array# the its a complex property we have to find its name in the type
+            property.each do |sub_property|
+              if sub_property.keys[0]==:type
+                Photon.delete(sub_property.values[0],self.atome_id)
+              end
+            end
+          else
+            Photon.delete(property.keys[0],self.atome_id)
+          end
+        end
+
       end
     else
+      Photon.delete(:atome,self.atome_id)
       @atome = []
     end
   end
@@ -406,24 +418,24 @@ class Atome
     end
   end
 
-  def insert_properties_in_atome(properties)
+  def insert_properties_in_atome(properties=nil)
     # this method is called when a property is added or modified , the insert_properties_in_atome method is call by the set method.
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
+
     if properties.class==Hash && properties.values[0].class == Proc
       proc = properties.values[0]
       proc = send_to_get_proc_content(proc)
-      #----------- todo get proc conetnt here -----------
+      #----------- todo get proc content here -----------
       #puts "msg from atome line 416 ------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
       #puts proc
-      #puts "----------"
     end
 
     @atome << properties
     # now we store the current @atome id in the current @atomes array
     @@atomes[atome_id.to_s] = self
-    # we send the id of the atome to be renderered to the main render engine for analysys
-    Render_engine.render(atome_id)
+    # we send the id of the atome to be rendered to the main render engine for analysis
+    Photon.render(atome_id)
   end
 
   def length
@@ -503,6 +515,6 @@ class Atome
   end
 
   def self.version
-    return "v:0.08"
+    return "v:0.09"
   end
 end

@@ -2,7 +2,7 @@
 ####### Headless render engine #############
 
 module Headless
-  def initialize(*val); end
+
 
   def self.init(properties, atome_id)
     properties.each do |property|
@@ -19,7 +19,11 @@ module Headless
       end
     end
   end
-
+  Proton.atome_methods.each do |property_fct|
+    self.define_singleton_method(property_fct) do |param, atome_id,add, &proc|
+      JS.opalizer("headless", property_fct, param, atome_id, add)
+    end
+  end
 
 
   def self.preset(param, id)

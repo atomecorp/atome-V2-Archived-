@@ -2,10 +2,10 @@
 
 # Render engine
 
-class Render_engine
+class Photon
   # this method parse the atome to search for render engines and once found dispatch to the corresponding render engine.
   # Please notte that the same part could be send simulteanoulsy to multiples render engine
-  @@render_engines = %i[Fabric Headless Html Konva Three Zim Vocal]
+  @@photons = %i[Fabric Headless Html Konva Three Zim Vocal]
 
   def self.atomize atome
     new_structure = {}
@@ -39,7 +39,7 @@ class Render_engine
       end
     else
       if props.keys[0] == :renderer
-        render_engine = props.values[0].capitalize
+        photon = props.values[0].capitalize
         # the line below call the render engine, first it turn the value passed (render_engine) into a constant, then call the init function of the render engine callles
         atome.each_with_index do |prop, index|
           if prop.class == Hash
@@ -78,8 +78,7 @@ class Render_engine
         end
         #atome_to_render2=atomize(atome_to_render) #we restructure the atome (we group properties define more than on time) to facilitate rendering
         # here we send the atome and it's id to the transpile render engine ex send to module HTML module fould in transpile_html_to_js  file
-        #puts "msg from photon line 81 : render_engine  #{render_engine} atome_to_render #{atome_to_render} atome_id #{atome_id}"
-        constantize(render_engine).init(atome_to_render, atome_id)
+        constantize(photon).init(atome_to_render, atome_id)
       end
     end
   end
@@ -89,22 +88,28 @@ class Render_engine
     if class_exists?(:Atome)
       atome = Atome.atomes[atome_id.to_s]
       atome = atome.to_array
-      #puts "msg from photon line 66 props "
-      #puts "-----------------------"
-      #puts atome
-      #puts atome.class
-      #puts "-----------------------"
       atome.each do |props|
-        #puts "msg from photon line 52 props : #{props}"
         if props.class == Array
-          #puts "msg from photon line 69 props : #{props} "
           props.each do |prop|
             inception prop, props
           end
         else
-          #puts "msg from photon line 78 hash props "
-          #puts props
           inception props, atome
+        end
+      end
+    end
+  end
+
+
+  def self.delete(property, atome_id)
+    # we find the renderer and delete it
+    grab(atome_id).each do |properties|
+      if properties.class==Hash && properties.keys[0] == :renderer
+        renderer = properties.values[0].capitalize()
+        if property == :atome # we delete the whole atome
+          constantize(renderer).init([delete: :true], atome_id)
+        else # we delete the property
+          constantize(renderer).init([property => 0], atome_id)
         end
       end
     end

@@ -1,8 +1,8 @@
+How to add a new event to the atome object:
+
 1 - add the method and its default value to the hash events found in Proton self.events methods
 
-2 -in neutron file
-
-3 - in each renderer add the corresponding methods ex :for opal add an HTML methods in www/public/atome/render_engines/htmls.js
+2 - in each renderer add the corresponding methods ex :for opal add an HTML methods in www/public/atome/render_engines/htmls.js
   touch: function (value, atome_id) {
          $("#" + atome_id).unbind("click");
          $("#" + atome_id).click(function () {
@@ -10,3 +10,5 @@
              Opal.Object.$trig(atome_id);
          });
      },
+
+3 - update user_doc with example in www/public/documentations/userdoc.rb

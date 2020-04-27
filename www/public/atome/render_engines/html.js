@@ -21,6 +21,9 @@ var html = {
     },
 
     color: function (value, atome_id) {
+      if (value==0){
+         value="transparent";
+      }
         value = value.split(",");
         if (value.length > 1) {
          //   console.log("gradient!!! here yes!!!!!");
@@ -108,75 +111,97 @@ var html = {
 
     name: function (value, atome_id) {
     },
+    delete: function (value, atome_id) {
+        $("#"+atome_id).remove();
+    },
 
     shadow: function (value, atome_id, add) {
-        var x = Opal.Object.$get_hash_value(value, "x");
-        var y = Opal.Object.$get_hash_value(value, "y");
-        var blur = Opal.Object.$get_hash_value(value, "blur");
-        var thickness = Opal.Object.$get_hash_value(value, "thickness");
-        var color = Opal.Object.$get_hash_value(value, "color");
-        var invert = Opal.Object.$get_hash_value(value, "invert");
-        if (x == "") {
-            x = 0;
-        }
-        if (y == "") {
-            y = 0;
-        }
-        if (blur == "") {
-            blur = 5;
-        }
-        if (thickness == "") {
-            thickness = 3;
-        }
-        if (color == "") {
-            color = "black";
-        }
-
-        if (invert == "") {
-            invert = "";
-        }
-        if (invert == "true") {
-            invert = "inset";
-        }
-
-        var objectType = Opal.Object.$grab(atome_id).$type();
-
-        if (add==true){
+        if (value==0){
             if (objectType == "text") {
-                document.getElementById(atome_id).style.textShadow = document.getElementById(atome_id).style.textShadow +","+color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
+                document.getElementById(atome_id).style.textShadow = "0px 0px 0px transparent" ;
             } else {
-                document.getElementById(atome_id).style.boxShadow = document.getElementById(atome_id).style.boxShadow+","+x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+                document.getElementById(atome_id).style.boxShadow = "0px 0px 0px transparent" ;
             }
         }
-        else{
-            if (objectType == "text") {
-                document.getElementById(atome_id).style.textShadow = color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
-            } else {
-                document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+        else {
+            var x = Opal.Object.$get_hash_value(value, "x");
+            var y = Opal.Object.$get_hash_value(value, "y");
+            var blur = Opal.Object.$get_hash_value(value, "blur");
+            var thickness = Opal.Object.$get_hash_value(value, "thickness");
+            var color = Opal.Object.$get_hash_value(value, "color");
+            var invert = Opal.Object.$get_hash_value(value, "invert");
+
+
+            if (x == "") {
+                x = 0;
+            }
+            if (y == "") {
+                y = 0;
+            }
+            if (blur == "") {
+                blur = 5;
+            }
+            if (thickness == "") {
+                thickness = 3;
+            }
+            if (color == "") {
+                color = "black";
             }
 
+            if (invert == "") {
+                invert = "";
+            }
+            if (invert == "true") {
+                invert = "inset";
+            }
+
+            var objectType = Opal.Object.$grab(atome_id).$type();
+
+
+            if (add==true){
+                if (objectType == "text") {
+                    document.getElementById(atome_id).style.textShadow = document.getElementById(atome_id).style.textShadow +","+color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
+                } else {
+                    document.getElementById(atome_id).style.boxShadow = document.getElementById(atome_id).style.boxShadow+","+x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+                }
+            }
+            else{
+                if (objectType == "text") {
+                    document.getElementById(atome_id).style.textShadow = color + " " +x + 'px ' + y + 'px ' + blur + 'px ' ;
+                } else {
+                    document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
+                }
+
+            }
         }
+
 
 
 
     },
 
     border: function (value, atome_id) {
-        // value = value.split(",");
-        // border_hash = Opal.hash(...value);
-        color = Opal.Object.$get_hash_value(value, "color");
-        thickness = Opal.Object.$get_hash_value(value, "thickness");
-        pattern = Opal.Object.$get_hash_value(value, "pattern");
-        if (color == "") {
-            color = "black";
+        // alert('kool : '+value)
+        if (value==0){
+            document.getElementById(atome_id).style.border="0px solid transparent";
         }
-        if (thickness == "") {
-            thickness = "3";
+        else
+        {
+            color = Opal.Object.$get_hash_value(value, "color");
+            thickness = Opal.Object.$get_hash_value(value, "thickness");
+            pattern = Opal.Object.$get_hash_value(value, "pattern");
+            if (color == "") {
+                color = "black";
+            }
+            if (thickness == "") {
+                thickness = "3";
+            }
+            if (pattern == "") {
+                pattern = "solid";
+            }
+            document.getElementById(atome_id).style.border = thickness + 'px ' + pattern + ' ' + color;
+
         }
-        if (pattern == "") {
-            pattern = "solid";
-        }
-        document.getElementById(atome_id).style.border = thickness + 'px ' + pattern + ' ' + color;
     },
 
     /////////////// events
@@ -310,6 +335,5 @@ var html = {
         // t=text()
         // t.child({width: 200})
     },
-
 
 };
