@@ -73,13 +73,6 @@ function read_file(file_name, call, params, err_callb_fct) {
                     } else {
                         Opal.eval(call + "('" + file_content + "','" + params + "')");
                     }
-                    if (call == "add_to_screen") {
-                        //we change the project_on_screen var to the new project name
-                        file_name = file_name.split(file_separator)[1];
-                        // Opal.Atome.$project_on_screen(file_name);
-                        // Opal.Object.$project_list_send_to_set_last_project();
-                    }
-
                 };
                 reader.readAsText(file);
             }, errorCallback2);
@@ -113,112 +106,6 @@ function remove_file(file_name) {
         }, errorCallback);
     }
 
-    function errorCallback(error) {
-        console.log("ERROR: " + error.code);
-    }
-}
-
-///////////////////////// new function /////////////////:
-
-function load(options){
-    params= Opal.eval(options);
-    var keys=params.$keys();
-    var values=params.$values();
-    var name =params.$fetch('name');
-    var call =params.$fetch('call');
-    var call_params = params.$fetch('call_params');
-    var error_call =params.$fetch('error_call');
-    var error_call_params = params.$fetch('error_call_params');
-    var type = params.$fetch('type');
-    if (type=="project"){
-        var name =Opal.Atome.$human()+file_separator+name;
-    }
-    //Opal.Object.$puts(name+" : "+type+" : "+call+" : "+params)
-    //////////////////////////////////////// loader //////////////////////////////////
-
-    var type = window.PERSISTENT;
-    var size = 5 * 1024 * 1024;
-    window.requestFileSystem(type, size, successCallback, errorCallback);
-    function successCallback(fs) {
-        fs.root.getFile(name, {}, function (fileEntry) {
-            fileEntry.file(function (file) {
-                var reader = new FileReader();
-                reader.onloadend = function (e) {
-                   var file_content = this.result;
-                     file_content = file_content.replace(/'/g, "\\'");
-                    if (call_params == "") {
-                       // alert(file_content)
-                        Opal.eval(call + "('" + file_content + "')");
-                    } else {
-                        alert('check if current project == project asked and call_params');
-                        Opal.eval(call + "('" + file_content + "','" + call_params + "')");
-                    }
-                    if (call == "add_to_screen") {
-                        //we change the project_on_screen var to the new project name
-                        name = name.split(file_separator)[1];
-                        Opal.Atome.$project_on_screen(name);
-                        Opal.Object.$project_list_send_to_set_last_project();
-                    }
-                };
-                reader.readAsText(file);
-            }, errorCallback2);
-        }, errorCallback);
-    }
-
-    function errorCallback2(err) {
-        console.log("file call is : " + name + "ERROR: maybe crash " + err.code);
-    }
-
-    function errorCallback(error) {
-        try {
-            // file not found error
-            if (error_call_params == "") {
-                Opal.eval(error_call);
-            } else {
-                Opal.eval(error_call + "('" + error_call_params + "')");
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    }
-}
-
-
-function store(options){
-    params= Opal.eval(options);
-    var keys=params.$keys();
-    var values=params.$values();
-    var name =params.$fetch('name');
-    var file_content =params.$fetch('file_content');
-    var call =params.$fetch('call');
-    var call_params = params.$fetch('call_params');
-    var type = params.$fetch('type');
-    if (type=="project"){
-        var name =Opal.Atome.$human()+file_separator+name;
-    }
-    //Opal.Object.$puts(name+" : "+file_content+" : "+call+" : "+params)
-    //////////////////////////////////////// saver //////////////////////////////////
-    var type = window.PERSISTENT;
-    var size = 5 * 1024 * 1024;
-    window.requestFileSystem(type, size, successCallback, errorCallback);
-    function successCallback(fs) {
-        fs.root.getFile(name, {create: true}, function (fileEntry) {
-            fileEntry.createWriter(function (fileWriter) {
-                fileWriter.onwriteend = function (e) {
-                    console.log("written : "+name);
-                };
-                fileWriter.onerror = function (e) {
-                    console.log('Write failed: ' + e.toString());
-                };
-                var blob = new Blob([file_content], {type: 'text/plain'});
-                // var blob = new Blob([file_content], {type: file_content.type});
-                fileWriter.write(blob);
-                if (call != false) {
-                    Opal.eval(call + "('" + call_params + "')");
-                }
-            }, errorCallback);
-        }, errorCallback);
-    }
     function errorCallback(error) {
         console.log("ERROR: " + error.code);
     }

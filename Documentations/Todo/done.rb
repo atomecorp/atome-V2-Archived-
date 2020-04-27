@@ -9,6 +9,7 @@ task_done =<<Strdelim
 - blur is cropped when large value on circle and box (the pb was not overflow but hardware accelearation)
 - b.name crash html rendering
 - bug text width should be 100% or innerwidth
+- change open_ide(:false) and open_console(:true) with open(:console) and close(:console)
 - temporary methods to change font size of sytem object :
   exemple:
         Console.text(25)

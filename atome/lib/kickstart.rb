@@ -22,7 +22,7 @@ i=0
 b.touch do 
   if i==0
 	i=1
-	a.color=:oliev
+	a.color=:olive
 	self.color(:cyan)
   else
 	self.color(:olive)
@@ -96,7 +96,7 @@ get("circle_0").x("254")
 get("circle_0").y("85")
 EOT
 
-write content_test
+write(content_test)
 open_ide(:true)
 open_console(:true)
 perpetual_run

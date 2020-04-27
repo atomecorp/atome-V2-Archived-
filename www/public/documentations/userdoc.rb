@@ -1,52 +1,67 @@
 ######################## shortcut ########################
-#run code :
-ctrl-R #or click on the bar above the code editor
-#comment code :
+# run code :
+ctrl-r #or click on the bar above the code editor
+# comment code :
 ctrl-c
-#reformat code (selection only):
+# reformat code (selection only):
 ctrl-j
-#reformat code (all ide code) :
+# reformat code (all ide code) :
 ctrl-e
-#open/close the code editor :
+# open/close the code editor :
 ctrl-i
-#open/close the console :
+# open/close the console :
 ctrl-t
-#clear the console :
+# clear the console :
 ctrl-x #or type clear in the code editor then run :
-#activate/desactivate auto run code :
+# activate/desactivate auto run code :
 ctrl-a
-#reboot :
+# reboot :
 ctrl-y
 
 ######################## general methods ########################
 
-#1 clear console:
+# clear console:
 clear
-#2 clear ide :
+# clear ide :
 clear ide
-#3 save file :
+# save file :
 save :my_script
-#4 load file :
+# load file :
 load :my_script
-#5 get help :
+# get help :
 help
-#6 close the code editor
+#close the code editor # attention will be replace soon with a new close /open api
 open_ide(:false)
-#7 open the code editor
+#open the code editor # attention will be replace soon with a new close /open api
 open_ide(:true)
-#8 toggle the code editor
+# toggle the code editor # attention will be replace soon with a new close /open api
 open_ide(:toggle)
-#9 close the the console
+# close the the console # attention will be replace soon with a new close /open api
 open_console(:false)
-#10 open the the console
+# open the the console # attention will be replace soon with a new close /open api
 open_console(:true)
-#11 toggle the the console
+# toggle the the console # attention will be replace soon with a new close /open api
 open_console(:toggle)
-#12wait
+# wait
 b=box()
 wait 2 do
   b.color(:red)
 end
+# write code to ide
+write("box()")
+# alert send an alert text to the renderer
+alert("hello")
+# log send text to console
+log("hello")
+# grab get an atome from it's atome_id
+grab(6548798)
+# grab get an atome from it's id
+get("shape_0")
+# obtain demo text
+lorem
+# to render to the screen
+text(lorem)
+# other dummy text lorem2, lorem3
 
 ######################## system settings ########################
 # Ide font size
@@ -55,71 +70,83 @@ Ide.text(20)
 Console.text(20)
 
 ######################## eVe object type ########################
-#1 create text:
+# create text:
 text("my text")
-#2 create box:
+# create box:
 box()
 #or
 square()
-#3 create circle
+# create circle
 circle()
 #or
 ellipse()
 
 ######################## Methods ########################
-#1 color
+# color
 a=box()
 a.color(:red)
-#2 size ( homothetic)
+# size ( homothetic)
 b=text("my text")
 b.size(20)
-#3 width
+# width
 a=box()
 a.width(200)
-#4 height
+# height
 a=box()
 a.height(250)
-#5 x
+# x
 a=box()
 a.x(50)
-#6 y
+# y
 a=box()
 a.y(250)
-#7 z (object order when in 2D)
+# z (object order when in 2D)
 a=box()
 a.z(2)
-#8 move
+# move
 a=box()
 a.draggable(:true)
-#8b stop move
+# stop move
 a.draggable(:false)
-#9 edit content (texte)
+# edit content (texte)
 b=text("my text")
 b.editable(:true)
-#9b stop edit
+# stop edit
 b.editable(:false)
-#10 transparency (range 0 to 1)
+# transparency (range 0 to 1)
 a=box()
 a.transparency(0.5)
-#11 rotation  (degre)
+# rotation  (degre)
 a=box()
 a.rotate(20)
-#12 blur (set in pixels)
+# blur (set in pixels)
 a=box()
 a.blur(7)
-#13 shadow offset x , offset y, thickness, color, invert(shadow inside object)
+# shadow offset x , offset y, thickness, color, invert(shadow inside object)
 a.border({x: 5}, {y: 5}, {thickness: 3}, {color: :green}, {invert: :true})
-#14 shadow thikness color pattern
+# shadow thikness color pattern
 a.shadow({thikness: 5}, {color: :green}, {pattern: :dashed})
-#15 Smooth make curve angles
+# Smooth make curve angles
 a.smooth(15)
+# set id
+a.id(:my_object)
+# set a property (it reset the property; ex for color it erase all colors and replace with current)
+a.set({color: :red})# identical to a.color(:red)
+#add a property (it add the propery to property already present ; ex for color add aonther color and so create a gradient)
+a.add({color: :orange, x: 200})
+# to get a prop ex color
+a.color
+# to print color value in the console
+puts a.color()
+#to get x position
+puts a.x
 
 ######################## events ########################
-#1 touch
+# touch
 b=text("my text")
 b.touch do
   b.x(300)
   b.content("hello")
 end
-#2 drag
+# drag
 #not implemented for now!!

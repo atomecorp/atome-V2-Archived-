@@ -54,9 +54,7 @@ function debug(code) {
         Opal.eval(code);
     } catch (error) {
         console.log(JSON.stringify(error));
-        //the line below should provide better debug but cause error when typing "clear" in the ide
-       // msg = "puts \"" + error.stack + "\"";
-        msg = "puts \"" + error + "\"";
+       msg = "puts \"" + error.stack + "\"";
         Opal.eval(msg);
     }
 }
@@ -91,7 +89,7 @@ function get_image(file) {
     reader.readAsDataURL(file);
 }
 
-function add_to_ide(content, run) {
+function send_to_ide(content, run) {
     editor.getDoc().setValue(content);
 
 // below code to check if code editor must be open at startup
@@ -111,10 +109,10 @@ function add_to_ide(content, run) {
     file_content=content.split("\n");
     file_content.forEach(function(line) {
    if (line.startsWith("run")){
-            Opal.Object.$run_code();
+            Opal.Object.$run_code(true);
         }
    if (run){
-       Opal.Object.$run_code();
+       Opal.Object.$run_code(true);
    }
     });
 

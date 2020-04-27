@@ -81,3 +81,21 @@ def class_exists?(class_name)
 rescue NameError
   return false
 end
+
+def find_key hash, key
+  return hash[key]
+end
+
+def bin_to_hex(s)
+  s.unpack('H*').first
+  # s.each_byte.map { |b| b.to_s(16).rjust(2, '0') }.join
+end
+
+def hex_to_bin(s)
+  s.scan(/../).map { |x| x.hex.chr }.join
+end
+
+def time
+  time = Time.now.strftime('%Y.%m.%d.%H.%M.%S.%L')
+  time
+end

@@ -4,14 +4,13 @@
 ################### temp methods ##############
 
 #todo puts opal utils in a module
-#
-#class Opal_apis
-#
-#  def get_hash_val value, property
-#    return value[property]
-#  end
-#
-#end
+module Opal_library
+
+end
+def require
+
+end
+################### get proc content with methods below ##############
 
 def get_hash_value prop_array, property
   prop_found = ""
@@ -52,6 +51,7 @@ def send_to_get_proc_content(proc)
 end
 
 ################## Js 'pass-plat' ##############
+
 class Js
   def self.method_missing(m, *args)
     opts = []
@@ -79,10 +79,66 @@ def console_text_size size
   `$("#ruby_console ").css("font-size",#{size}+"px")`
 end
 
-
 ################## file operation ##############
 
-def store(filename, content = '', system_file = false, fct_to_call = false, fct_params = false, error_catch_fct = false)
+$require_list = {}
+$split_on=[]
+$counter=1
+$codes_call=[]
+$total_pass=0
+
+def require_parser code
+  $codes_call << code
+  $total_pass+=1
+  analysed_code = code.split("\n")
+  analysed_code.each do |line|
+    line = line.strip
+    if line.start_with?("require")
+      $counter+=1
+      $split_on << line
+      new_line=line.sub('require','').sub(':','').gsub('"','').strip
+      $require_list[new_line]=""
+    end
+  end
+  #we send the required file to loader function
+  $require_list.keys.each do |code_to_load|
+    $require_list.delete(code_to_load)
+    loader(code_to_load, :require_parser)
+  end
+  $counter -= 1
+  if $counter ==0
+    base_code=$codes_call[0]
+    $split_on.each_with_index do |spliter, index|
+      base_code=base_code.sub(spliter,$codes_call[index+1])
+    end
+    #we reinit all datas
+    $require_list = {}
+    $split_on=[]
+    $counter=1
+    $codes_call=[]
+    $total_pass=0
+    `
+    run_script(#{base_code})
+  `
+  end
+end
+
+def run_code (clear = false)
+  code = `code=editor.getDoc().getValue("\n")`
+  if clear
+    if class_exists?(:Atome)
+      Atome.purge
+    end
+    clear(:view)
+  end
+  #require_parser(code)
+     `
+      run_script(#{code})
+    `
+  nil
+end
+
+def saver(filename, content = '', system_file = false, fct_to_call = false, fct_params = false, error_catch_fct = false)
   if filename.class == Hash
     content = filename[filename.keys[0]]
     filename = filename.keys[0]
@@ -93,173 +149,55 @@ def store(filename, content = '', system_file = false, fct_to_call = false, fct_
   `write_file(#{filename}, #{content}, #{fct_to_call}, #{fct_params}, #{error_catch_fct})`
 end
 
-module Opal_library
-
-end
-
-
-def load(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false)
-
+def loader(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false)
   if fct_to_call=="run"
     fct_to_call = 'add_to_screen'
   elsif fct_to_call=="console"
     fct_to_call = 'add_to_console'
   else
-    fct_to_call = 'ide'
+    fct_to_call = 'add_to_ide'
   end
   filename = filename.to_s
-  #if fct_to_call == 'add_to_screen' || fct_to_call == 'bufferize' || fct_to_call == 'renamer' || fct_to_call == 'puts' || fct_to_call == 'alert' || fct_to_call == 'text' || fct_to_call == 'dynamic_code'
-  #end
   `
    read_file(#{filename},#{fct_to_call}, #{fct_params}, #{error_catch_fct});
    `
 end
 
-
-def opal_read filename
-
+# below read local file and send the result to console or exec it
+def reader filename , action="run"
+  #to send to console action="console"
   `
 $.ajax({
     url: #{filename},
     dataType: 'text',
     success: function (data) {
-       Opal.eval(data);
-    }
-});
-//$( "#html_view" ).load( "atome/file/db_roda.js" );
-`
-end
-
-
-def reader filename , view_on="console"
-
-  `
-$.ajax({
-    url: #{filename},
-    dataType: 'text',
-    success: function (data) {
-if (#{view_on}=="console"){
+if (#{action}=="console"){
 Opal.Object.$puts(data);
 }
 else{
-alert(data)
+  Opal.eval(data);
 }
 
     }
 });
 
 `
-end
-
-def help
-
-  reader("documentations/userdoc.rb","console")
-end
-###################### exec user script ####################
-#@code_to_exec=[]
-def add_to_screen(content, run=false)
-  #$PROCESS_ID.add_to_ide(content)
-  JS.add_to_ide(content, run)
-  #`add_to_ide(#{content})`
 end
 
 def add_to_console(content)
   puts content.gsub("\n","<br>")
 end
 
-
-
-def ide(content = nil, run=false)
+def add_to_ide(content = nil, run=false)
   if content
-    JS.add_to_ide(content, run)
+    JS.send_to_ide(content, run)
   else
     code = `code=editor.getDoc().getValue("\n")`
     return code
   end
 end
 
-def write(content)
-  `add_to_ide(#{content})`
-end
 
-def dynamic_code *code
-  puts "msg from opal_utils line 148 code : #{code.length}"
-  puts "msg from opal_utils line 149 code  1:#{code[0]} "
-  puts "msg from opal_utils line 149 code 2:#{code[1]} "
-end
-
-
-def deep_analysis(code)
-  #for Atome mode only
-  #if class_exists?(:Atome)
-  #  Atome.delete(:code)
-  #end
-  # we store the whole code in Atome.code
-  # we parse code to remove in case of commented require
-  code = code.gsub('#require', '#')
-  if code.include? 'require'
-    lines = code.split("\n")
-    puts puts "msg from opal_utils line 164 code 2:#{lines} "
-    #@code_to_exec << code
-    #require_list = []
-    #lines.each_with_index do |line, _index|
-    #  require_list << line.strip if line.start_with? 'require'
-    #end
-    #require_list.each_with_index do |get_this, index|
-    #  get_this = get_this.sub('require', '').gsub("'", '').gsub('"', '').gsub(':', '').strip
-    #  if index == require_list.length - 1
-    #    load get_this, 'dynamic_code', true
-    #  else
-    #    load get_this, 'dynamic_code', false
-    #  end
-    #end
-  else
-    `
-    run_script(#{code})
-  `
-  end
-end
-
-def run_code (clear = false)
-  #@code_to_exec=[]
-  code = `code=editor.getDoc().getValue("\n")`
-  ## allow eVe to remove all object expet the two first :  the human (the user) and eDen ( the machine)
-  if clear
-    if class_exists?(:Atome)
-      Atome.purge
-    end
-    clear(:view)
-  end
-  `
-    run_script(#{code})
-  `
-  #if code.include? 'require'
-  #  deep_analysis code
-  #else
-  #  `
-  #  run_script(#{code})
-  #`
-  #end
-  nil
-end
-
-def code(code = nil)
-  if code
-    $PROCESS_ID.editor.getDoc.setValue(code)
-  else
-    code = $PROCESS_ID.editor.getDoc.getValue("\n")
-  end
-end
-
-def timeout(time)
-  time=time.to_f
-  `setTimeout(function(){ #{yield} }, #{time})`
-end
-
-def wait(time)
-  time=time.to_f
-  `setTimeout(function(){ #{yield} }, #{time*1000})`
-end
 
 
 #######  CodeMirror methods #############
@@ -461,6 +399,8 @@ end
 
 shortcut
 
+################## misc #################
+
 def p(string)
   string = string.to_s
   `
@@ -477,7 +417,6 @@ new_puts=new_puts.replace(regex2, '<br>');
   `
 end
 
-
 def clear(option = :console)
   option = option.to_sym
   if option == :view || option == :screen
@@ -486,7 +425,7 @@ def clear(option = :console)
     $("#html_view").html("")
     `
   elsif option == :ide
-    ide ""
+    add_to_ide("")
   elsif option == :console
     `
   $("#ruby_console").html("")
@@ -498,7 +437,6 @@ def sanitizer(string)
   string = string.gsub("'", "\\\\'")
   string
 end
-
 
 #def find(script, string)
 #  script = script.split("\n")
@@ -525,7 +463,6 @@ class Context
   end
 end
 
-
 def opal_setter(atome_id, property, value)
   #puts "msg from opal_utils line 480 : atome id is #{atome_id}, property #{property}, value is #{value}"
   atomes = Atome.atomes
@@ -534,4 +471,18 @@ def opal_setter(atome_id, property, value)
       atome.send(property, value)
     end
   end
+end
+
+def timeout(time)
+  time=time.to_f
+  `setTimeout(function(){ #{yield} }, #{time})`
+end
+
+def waiter(time)
+  time=time.to_f
+  `setTimeout(function(){ #{yield} }, #{time*1000})`
+end
+
+def help
+  reader("documentations/userdoc.rb","console")
 end
