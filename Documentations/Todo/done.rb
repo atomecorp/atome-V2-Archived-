@@ -1,13 +1,24 @@
 
 task_done =<<Strdelim
+- save files to icloud ion iOS
+- send multiple identical prop to the renderer
+- doc to be unified
+- require to make it work again
+- on drag id of box is shape instead of box
+- wait work again
 - write install dev post on FreeBSD
 - create a fast compile mode for fastest test 
 - rotation
 - transparency
+- set IDE font size
+- allow b=Atome.new(:box) syntax
+- debug touch position not persistent because set in atome Hash: create two behaviors one that store (edit mode) one not store consult mode 
+- add default prop to atome object (x y color width, height) 
 - pass multiple params to js options ( shadow border)
 - object block touch event if place in front of another solution : pointer-events: none;
 - blur is cropped when large value on circle and box (the pb was not overflow but hardware accelearation)
 - b.name crash html rendering
+- mix many renderer in one context (ex ZimJS render shapes fabricJS render text)
 - bug text width should be 100% or innerwidth
 - change open_ide(:false) and open_console(:true) with open(:console) and close(:console)
 - temporary methods to change font size of sytem object :

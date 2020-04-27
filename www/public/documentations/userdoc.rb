@@ -123,9 +123,9 @@ a.rotate(20)
 a=box()
 a.blur(7)
 # shadow offset x , offset y, thickness, color, invert(shadow inside object)
-a.border({x: 5}, {y: 5}, {thickness: 3}, {color: :green}, {invert: :true})
-# shadow thikness color pattern
-a.shadow({thikness: 5}, {color: :green}, {pattern: :dashed})
+a.shadow({x: 5}, {y: 5}, {thickness: 3}, {color: :black}, {invert: :true})
+# border thikness color pattern
+a.border({thickness: 7}, {color: :red}, {invert: :true}, {pattern: :dashed})
 # Smooth make curve angles
 a.smooth(15)
 # set id
