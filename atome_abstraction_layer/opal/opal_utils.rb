@@ -7,9 +7,11 @@
 module Opal_library
 
 end
+
 def require
 
 end
+
 ################### get proc content with methods below ##############
 
 def get_hash_value prop_array, property
@@ -80,24 +82,23 @@ def console_text_size size
 end
 
 ################## file operation ##############
-
 $require_list = {}
-$split_on=[]
-$counter=1
-$codes_call=[]
-$total_pass=0
+$split_on = []
+$counter = 1
+$codes_call = []
+$total_pass = 0
 
 def require_parser code
   $codes_call << code
-  $total_pass+=1
+  $total_pass += 1
   analysed_code = code.split("\n")
   analysed_code.each do |line|
     line = line.strip
     if line.start_with?("require")
-      $counter+=1
+      $counter += 1
       $split_on << line
-      new_line=line.sub('require','').sub(':','').gsub('"','').strip
-      $require_list[new_line]=""
+      new_line = line.sub('require', '').sub(':', '').gsub('"', '').strip
+      $require_list[new_line] = ""
     end
   end
   #we send the required file to loader function
@@ -106,17 +107,17 @@ def require_parser code
     loader(code_to_load, :require_parser)
   end
   $counter -= 1
-  if $counter ==0
-    base_code=$codes_call[0]
+  if $counter == 0
+    base_code = $codes_call[0]
     $split_on.each_with_index do |spliter, index|
-      base_code=base_code.sub(spliter,$codes_call[index+1])
+      base_code = base_code.sub(spliter, $codes_call[index + 1])
     end
     #we reinit all datas
     $require_list = {}
-    $split_on=[]
-    $counter=1
-    $codes_call=[]
-    $total_pass=0
+    $split_on = []
+    $counter = 1
+    $codes_call = []
+    $total_pass = 0
     `
     run_script(#{base_code})
   `
@@ -131,10 +132,7 @@ def run_code (clear = false)
     end
     clear(:view)
   end
-  #require_parser(code)
-     `
-      run_script(#{code})
-    `
+  require_parser(code)
   nil
 end
 
@@ -149,12 +147,10 @@ def saver(filename, content = '', system_file = false, fct_to_call = false, fct_
   `write_file(#{filename}, #{content}, #{fct_to_call}, #{fct_params}, #{error_catch_fct})`
 end
 
-def loader(filename, fct_to_call = 'add_to_screen', fct_params = false, error_catch_fct = false)
-  if fct_to_call=="run"
-    fct_to_call = 'add_to_screen'
-  elsif fct_to_call=="console"
+def loader(filename, fct_to_call = 'add_to_ide', fct_params = false, error_catch_fct = false)
+  if fct_to_call == "console"
     fct_to_call = 'add_to_console'
-  else
+  elsif fct_to_call == "add_to_screen"
     fct_to_call = 'add_to_ide'
   end
   filename = filename.to_s
@@ -164,7 +160,7 @@ def loader(filename, fct_to_call = 'add_to_screen', fct_params = false, error_ca
 end
 
 # below read local file and send the result to console or exec it
-def reader filename , action="run"
+def reader filename, action = "run"
   #to send to console action="console"
   `
 $.ajax({
@@ -185,10 +181,10 @@ else{
 end
 
 def add_to_console(content)
-  puts content.gsub("\n","<br>")
+  puts content.gsub("\n", "<br>")
 end
 
-def add_to_ide(content = nil, run=false)
+def add_to_ide(content = nil, run = false)
   if content
     JS.send_to_ide(content, run)
   else
@@ -196,8 +192,6 @@ def add_to_ide(content = nil, run=false)
     return code
   end
 end
-
-
 
 
 #######  CodeMirror methods #############
@@ -474,15 +468,15 @@ def opal_setter(atome_id, property, value)
 end
 
 def timeout(time)
-  time=time.to_f
+  time = time.to_f
   `setTimeout(function(){ #{yield} }, #{time})`
 end
 
 def waiter(time)
-  time=time.to_f
-  `setTimeout(function(){ #{yield} }, #{time*1000})`
+  time = time.to_f
+  `setTimeout(function(){ #{yield} }, #{time * 1000})`
 end
 
 def help
-  reader("documentations/userdoc.rb","console")
+  reader("documentations/userdoc.rb", "console")
 end
