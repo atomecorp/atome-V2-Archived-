@@ -514,7 +514,5 @@ class Atome
     return Proton.presets
   end
 
-  def self.version
-    return "v:0.09"
-  end
+
 end

@@ -174,3 +174,14 @@ def lorem3
 STRdelim
 end
 
+def help
+  reader("documentations/userdoc.rb", "console")
+end
+
+def news
+  reader("documentations/news.rb", "console")
+end
+
+def version
+  return "v:0.10"
+end

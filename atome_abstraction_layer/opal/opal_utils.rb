@@ -477,6 +477,3 @@ def waiter(time)
   `setTimeout(function(){ #{yield} }, #{time * 1000})`
 end
 
-def help
-  reader("documentations/userdoc.rb", "console")
-end
