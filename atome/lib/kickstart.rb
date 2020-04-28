@@ -126,7 +126,7 @@ a.delete(:shadow)
 #puts a
 EOT
 
-write(content_test)
+write(content)
 open_ide(:true)
 open_console(:true)
 perpetual_run

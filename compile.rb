@@ -54,6 +54,9 @@ if !ARGV.empty?
     `bash -c ' open http://0.0.0.0:9292 ' &`
     `cd ./platforms/server/ && bundle exec puma`
   else
+    if ARGV[0]="osx"
+      `rm -r ./platforms/osx/build/atome.app`
+    end
     `cordova run #{ARGV[0]}`
   end
 else
