@@ -183,5 +183,5 @@ def news
 end
 
 def version
-  return "v:0.10"
+  return "v:0.12"
 end

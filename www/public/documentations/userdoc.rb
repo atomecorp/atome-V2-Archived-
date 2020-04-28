@@ -1,4 +1,15 @@
 ######################## shortcut ########################
+# get help
+help
+# get version
+version
+# get help
+puts version
+# get new functionality list
+news
+
+
+######################## shortcut ########################
 # run code :
 ctrl-r #or click on the bar above the code editor
 # comment code :

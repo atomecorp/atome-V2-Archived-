@@ -82,12 +82,12 @@ class Atome
     end
     # we create an automaticaly generated id
     if create_id
-      id=:unknown
+      id = :unknown
       @atome_initial_state.each do |property_key_pair|
         @atome_initial_state.each do |property_key_pair|
           if property_key_pair.keys[0].to_sym == :preset
             id = property_key_pair.values[0].to_s + '_'
-          elsif property_key_pair.keys[0].to_sym == :type && id== :unknown_
+          elsif property_key_pair.keys[0].to_sym == :type && id == :unknown_
             id = property_key_pair.values[0].to_s + '_'
           end
         end
@@ -256,7 +256,7 @@ class Atome
         end
       end
     end
-    events= Proton.events.keys
+    events = Proton.events.keys
     if pluralize
       found_prop
     elsif property == :atome_id || property == :id || property == :label
@@ -276,7 +276,7 @@ class Atome
     class_exec(proc)
   end
 
-  def trig proc , event
+  def trig proc, event
     class_exec(proc, event)
   end
 
@@ -284,8 +284,7 @@ class Atome
     # TODO: exchange or enhance targeted prop
   end
 
-  def delete(*properties)
-    #attention delete is call often because each time a prop is set it delete the correponding pluralize props
+  def delete(*properties) #attention delete is call often because each time a prop is set it delete the correponding pluralize props
     if !properties.empty?
       list_of_matching_prop = []
       index_to_delete = []
@@ -330,31 +329,71 @@ class Atome
         if !user_list_of_prop_to_delete.empty?
           if user_list_of_prop_to_delete && !user_list_of_prop_to_delete[0].nil?
             @atome.delete_at_multi(user_list_of_prop_to_delete)
-            #puts "msg from atome line 333 delete somthing in atome ?: #{@atome}"
+            puts "msg from atome line 333 delete something in atome ?: #{@atome}"
           end
         else
-          properties= @atome.delete_at_multi(list_of_matching_prop) if list_of_matching_prop
-          #puts "msg from atome line 337 delete pluralized prop atome  : #{properties}"
+          #here we delete all found  instances of the atome prop pass here
+          property = @atome.delete_at_multi(list_of_matching_prop) if list_of_matching_prop
+          # we get the last to find the prop type wr must delete
+          property = property.last
+          if property
+            if property.class == Array # the its a complex property we have to find its name in the type
+              property.each do |sub_property|
+                if sub_property.keys[0] == :type
+                  property_name = (sub_property.values[0].to_s + "s").to_sym
+                  #now we set the new property (to trif the rendered) and delete the dummy value from the atome array
+                  set(property_name => 0)
+                  @atome.pop()
+                end
+              end
+            else
+              #  the its a simple property
+              property = property.keys[0]
+              #now we set the new property (to trif the rendered) and delete the dummy value from the atome array
+              set(property => 0)
+              @atome.pop()
+            end
+          end
         end
       else
+        #here we delete single instance of the atome prop
         last_item = list_of_matching_prop[list_of_matching_prop.length - 1]
-        # delete single atome prop
-        property=@atome.delete_at(last_item) if last_item
-        if property
-          if property.class==Array# the its a complex property we have to find its name in the type
+        before_last_item = list_of_matching_prop[list_of_matching_prop.length - 2]
+        property = @atome.delete_at(last_item) if last_item
+        if last_item != before_last_item
+          before_last_property = @atome[before_last_item]
+          if before_last_property.class == Array # we found a complexe property such as shadow or border so must add a bit of analysis
+            #Todo : we have to store all instance of current prop and set it to the renderer expet the last that is deleted
+            prop_array = []
+            prop_type = {}
+            before_last_property.each do |property_array|
+              if property_array.keys[0] == :type
+                prop_type = property_array.values[0]
+              else
+                prop_array << property_array
+              end
+            end
+            before_last_property = {prop_type => prop_array}
+          end
+        else
+          if property.class == Array # we found a complexe property such as shadow or border
             property.each do |sub_property|
-              if sub_property.keys[0]==:type
-                Photon.delete(sub_property.values[0],self.atome_id)
+              if sub_property.keys[0] == :type
+                before_last_property = {sub_property.values[0] => 0}
               end
             end
           else
-            Photon.delete(property.keys[0],self.atome_id)
+            before_last_property = {property.keys[0] => 0}
           end
         end
-
+        if property
+          #  now we set the new property
+          set(before_last_property)
+        end
       end
     else
-      Photon.delete(:atome,self.atome_id)
+      #we delete the whole atome
+      Photon.delete({atome: :curent}, self.atome_id)
       @atome = []
     end
   end
@@ -418,12 +457,12 @@ class Atome
     end
   end
 
-  def insert_properties_in_atome(properties=nil)
+  def insert_properties_in_atome(properties = nil)
     # this method is called when a property is added or modified , the insert_properties_in_atome method is call by the set method.
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
 
-    if properties.class==Hash && properties.values[0].class == Proc
+    if properties.class == Hash && properties.values[0].class == Proc
       proc = properties.values[0]
       proc = send_to_get_proc_content(proc)
       #----------- todo get proc content here -----------
@@ -510,6 +549,7 @@ class Atome
   def self.methods
     Proton.atome_methods
   end
+
   def self.presets
     return Proton.presets
   end
