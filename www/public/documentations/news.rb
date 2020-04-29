@@ -14,3 +14,5 @@ a.delete(:color)
 #a.delete(:border)
 #a.delete(:shadow)
 #a.delete(:shadows)
+# 29 04 2020
+# Added anmation type help.animation

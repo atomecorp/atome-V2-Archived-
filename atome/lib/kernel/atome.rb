@@ -97,7 +97,7 @@ class Atome
     end
     if create_atome_id
       #atome_id generation here
-      atome_id = object_id
+      atome_id = "a_"+object_id.to_s
       @atome_initial_state.unshift(atome_id: atome_id)
     end
     unless renderer_define
@@ -120,6 +120,7 @@ class Atome
       if proc
         #todo : important keep old code below and maybe add a condition if the property_fct is an event
         set({property_fct => proc})
+
       else
         if options[0].nil?
           # here the method call is a  getter
@@ -272,12 +273,15 @@ class Atome
     end
   end
 
-  def self.trig proc
-    class_exec(proc)
-  end
+  #def self.trig proc
+  #  class_exec(proc)
+  #end
 
   def trig proc, event
+
     class_exec(proc, event)
+    #proc = properties.values[0]
+    #proc = send_to_get_proc_content(proc)
   end
 
   def enhance(*properties)
@@ -462,13 +466,13 @@ class Atome
     # The insert_properties_in_atome add the the prop in the @atome hash and also add the current atome in he @atomes hash(this hash contain all current atoms)
     # finaly the  insert_properties_in_atome send the current atome to the Render engine.
 
-    if properties.class == Hash && properties.values[0].class == Proc
-      proc = properties.values[0]
-      proc = send_to_get_proc_content(proc)
-      #----------- todo get proc content here -----------
-      #puts "msg from atome line 416 ------ the proc can now be store we now have to eval the code instead of instance eval the proc ------"
-      #puts proc
-    end
+    #if properties.class == Hash && properties.values[0].class == Proc
+    #  proc = properties.values[0]
+    #  proc = send_to_get_proc_content(proc)
+    #  #----------- todo get proc content here -----------
+    #  puts "msg from atome line 470 ------ the proc, #{proc} now be store we now have to eval the code instead of instance eval the proc ------"
+    #  #puts proc
+    #end
 
     @atome << properties
     # now we store the current @atome id in the current @atomes array

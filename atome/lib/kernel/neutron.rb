@@ -2,6 +2,9 @@
 # frozen_string_literal: true
 #neutron provide public methods used both by end users and needed by the atome object
 
+
+
+
 def trig atome_id, event
   atomes = Atome.atomes
   atomes.each do |_id, atome|
@@ -106,10 +109,31 @@ end
 def sanitizer(string)
   string = string.gsub("'", "\\\\'")
 end
+################ media manipulation ############
 
-def play
+def anim(params)
+  obj= params[:target]
+  if obj.nil?
+    obj= self.atome_id
+    puts obj
+  elsif obj.class==Atome
+    obj =obj.atome_id
+  else
+    obj =Object.get(obj).atome_id
+  end
+  params.delete(:target)
+  animator(params, obj)
+  #`
+  #motion.animate(#{params}, #{obj})
+  #`
+end
+
+
+def play (params)
   Object.send(Renderer.engine + 'play', 'snare')
 end
+
+
 
 def autorun
   # method added here just to prevent method not found error
@@ -174,8 +198,15 @@ def lorem3
 STRdelim
 end
 
-def help
-  reader("documentations/userdoc.rb", "console")
+def help(subject="")
+  if subject==""
+    reader("documentations/userdoc.rb", "console")
+  else
+    return Help.send(subject)
+  end
+end
+def example(subject="")
+  return Example.send(subject)
 end
 
 def news
@@ -183,5 +214,5 @@ def news
 end
 
 def version
-  return "v:0.12"
+  return "v:0.13"
 end

@@ -88,11 +88,6 @@ class Photon
     if class_exists?(:Atome)
       atome = Atome.atomes[atome_id.to_s]
       atome = atome.to_array
-      #puts "msg from photon line 90 atome_id #{atome_id} :  #{atome} :  #{atome.class}  : #{atome.length}"
-      #if atome.length==0
-      #  # the atome array is empty we delete it in the render
-      #  constantize(renderer).init([delete: :true], atome_id)
-      #else
         atome.each do |props|
           if props.class == Array
             props.each do |prop|
@@ -102,30 +97,14 @@ class Photon
             inception props, atome
           end
         end
-
-      #end
     end
   end
 
   def self.delete(property, atome_id)
-    # we find the renderer and delete it
-
-
-    #real_property_name=property.to_s.chomp("s").to_sym
-    #puts "msg from photon line 106 : #{property}"
     grab(atome_id).each do |properties|
       if properties.class==Hash && properties.keys[0] == :renderer
        renderer = properties.values[0].capitalize()
-    #    if real_property_name == :atome # we delete the whole atome
          constantize(renderer).init([delete: :true], atome_id)
-       puts "deleted!!!"
-    #    elsif property.end_with?("s") # we delete the property
-    #      puts "msg from photon line 115 : #{real_property_name}"
-    #      constantize(renderer).init([real_property_name => 0], atome_id)
-    #    else
-    #      puts "msg from photon line 117 found last iteration of prop and send it: #{real_property_name}"
-    #      constantize(renderer).init([real_property_name => 0], atome_id)
-    #    end
       end
     end
   end

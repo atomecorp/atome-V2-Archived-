@@ -81,6 +81,16 @@ def console_text_size size
   `$("#ruby_console ").css("font-size",#{size}+"px")`
 end
 
+
+############### animatione
+
+def animator(params,obj)
+  `
+  motion.animate(#{params}, #{obj})
+  `
+
+end
+
 ################## file operation ##############
 $require_list = {}
 $split_on = []

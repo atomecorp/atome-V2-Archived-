@@ -1,3 +1,68 @@
+module Help
+  def self.border
+    t = <<Str
+border has 3 parameters : thickness, color, value type  must be string or symbol
+thickness value goes from 0 to infinity , value type  must be integer
+color value can be set in rgb, rgba, hex or color name, value type  must be string or symbol (when using color name ex : :red)
+pattern values are : dashed, solid , double, dotted, value type must be string or symbol
+type Example.border for examples
+Str
+  end
+
+  def self.anim
+    t = <<Str
+anim is a function it has 6 main parameters :
+start
+end 
+duration
+loop
+curve 
+target
+anim can take any prop as a param 
+type Example.anim for examples
+Str
+  end
+
+end
+
+
+module Example
+  def self.border
+    t = <<Str
+    b=box()
+    b.border({thickness: 5, pattern: :dotted, color: :black})
+Str
+  end
+
+  def self.anim
+    t = <<Str
+save :animator
+a=circle()
+a.shadow({blur: 20})
+a.border({pattern: :dotted, color: :black, thickness: 5})
+a.color(:violet)
+b=box()
+b.shadow({blur: 20})
+b.x=500
+
+b.touch do 
+  anim({
+	start: {x: 0, y: 0, filter: 'blur(0px)',rotate: 0,height: 100,  borderRadius: 100},
+	end: {x: 900, y: 170, filter: 'blur(10px)',rotate: 180,height: 50, borderRadius: 0},
+	duration: 2000,
+	loop: 8,
+	curve: :easing,
+	target: a
+	})
+end
+Str
+
+  end
+
+
+end
+
+
 content = <<EOT
 run
 read "atome/atome.rb"
@@ -126,7 +191,24 @@ a.delete(:shadow)
 #puts a
 EOT
 
-write(content)
+content_test = <<EOT
+save :anim_test  
+a=box()
+b=circle()
+b.border({thickness: 5, color: :green})
+b.shadow({blur: 5})
+b.touch do 
+  b.animate({
+	start: 20,
+end:500,
+property: :x,
+duration: 2000,
+loop: 7,
+curve: :easing
+	})
+end
+EOT
+write(content_test)
 open_ide(:true)
 open_console(:true)
 perpetual_run
