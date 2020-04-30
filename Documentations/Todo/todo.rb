@@ -1,8 +1,10 @@
 todo =<<StrDelim
 ######## MVP #######
-- delete object : a.delete()
-- delete api is not enough add a delete method : delete(ob_id, obj_2_id)
 - audio image video play back
+- reorganise files for auto publish to share folder and move files to avoid searchin in, Automatise publish with auto increnent Atome version number
+- minimalist U.I. integration (left side actions) with basic tools
+- repair a new U.I. for console and IDE 
+- delete api is not enough add a delete method : delete(ob_id, obj_2_id)
 - multiple audio renderer 
 - effect node 
 - create background object ?
@@ -18,17 +20,14 @@ todo =<<StrDelim
 - get info on touch object 
 - add drag events callback pass events (x, pointer, etc...)
 - on drag kill touch
-- debug drag : touch is triggered every time
 - create events options : down, up 
 - create over events
-- Automatise publish with auto increnment Atome version number
 - if possible extend array core with atome fct  ex : a=[box_1, box_2] ; a.x=30
 - create complexe objet ( text + box) (circle+ text) etc....
 - add atome Object implementation with basic methods(tags , history, help, infos, examples, tuto)
 - verify we can get all object by class /tags /types
 - find to way to get color of an object and compare it with another color (problem with atome object returned)
 - new project with default name and save
-- animation
 - add missing splashscrens (iPad)
 - import medias
 - Background task/script : start stop, list of background script, exclude audio, exlude visuals
@@ -38,11 +37,9 @@ todo =<<StrDelim
 - verify internationalisation
 - ensure scratch compatibility
 - create documentation of architecture Apis and tutos, first launch
-- minimalist U.I. integration (left side actions) with basic tools
 - debug ruby with line number anf file name (when using require)
 - maternal language coding description
 - node view
-- build a new U.I. for console and IDE 
 - create button to quit
 
 - create dir inside atome that contain:  atome atome_abstraction_layer www for easier search and debug

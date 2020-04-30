@@ -1,5 +1,7 @@
 
 task_done =<<Strdelim
+- animation
+- delete object : a.delete()
 - change cordova default size,  in config.xml add:   <preference name="WindowSize" value="1000x800"/>
 - save files to icloud ion iOS
 - send multiple identical prop to the renderer
