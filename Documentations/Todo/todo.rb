@@ -1,11 +1,14 @@
 todo =<<StrDelim
 ######## MVP #######
 - audio image video play back
+- debug when adding multiple filter cf : a blur and a drop shadow ( the second filter remove the first) 
+- schedule and setinterval don"t forget to kill when loading run code
 - reorganise files for auto publish to share folder and move files to avoid searchin in, Automatise publish with auto increnent Atome version number
 - minimalist U.I. integration (left side actions) with basic tools
 - repair a new U.I. for console and IDE 
 - delete api is not enough add a delete method : delete(ob_id, obj_2_id)
 - multiple audio renderer 
+- only send the prop modify to the renderer not the whole object
 - effect node 
 - create background object ?
 - group : create a single method for both group and container, add properties propagation strategy
@@ -23,14 +26,14 @@ todo =<<StrDelim
 - create events options : down, up 
 - create over events
 - if possible extend array core with atome fct  ex : a=[box_1, box_2] ; a.x=30
-- create complexe objet ( text + box) (circle+ text) etc....
+- create complex objet ( text + box) (circle+ text) etc....
 - add atome Object implementation with basic methods(tags , history, help, infos, examples, tuto)
 - verify we can get all object by class /tags /types
 - find to way to get color of an object and compare it with another color (problem with atome object returned)
 - new project with default name and save
 - add missing splashscrens (iPad)
 - import medias
-- Background task/script : start stop, list of background script, exclude audio, exlude visuals
+- Background task/script : start stop, list of background script, exclude audio, exclude visuals
 - Arduino layer (cordova roda)
 - Domotique
 - unify numeric value for prop such as color rotation, etc for better exchange,  (0 to 1)?

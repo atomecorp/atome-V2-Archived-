@@ -3,3 +3,4 @@
 # 25 04 2020 added border api, type help.border
 # 27 04 2020 added delete api, type help.delete
 # 29 04 2020 Added anmation api, type help.animation
+# 30 04 2020 Added image object + api

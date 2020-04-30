@@ -25,7 +25,7 @@ module Proton
 
   def self.visual_types
     #visual_types's key is the name of type, the value is the associated preset for the type
-    visual_types = {shape: :box, image: :logo, text: :lorem}
+    visual_types = {shape: :box, image: :logo, text: :lorem, video: :logo}
     visual_types
   end
 

@@ -38,6 +38,13 @@ type Example.anim for examples
 Str
   end
 
+  def self.image
+    t = <<Str
+sipmle api to view an image : image()
+type Example.image for examples
+Str
+  end
+
 end
 
 
@@ -97,6 +104,18 @@ b.touch do
 	target: a
 	})
 end
+Str
+  end
+
+  def self.image
+    t = <<Str
+run
+i=image({content: :boat})
+i.x=500
+i.rotate(20)
+i.shadow({blur: 10})
+i.blur(5)
+i.draggable(:true)
 Str
   end
 
@@ -234,25 +253,12 @@ EOT
 
 content_test = <<EOT
 run
-a=circle()
-a.shadow({blur: 20})
-a.border({pattern: :dotted, color: :black, thickness: 5})
-a.color(:violet)
-b=text("click me!")
-b.size(70)
-b.shadow({blur: 20})
-b.x=300
-
-b.touch do 
-  anim({
-	start: {x: 0, y: 0, blur: 0,rotate: 0,height: 100,  smooth: 100, color: 'rgb(0,255,0)'},
-	end: {x: 900, y: 170,blur: 10,rotate: 180,height: 50, smooth: 0,color: 'rgb(255,0,255)'},
-	duration: 2000,
-	loop: 8,
-	curve: :easing,
-	target: a
-	})
-end
+i=image({content: :boat})
+i.x=500
+i.rotate(20)
+i.shadow({blur: 10})
+i.blur(5)
+i.draggable(:true)
 EOT
 write(content_test)
 open_ide(:true)

@@ -117,7 +117,6 @@ def anim(params)
   obj= params[:target]
   if obj.nil?
     obj= self.atome_id
-    puts obj
   elsif obj.class==Atome
     obj =obj.atome_id
   else

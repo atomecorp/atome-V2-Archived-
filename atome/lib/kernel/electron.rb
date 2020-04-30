@@ -20,7 +20,7 @@ end
 def circle(options)
   obj_prop = Proton.default_visuals
   obj_prop[:type] = :shape
-  # we add the box preset to the default visual
+  # we add the circle preset to the default visual
   obj_prop = Hash[:preset, :circle].merge!(obj_prop)
   if options
     atome = Atome.new(obj_prop, options)
@@ -50,4 +50,43 @@ def text(options)
   return atome
 end
 
+def image(options)
+  obj_prop = Proton.default_visuals
+  obj_prop[:type] = :image
+  # we add the box preset to the default visual
+  obj_prop = Hash[:preset, :image].merge!(obj_prop)
+  if options
+    atome = Atome.new(obj_prop, options)
+  else
+    atome = Atome.new(obj_prop)
+  end
+  return atome
+end
 
+
+def video(options)
+  obj_prop = Proton.default_visuals
+  obj_prop[:type] = :video
+  # we add the box preset to the default visual
+  obj_prop = Hash[:preset, :video].merge!(obj_prop)
+  if options
+    atome = Atome.new(obj_prop, options)
+  else
+    atome = Atome.new(obj_prop)
+  end
+  return atome
+end
+
+
+def sound(options)
+  # obj_prop = Proton.default_visuals
+  obj_prop[:type] = :sound
+  # we add the box preset to the default visual
+  obj_prop = Hash[:preset, :sound].merge!(obj_prop)
+  if options
+    atome = Atome.new(obj_prop, options)
+  else
+    atome = Atome.new(obj_prop)
+  end
+  return atome
+end

@@ -1,4 +1,5 @@
 var html = {
+
     preset: function (param, atome_id) {
         switch (param) {
             case 'box':
@@ -13,11 +14,94 @@ var html = {
                 }
                 break;
             case 'circle':
-                $('#html_view').append("<" + param + " id=" + atome_id + " style='border-radius: 100%' class='atomes' ></" + param + ">");
+                if (!document.getElementById(atome_id)) {
+                    $('#html_view').append("<" + param + " id=" + atome_id + " style='border-radius: 100%' class='atomes' ></" + param + ">");
+                }
+                break;
+            case 'image':
+                if (!document.getElementById(atome_id)) {
+                    // html.getSize(atome_id)
+
+                    // $('#html_view').append("<div id=" + atome_id + " style='width: 300px;height: 300px;' class='atomes'></div>");
+                    $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: 300px;height:300px;' class='atomes'></div>");
+
+                }
+
                 break;
             default:
         }
 
+    },
+
+    parse_filter: function (atome_id, filterToRemove) {
+        let filter_list = ["blur", "brightness", "contrast", "drop-shadow", "grayscale", "hue-rotate", "invert", "opacity", "saturate", "sepia", "url"];
+        object = $('#' + atome_id)
+        filters_set = object.css("filter");
+
+        filter_list.forEach(function (filter) {
+            var re = new RegExp(filter, 'g');
+            filters_set = filters_set.replace(re, "***" + filter);
+        });
+        filters_set = filters_set.split("***")
+        filter_kept = [];
+        filters_set.forEach(function (fx) {
+            if (!fx.startsWith(filterToRemove) && !fx.startsWith("non")) {
+                filter_kept.push(fx);
+            }
+        });
+
+        filter_kept = filter_kept.join(' ');
+        // Opal.Object.$puts(filter_kept);
+        return filter_kept;
+    },
+
+    getMedia: function (value, atome_id) {
+        content = Opal.Object.$grab(atome_id).$content();
+        var image = './medias/images/' + content + '.png';
+        var img = new Image();
+        img.onload = function () {
+            var height = this.height;
+            var width = this.width;
+            $('#' + atome_id).css("width", width);
+            $('#' + atome_id).css("height", height);
+        };
+        img.src = image;
+    },
+
+    content: function (value, atome_id) {
+
+        var objectType = Opal.Object.$grab(atome_id).$type();
+
+        if (objectType == "text") {
+
+            document.getElementById(atome_id).innerText = value;
+
+        } else {
+            $('#' + atome_id).css("background-image", "url(./medias/images/" + value + ".png)");
+            // html.getMedia(value, atome_id, "png");
+        }
+    },
+
+    width: function (value, atome_id) {
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
+            document.getElementById(atome_id).style.fontSize = value + "px";
+        } else if (Opal.Object.$grab(atome_id).$type() == "image") {
+            html.getMedia("width", atome_id);
+        } else {
+            document.getElementById(atome_id).style.width = value + "px";
+        }
+
+
+    },
+
+    height: function (value, atome_id) {
+
+
+        if (Opal.Object.$grab(atome_id).$type() == "image") {
+            html.getMedia("height", atome_id);
+        } else {
+            document.getElementById(atome_id).style.height = value + "px";
+        }
     },
 
     color: function (value, atome_id) {
@@ -28,34 +112,24 @@ var html = {
         if (value.length > 1) {
             //   console.log("gradient!!! here yes!!!!!");
         }
-        var objectType = Opal.Object.$grab(atome_id).$type();
-        if (objectType == "text") {
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
             document.getElementById(atome_id).style.color = value;
-        } else {
+        } else if (Opal.Object.$grab(atome_id).$type() == "shape") {
             document.getElementById(atome_id).style.backgroundColor = value;
-        }
-    },
 
-    content: function (value, atome_id) {
-        var objectType = Opal.Object.$grab(atome_id).$type();
-        if (objectType == "text") {
-            document.getElementById(atome_id).innerText = value;
-
-        } else {
-            document.getElementById(atome_id).innerText = value;
-            alert('change function');
+        } else if (Opal.Object.$grab(atome_id).$type() == "image") {
+            document.getElementById(atome_id).style.backgroundColor = "transparent";
         }
+
     },
 
     x: function (value, atome_id) {
         var x_position = document.getElementById(atome_id);
-        x_position.style.position = "absolute";
         x_position.style.left = value + 'px';
     },
 
     y: function (value, atome_id) {
         var y_position = document.getElementById(atome_id);
-        y_position.style.position = "absolute";
         y_position.style.top = value + 'px';
     },
 
@@ -76,29 +150,14 @@ var html = {
     },
 
     blur: function (value, atome_id) {
-        document.getElementById(atome_id).style.filter = "blur(" + value + "px)";
-    },
-
-    width: function (value, atome_id) {
-
-        var objectType = Opal.Object.$grab(atome_id).$type();
-        if (objectType == "text") {
-            document.getElementById(atome_id).style.fontSize = value + "px";
-        } else {
-            document.getElementById(atome_id).style.width = value + "px";
-        }
-
-
-    },
-
-    height: function (value, atome_id) {
-        document.getElementById(atome_id).style.height = value + "px";
+        var object = $("#" + atome_id);
+        filter_set = html.parse_filter(atome_id, "blur");
+        document.getElementById(atome_id).style.filter = filter_set + " blur(" + value + "px)";
     },
 
     size: function (value, atome_id) {
 
-        var objectType = Opal.Object.$grab(atome_id).$type();
-        if (objectType == "text") {
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
             document.getElementById(atome_id).style.fontSize = value + "px";
         } else {
             alert("create alogo here to find if width or height is bigger the apply settings");
@@ -117,9 +176,13 @@ var html = {
     },
 
     shadow: function (value, atome_id, add) {
+
+
         if (value == 0) {//we delete the shadow!
-            if (objectType == "text") {
+            if (Opal.Object.$grab(atome_id).$type() == "text") {
                 document.getElementById(atome_id).style.textShadow = "0px 0px 0px transparent";
+            } else if (Opal.Object.$grab(atome_id).$type() == "image") {
+                document.getElementById(atome_id).style.filter = "drop-shadow(0 0 0 transparent);";
             } else {
                 document.getElementById(atome_id).style.boxShadow = "0px 0px 0px transparent";
             }
@@ -155,18 +218,22 @@ var html = {
                 invert = "inset";
             }
 
-            var objectType = Opal.Object.$grab(atome_id).$type();
-
 
             if (add == true) {
-                if (objectType == "text") {
-                    document.getElementById(atome_id).style.textShadow = document.getElementById(atome_id).style.textShadow + "," + color + " " + x + 'px ' + y + 'px ' + blur + 'px ';
+                if (Opal.Object.$grab(atome_id).$type() == "text") {
+                    document.getElementById(atome_id).style.textShadow = document.getElementById(atome_id).style.textShadow + "," + color + " " + x + 'px ' + y + 'px ' + blur + "px";
+                } else if (Opal.Object.$grab(atome_id).$type() == "image") {
+                    document.getElementById(atome_id).style.filter = document.getElementById(atome_id).style.filter + " drop-shadow(" + x + "px " + y + "px " + blur + "px " + color + ")";
                 } else {
                     document.getElementById(atome_id).style.boxShadow = document.getElementById(atome_id).style.boxShadow + "," + x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
                 }
             } else {
-                if (objectType == "text") {
+                if (Opal.Object.$grab(atome_id).$type() == "text") {
                     document.getElementById(atome_id).style.textShadow = color + " " + x + 'px ' + y + 'px ' + blur + 'px ';
+                } else if (Opal.Object.$grab(atome_id).$type() == "image") {
+                    // todo : temporary patch all fliter accumaulate we must remove all drop shadow while kkep all other effect then apply the new shadow
+                    filter_set = html.parse_filter(atome_id, "drop-shadow");
+                    document.getElementById(atome_id).style.filter = filter_set+" drop-shadow(" + x + "px " + y + "px " + blur + "px " + color + ")";
                 } else {
                     document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
                 }
@@ -330,88 +397,6 @@ var html = {
         // t.child({width: 200})
     },
 
-//     animate: function (value, atome_id) {
-//
-//         var start = Opal.Object.$get_hash_value(value, "start");
-//         var end = Opal.Object.$get_hash_value(value, "end");
-//         var duration = Opal.Object.$get_hash_value(value, "duration");
-//         var curve = Opal.Object.$get_hash_value(value, "curve");
-//         var property = Opal.Object.$get_hash_value(value, "property");
-//         var finished = Opal.Object.$get_hash_value(value, "finished");
-//         var loop = Opal.Object.$get_hash_value(value, "loop");
-//         var a_start = {};
-//         var a_end = {};
-//         var a_duration = {};
-//         var a_curve = {};
-//         var a_property = {};
-//         var a_finished = {};
-//
-//         if (start == "") {
-//             start = 0;
-//         }
-//         if (end == "") {
-//             end = 20;
-//         }
-//
-//         if (duration == "") {
-//             duration = 2000;
-//         }
-//         if (property == "") {
-//             property = "x";
-//          }
-//
-//
-//         if (curve == "") {
-//             curve = "easeOutBounce";
-//         }
-//
-//         if (finished == "") {
-//             finished = "";
-//         }
-//         if (loop == "") {
-//             loop = 1;
-//         }
-//
-//         // var objectType = Opal.Object.$grab(atome_id).$type();
-//         // if (objectType == "text") {
-//         //     document.getElementById(atome_id).style.color = value;
-//         // } else {
-//         //     document.getElementById(atome_id).style.backgroundColor = value;
-//         // }
-//
-//         a_start[property] = start;
-//         a_end[property] = end;
-//         a_duration[property] = duration;
-//         a_curve[property] = curve;
-//         a_property[property] = property;
-//         a_finished[property] = finished;
-// //////////////////////// popmotion
-//         var {easing, tween, styler} = window.popmotion;
-//
-//         var divStyler = styler(document.querySelector('#' + atome_id));
-//
-//         tween({
-//             from: a_start,
-//             to: a_end,
-//             duration: duration,
-//             ease: easing[curve],
-//             // ease: easing.backOut,
-//             flip: loop,
-//
-//
-//         }).start(divStyler.set);
-//
-//         // tween({
-//         //     from: {filter: 'blur(0px)',background: 'linear-gradient(#e66465, #9198e5)', x: 100, rotate: 0,height: 50, borderRadius: 0 },
-//         //     to: {filter: 'blur(5px)',background: 'linear-gradient(#aaaaaa, #9198e5)', x: 300, rotate: 180, height: 10, borderRadius: 20 },
-//         //     duration: 2000,
-//         //     ease: easing.backOut,
-//         //     flip: 5,
-//         //
-//         //
-//         // }).start(divStyler.set);
-//     },
-
 };
 var motion = {
     animate: function (value, atome_id) {
@@ -462,8 +447,8 @@ var motion = {
             start.$keys().forEach((item) => {
                 key = item;
                 val = start['$[]'](key);
-                if (key=="background" && objectType=="text"){
-                    key="color";
+                if (key == "background" && objectType == "text") {
+                    key = "color";
                 }
                 a_start[key] = val;
 
@@ -478,8 +463,8 @@ var motion = {
             end.$keys().forEach((item) => {
                 key = item;
                 val = end['$[]'](key);
-                if (key=="background" && objectType=="text"){
-                    key="color";
+                if (key == "background" && objectType == "text") {
+                    key = "color";
                 }
                 a_end[key] = val;
 
@@ -504,7 +489,6 @@ var motion = {
             ease: easing[curve],
             flip: loop,
         }).start(divStyler.set);
-
 
 
     },
