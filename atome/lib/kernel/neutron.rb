@@ -91,6 +91,10 @@ def alert(msg)
   msg = msg.gsub("\n", '\\n')
   t = text msg
   t.color = :red
+  t.size=25
+  t.touch do
+    t.delete()
+  end
 end
 
 
@@ -108,24 +112,6 @@ end
 
 def sanitizer(string)
   string = string.gsub("'", "\\\\'")
-end
-################ media manipulation ############
-
-def anim(params)
-  obj= params[:target]
-  if obj.nil?
-    obj= self.atome_id
-    puts obj
-  elsif obj.class==Atome
-    obj =obj.atome_id
-  else
-    obj =Object.get(obj).atome_id
-  end
-  params.delete(:target)
-  animator(params, obj)
-  #`
-  #motion.animate(#{params}, #{obj})
-  #`
 end
 
 

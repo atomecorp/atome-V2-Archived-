@@ -1,6 +1,7 @@
 todo =<<StrDelim
 ######## MVP #######
 - delete object : a.delete()
+- delete api is not enough add a delete method : delete(ob_id, obj_2_id)
 - audio image video play back
 - multiple audio renderer 
 - effect node 

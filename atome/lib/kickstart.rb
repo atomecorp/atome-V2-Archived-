@@ -9,6 +9,21 @@ type Example.border for examples
 Str
   end
 
+  def self.shadow
+    t = <<Str
+shadows has 6 parameters : x, y, blur, thickness color and invert 
+all params are integer exept color that can be set in rgb, rgba, hex or color name and invert that is :true or :false
+type Example.shadow for examples
+Str
+  end
+
+  def self.delete
+    t = <<Str
+delete can delete a current object or any of speficied prop
+type Example.delete for examples
+Str
+  end
+
   def self.anim
     t = <<Str
 anim is a function it has 6 main parameters :
@@ -34,21 +49,48 @@ module Example
 Str
   end
 
+  def self.shadow
+    t = <<Str
+ b=circle({color: :orange})
+b.shadow({x: 5}, {y: 5}, {thickness: 3},{blur: 12}, {color: :black}, {invert: :true})
+b.add(shadow:[{x: 2}, {y: 2}, {thickness: 3},{blur: 12}, {color: :yellow},  ])
+Str
+  end
+
+  def self.delete
+    t = <<Str
+a=box()
+a.border({pattern: :dashed, color: :orangered})
+a.shadow({x: 5}, {y: 5}, {thickness: 3}, {color: :black}, {invert: :true})
+a.add(:shadow => {color: :orange, blur: 20})
+a.add(:shadow => {color: :blue, blur: 5, x: -3, y: -3})
+a.smooth(20)
+a.add(color: :orange)
+a.add(color: :green)
+a.delete(:color)
+#a.delete(:colors)
+#a.delete(:border)
+#a.delete(:shadow)
+#a.delete(:shadows)
+Str
+  end
+
   def self.anim
     t = <<Str
-save :animator
+run
 a=circle()
-a.shadow({blur: 20})
+a.shadow({x: 5}, {y: 5}, {thickness: 3},{blur: 20}, {color: :black}, {invert: :true})
 a.border({pattern: :dotted, color: :black, thickness: 5})
 a.color(:violet)
-b=box()
+b=text("click me!")
+b.size(70)
 b.shadow({blur: 20})
-b.x=500
+b.x=300
 
 b.touch do 
   anim({
-	start: {x: 0, y: 0, filter: 'blur(0px)',rotate: 0,height: 100,  borderRadius: 100},
-	end: {x: 900, y: 170, filter: 'blur(10px)',rotate: 180,height: 50, borderRadius: 0},
+	start: {x: 0, y: 0, blur: 0,rotate: 0,height: 100,  smooth: 100, color: 'rgb(0,255,0)'},
+	end: {x: 900, y: 170,blur: 10,rotate: 180,height: 50, smooth: 0,color: 'rgb(255,0,255)'},
 	duration: 2000,
 	loop: 8,
 	curve: :easing,
@@ -56,7 +98,6 @@ b.touch do
 	})
 end
 Str
-
   end
 
 
@@ -192,23 +233,28 @@ a.delete(:shadow)
 EOT
 
 content_test = <<EOT
-save :anim_test  
-a=box()
-b=circle()
-b.border({thickness: 5, color: :green})
-b.shadow({blur: 5})
+run
+a=circle()
+a.shadow({blur: 20})
+a.border({pattern: :dotted, color: :black, thickness: 5})
+a.color(:violet)
+b=text("click me!")
+b.size(70)
+b.shadow({blur: 20})
+b.x=300
+
 b.touch do 
-  b.animate({
-	start: 20,
-end:500,
-property: :x,
-duration: 2000,
-loop: 7,
-curve: :easing
+  anim({
+	start: {x: 0, y: 0, blur: 0,rotate: 0,height: 100,  smooth: 100, color: 'rgb(0,255,0)'},
+	end: {x: 900, y: 170,blur: 10,rotate: 180,height: 50, smooth: 0,color: 'rgb(255,0,255)'},
+	duration: 2000,
+	loop: 8,
+	curve: :easing,
+	target: a
 	})
 end
 EOT
 write(content_test)
 open_ide(:true)
-open_console(:true)
+#open_console(:true)
 perpetual_run

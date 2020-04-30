@@ -111,6 +111,7 @@ var html = {
 
     name: function (value, atome_id) {
     },
+
     delete: function (value, atome_id) {
         $("#" + atome_id).remove();
     },
@@ -329,103 +330,91 @@ var html = {
         // t.child({width: 200})
     },
 
-    animate: function (value, atome_id) {
-
-        var start = Opal.Object.$get_hash_value(value, "start");
-        var end = Opal.Object.$get_hash_value(value, "end");
-        var duration = Opal.Object.$get_hash_value(value, "duration");
-        var curve = Opal.Object.$get_hash_value(value, "curve");
-        var property = Opal.Object.$get_hash_value(value, "property");
-        var finished = Opal.Object.$get_hash_value(value, "finished");
-        var loop = Opal.Object.$get_hash_value(value, "loop");
-        var a_start = {};
-        var a_end = {};
-        var a_duration = {};
-        var a_curve = {};
-        var a_property = {};
-        var a_finished = {};
-        var a_loop = {};
-
-        if (start == "") {
-            start = 0;
-        }
-        if (end == "") {
-            end = 20;
-        }
-
-        if (duration == "") {
-            duration = 2000;
-        }
-        if (property == "") {
-            property = "x";
-        } else if (property == "smooth") {
-            property = "borderRadius";
-        }
-
-        if (curve == "") {
-            curve = "easeOutBounce";
-        }
-
-        if (finished == "") {
-            finished = "";
-        }
-        if (loop == "") {
-            loop = 1;
-        }
-
-        a_start[property] = start;
-        a_end[property] = end;
-        a_duration[property] = duration;
-        a_curve[property] = curve;
-        a_property[property] = property;
-        a_finished[property] = finished;
-//////////////////////// popmotion
-        var {easing, tween, styler} = window.popmotion;
-
-        var divStyler = styler(document.querySelector('#' + atome_id));
-
-        tween({
-            from: a_start,
-            to: a_end,
-            duration: duration,
-            ease: easing[curve],
-            // ease: easing.backOut,
-            flip: loop,
-
-
-        }).start(divStyler.set);
-
-        // tween({
-        //     from: {filter: 'blur(0px)',background: 'linear-gradient(#e66465, #9198e5)', x: 100, rotate: 0,height: 50, borderRadius: 0 },
-        //     to: {filter: 'blur(5px)',background: 'linear-gradient(#aaaaaa, #9198e5)', x: 300, rotate: 180, height: 10, borderRadius: 20 },
-        //     duration: 2000,
-        //     ease: easing.backOut,
-        //     flip: 5,
-        //
-        //
-        // }).start(divStyler.set);
-
-
-    },
+//     animate: function (value, atome_id) {
+//
+//         var start = Opal.Object.$get_hash_value(value, "start");
+//         var end = Opal.Object.$get_hash_value(value, "end");
+//         var duration = Opal.Object.$get_hash_value(value, "duration");
+//         var curve = Opal.Object.$get_hash_value(value, "curve");
+//         var property = Opal.Object.$get_hash_value(value, "property");
+//         var finished = Opal.Object.$get_hash_value(value, "finished");
+//         var loop = Opal.Object.$get_hash_value(value, "loop");
+//         var a_start = {};
+//         var a_end = {};
+//         var a_duration = {};
+//         var a_curve = {};
+//         var a_property = {};
+//         var a_finished = {};
+//
+//         if (start == "") {
+//             start = 0;
+//         }
+//         if (end == "") {
+//             end = 20;
+//         }
+//
+//         if (duration == "") {
+//             duration = 2000;
+//         }
+//         if (property == "") {
+//             property = "x";
+//          }
+//
+//
+//         if (curve == "") {
+//             curve = "easeOutBounce";
+//         }
+//
+//         if (finished == "") {
+//             finished = "";
+//         }
+//         if (loop == "") {
+//             loop = 1;
+//         }
+//
+//         // var objectType = Opal.Object.$grab(atome_id).$type();
+//         // if (objectType == "text") {
+//         //     document.getElementById(atome_id).style.color = value;
+//         // } else {
+//         //     document.getElementById(atome_id).style.backgroundColor = value;
+//         // }
+//
+//         a_start[property] = start;
+//         a_end[property] = end;
+//         a_duration[property] = duration;
+//         a_curve[property] = curve;
+//         a_property[property] = property;
+//         a_finished[property] = finished;
+// //////////////////////// popmotion
+//         var {easing, tween, styler} = window.popmotion;
+//
+//         var divStyler = styler(document.querySelector('#' + atome_id));
+//
+//         tween({
+//             from: a_start,
+//             to: a_end,
+//             duration: duration,
+//             ease: easing[curve],
+//             // ease: easing.backOut,
+//             flip: loop,
+//
+//
+//         }).start(divStyler.set);
+//
+//         // tween({
+//         //     from: {filter: 'blur(0px)',background: 'linear-gradient(#e66465, #9198e5)', x: 100, rotate: 0,height: 50, borderRadius: 0 },
+//         //     to: {filter: 'blur(5px)',background: 'linear-gradient(#aaaaaa, #9198e5)', x: 300, rotate: 180, height: 10, borderRadius: 20 },
+//         //     duration: 2000,
+//         //     ease: easing.backOut,
+//         //     flip: 5,
+//         //
+//         //
+//         // }).start(divStyler.set);
+//     },
 
 };
 var motion = {
     animate: function (value, atome_id) {
-        // value.$keys().forEach((item) => {
-        //     key = item;
-        //     val = value['$[]'](key);
-        //     // alert("key:" + key + ", value:" + val+", type : "+ typeof(val))
-        //     if (typeof (val) == "object") {
-        //         val.$keys().forEach((item_2) => {
-        //             key_2 = item_2
-        //             val_2 = val['$[]'](key_2)
-        //             //alert(key)
-        //             //alert(key_2)
-        //             //alert(val_2)
-        //         });
-        //     }
-        // });
-
         var start = value['$[]']("start");
         var end = value['$[]']("end");
         var duration = value['$[]']("duration");
@@ -455,8 +444,6 @@ var motion = {
         }
         if (property == "") {
             property = "x";
-        } else if (property == "smooth") {
-            property = "borderRadius";
         }
 
         if (curve == "") {
@@ -469,36 +456,38 @@ var motion = {
         if (loop == "") {
             loop = 1;
         }
+        var objectType = Opal.Object.$grab(atome_id).$type();
 
         if (typeof (start) == "object") {
             start.$keys().forEach((item) => {
                 key = item;
                 val = start['$[]'](key);
-                a_start[key]=val;
+                if (key=="background" && objectType=="text"){
+                    key="color";
+                }
+                a_start[key] = val;
+
             });
         } else {
 
             a_start[property] = start;
         }
+        var objectType = Opal.Object.$grab(atome_id).$type();
 
         if (typeof (end) == "object") {
             end.$keys().forEach((item) => {
                 key = item;
                 val = end['$[]'](key);
-                a_end[key]=val;
+                if (key=="background" && objectType=="text"){
+                    key="color";
+                }
+                a_end[key] = val;
+
             });
         } else {
             a_end[property] = end;
 
         }
-
-        // a_start[property] = start;
-        // a_end[property] = end;
-
-        ///// demo
-        //a_start={x: 0, y: 0}
-        //a_end = {x: 800, y: 70}
-        ///
 
         a_duration[property] = duration;
         a_curve[property] = curve;
@@ -508,27 +497,14 @@ var motion = {
         var {easing, tween, styler} = window.popmotion;
 
         var divStyler = styler(document.querySelector('#' + atome_id));
-
         tween({
             from: a_start,
             to: a_end,
             duration: duration,
             ease: easing[curve],
-            // ease: easing.backOut,
             flip: loop,
-
-
         }).start(divStyler.set);
 
-        // tween({
-        //     from: {filter: 'blur(0px)',background: 'linear-gradient(#e66465, #9198e5)', x: 100, rotate: 0,height: 50, borderRadius: 0 },
-        //     to: {filter: 'blur(5px)',background: 'linear-gradient(#aaaaaa, #9198e5)', x: 300, rotate: 180, height: 10, borderRadius: 20 },
-        //     duration: 2000,
-        //     ease: easing.backOut,
-        //     flip: 5,
-        //
-        //
-        // }).start(divStyler.set);
 
 
     },

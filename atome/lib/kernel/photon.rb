@@ -109,3 +109,21 @@ class Photon
     end
   end
 end
+
+
+################ media manipulation ############
+
+def anim(params)
+  obj= params[:target]
+  if obj.nil?
+    obj= self.atome_id
+    puts obj
+  elsif obj.class==Atome
+    obj =obj.atome_id
+  else
+    obj =Object.get(obj).atome_id
+  end
+  params.delete(:target)
+  animator(params, obj)
+
+end

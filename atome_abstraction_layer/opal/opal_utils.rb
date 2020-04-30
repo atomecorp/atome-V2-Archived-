@@ -82,14 +82,7 @@ def console_text_size size
 end
 
 
-############### animatione
 
-def animator(params,obj)
-  `
-  motion.animate(#{params}, #{obj})
-  `
-
-end
 
 ################## file operation ##############
 $require_list = {}

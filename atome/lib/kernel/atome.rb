@@ -558,5 +558,4 @@ class Atome
     return Proton.presets
   end
 
-
 end
