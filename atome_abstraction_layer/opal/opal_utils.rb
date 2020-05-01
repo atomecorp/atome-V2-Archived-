@@ -121,6 +121,8 @@ def require_parser code
     $counter = 1
     $codes_call = []
     $total_pass = 0
+    base_code=base_code+"\nrender()"
+    #puts "msg from opal_utils line 124 ad render at the file of the code : #{base_code}"
     `
     run_script(#{base_code})
   `
@@ -195,7 +197,6 @@ def add_to_ide(content = nil, run = false)
     return code
   end
 end
-
 
 #######  CodeMirror methods #############
 
@@ -465,7 +466,10 @@ def opal_setter(atome_id, property, value)
   atomes = Atome.atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id
-      atome.send(property, value)
+      #i.set(direct_atome: :true, x: 777)
+      #value[:direct_atome]=:true
+      #puts "msg from opal_utils line 471 property #{property} value #{value}"
+      atome.send( property, value)
     end
   end
 end

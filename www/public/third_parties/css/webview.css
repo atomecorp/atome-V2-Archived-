@@ -9,7 +9,7 @@ html, body {
     font-size: 12px;
     margin: 0px;
     padding: 0px;
-    background: rgba(120, 43, 43, 1);
+    background: rgba(43, 43, 43, 1);
     overflow: hidden;
 
 }
@@ -51,8 +51,10 @@ html, body {
     -moz-user-select: text;
     -o-user-select: text;
     user-select: text;
-    position: absolute;
+    position: relative;
     display: block ;
+    background-size: contain;
+    background-repeat: no-repeat;
 
 }
 

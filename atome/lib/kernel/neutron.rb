@@ -1,9 +1,12 @@
 #here is all general methods helper for atomes
 # frozen_string_literal: true
 #neutron provide public methods used both by end users and needed by the atome object
+$render=false
 
-
-
+def render *option
+  #puts "msg form neutron line 7 : render go"
+  $render=true
+end
 
 def trig atome_id, event
   atomes = Atome.atomes

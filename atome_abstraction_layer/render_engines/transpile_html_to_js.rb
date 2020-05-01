@@ -9,6 +9,8 @@ module Html
       if properties_already_send.include? (property.keys[0])
         add=true
       end
+      #here the we send the if tha prop and the option to add or set the prop plus the rendering pass nb to the html renderer in www/public/atome/render/engines/html.js
+      #puts "msg from transpile_html line 12 #{properties} add #{add} atome_id #{atome_id}"
       send(property.keys[0], property.values[0], atome_id, add)
       properties_already_send << property.keys[0]
     end

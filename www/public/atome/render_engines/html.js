@@ -1,6 +1,8 @@
+i=0;
 var html = {
 
-    preset: function (param, atome_id) {
+    preset: function (param, atome_id,) {
+
         switch (param) {
             case 'box':
                 if (!document.getElementById(atome_id)) {
@@ -64,11 +66,14 @@ var html = {
             var width = this.width;
             $('#' + atome_id).css("width", width);
             $('#' + atome_id).css("height", height);
+
+            // Opal.Object.$opal_setter(atome_id, "width", width);
+            // Opal.Object.$opal_setter(atome_id, "height", height);
         };
         img.src = image;
     },
 
-    content: function (value, atome_id) {
+    content: function (value, atome_id, add) {
 
         var objectType = Opal.Object.$grab(atome_id).$type();
 
@@ -82,7 +87,11 @@ var html = {
         }
     },
 
-    width: function (value, atome_id) {
+    width: function (value, atome_id, add) {
+
+        // Opal.Object.$clear();
+        // Opal.Object.$puts(i);
+        i++;
         if (Opal.Object.$grab(atome_id).$type() == "text") {
             document.getElementById(atome_id).style.fontSize = value + "px";
         } else if (Opal.Object.$grab(atome_id).$type() == "image") {
@@ -138,6 +147,7 @@ var html = {
     },
 
     rotate: function (value, atome_id) {
+
         document.getElementById(atome_id).style.transform = "rotate(" + value + "deg)";
     },
 
@@ -149,10 +159,24 @@ var html = {
         document.getElementById(atome_id).style.borderRadius = value + "px";
     },
 
-    blur: function (value, atome_id) {
-        var object = $("#" + atome_id);
-        filter_set = html.parse_filter(atome_id, "blur");
-        document.getElementById(atome_id).style.filter = filter_set + " blur(" + value + "px)";
+    blur: function (value, atome_id, add) {
+
+        // var object = $("#" + atome_id);
+        // filter_set = html.parse_filter(atome_id, "blur");
+        // document.getElementById(atome_id).style.filter = filter_set + " blur(" + value + "px)";
+        if (value == 0) {//we delete the shadow!
+            document.getElementById(atome_id).style.filter = " blur(0px)";
+            }
+        else{
+
+            // if (add == true) {
+
+            document.getElementById(atome_id).style.filter = " blur(" + value + "px)";
+            // } else {
+            //     document.getElementById(atome_id).style.filter = " blur(" + value + "px)";
+            //
+            // }
+        }
     },
 
     size: function (value, atome_id) {
@@ -176,7 +200,6 @@ var html = {
     },
 
     shadow: function (value, atome_id, add) {
-
 
         if (value == 0) {//we delete the shadow!
             if (Opal.Object.$grab(atome_id).$type() == "text") {
@@ -232,8 +255,9 @@ var html = {
                     document.getElementById(atome_id).style.textShadow = color + " " + x + 'px ' + y + 'px ' + blur + 'px ';
                 } else if (Opal.Object.$grab(atome_id).$type() == "image") {
                     // todo : temporary patch all fliter accumaulate we must remove all drop shadow while kkep all other effect then apply the new shadow
-                    filter_set = html.parse_filter(atome_id, "drop-shadow");
-                    document.getElementById(atome_id).style.filter = filter_set+" drop-shadow(" + x + "px " + y + "px " + blur + "px " + color + ")";
+                    // filter_set = html.parse_filter(atome_id, "drop-shadow");
+                    //document.getElementById(atome_id).style.filter = filter_set+" drop-shadow(" + x + "px " + y + "px " + blur + "px " + color + ")";
+                    document.getElementById(atome_id).style.filter = " drop-shadow(" + x + "px " + y + "px " + blur + "px " + color + ")";
                 } else {
                     document.getElementById(atome_id).style.boxShadow = x + 'px ' + y + 'px ' + blur + 'px ' + thickness + 'px ' + color + " " + invert;
                 }
@@ -267,7 +291,7 @@ var html = {
 
     /////////////// events
     key: function (value, atome_id) {
-        alert("we have to create the proc")
+        alert("we have to create the proc when key press")
         $("#" + atome_id).keyup(function () {
             Opal.Object.$trig(atome_id);
         });
@@ -323,7 +347,6 @@ var html = {
                     y_position = parseInt(document.getElementById(atome_id).style.top);
                     x_property_declaration_position = html.find_property_declaration_in_ide(x_position, "x", id);
                     y_property_declaration_position = html.find_property_declaration_in_ide(y_position, "y", id);
-
                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
 
@@ -331,8 +354,11 @@ var html = {
                     // Opal.Object.$opal_setter(atome_id, "y", y_position);
                 },
                 drag: function () {
+
                     x_position = parseInt(document.getElementById(atome_id).style.left);
                     y_position = parseInt(document.getElementById(atome_id).style.top);
+                    Opal.Object.$clear();
+                    Opal.Object.$puts(x_position);
                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
                     //Important $opal_setter may trig an infinite loop tha'ts why it's so slow
@@ -345,6 +371,7 @@ var html = {
                     y_position = parseInt(document.getElementById(atome_id).style.top);
                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
+
                     Opal.Object.$opal_setter(atome_id, "x", x_position);
                     Opal.Object.$opal_setter(atome_id, "y", y_position);
                 }

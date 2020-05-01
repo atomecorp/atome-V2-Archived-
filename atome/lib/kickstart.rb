@@ -253,14 +253,32 @@ EOT
 
 content_test = <<EOT
 run
+clear
 i=image({content: :boat})
-i.x=500
 i.rotate(20)
-i.shadow({blur: 10})
-i.blur(5)
+i.shadow({blur: 10, x: 7, x: 7})
+puts i.width
 i.draggable(:true)
+  anim({
+	start: {x: -100, blur: 10,rotate: 20,width: 99},
+	end: {x: 100,blur: 10,rotate: 20,width: 100},
+	duration: 2000,
+	loop: 1,
+	curve: :easing,
+	target: i
+	})
+i.touch do 
+  anim({
+	start: {x: 0, y: 0, blur: 10,rotate: 20,width: i.width},
+	end: {x: 400, y: 70,blur: 0,rotate: 180,width: i.width*6},
+	duration: 2000,
+	loop: 1,
+	curve: :easing,
+	target: self
+	})
+end
 EOT
 write(content_test)
 open_ide(:true)
-#open_console(:true)
+open_console(:true)
 perpetual_run

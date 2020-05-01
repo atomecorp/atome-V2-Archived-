@@ -78,16 +78,20 @@ class Photon
         end
         #atome_to_render2=atomize(atome_to_render) #we restructure the atome (we group properties define more than on time) to facilitate rendering
         # here we send the atome and it's id to the transpile render engine ex send to module HTML module fould in transpile_html_to_js  file
+
         constantize(photon).init(atome_to_render, atome_id)
       end
     end
   end
 
   def self.render(atome_id)
-    # after a bit of analysis we send the result to the differents render engines
-    if class_exists?(:Atome)
-      atome = Atome.atomes[atome_id.to_s]
-      atome = atome.to_array
+    # after a bit of analysis we send the result to the different render engines
+    #  puts "msg from photon line 89 : render! #{atome_id} "
+    #if $render
+      if class_exists?(:Atome)
+        atome = Atome.atomes[atome_id.to_s]
+        atome = atome.to_array
+
         atome.each do |props|
           if props.class == Array
             props.each do |prop|
@@ -97,7 +101,10 @@ class Photon
             inception props, atome
           end
         end
-    end
+      end
+      $render=false
+    #end
+
   end
 
   def self.delete(property, atome_id)

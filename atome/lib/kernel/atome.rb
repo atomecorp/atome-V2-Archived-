@@ -269,7 +269,9 @@ class Atome
       return found_prop[found_prop.length - 1]
     else
       # Here we create an atome to allow getter properties to respond to methods then return the corresponding value ex: - puts a.color => :black
-      Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
+      #Atome.new(found_prop[found_prop.length - 1], {create_atome_id: :false}, {get_mode: :true})
+      #todo tempotary test below to always return the prop intead of an atome
+      return found_prop[found_prop.length - 1]
     end
   end
 
