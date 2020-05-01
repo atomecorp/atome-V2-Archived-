@@ -1,11 +1,11 @@
 #here is all general methods helper for atomes
 # frozen_string_literal: true
 #neutron provide public methods used both by end users and needed by the atome object
-$render=false
+$render = false
 
 def render *option
   #puts "msg form neutron line 7 : render go"
-  $render=true
+  $render = true
 end
 
 def trig atome_id, event
@@ -49,9 +49,9 @@ end
 
 ################## file operation ##############
 
-def save filename =:default , content=nil
+def save filename = :default, content = nil
   if !content
-    content=add_to_ide()
+    content = add_to_ide()
   end
   saver(filename, content)
 end
@@ -94,15 +94,15 @@ def alert(msg)
   msg = msg.gsub("\n", '\\n')
   t = text msg
   t.color = :red
-  t.size=25
+  t.size = 25
   t.touch do
     t.delete()
   end
 end
 
 
-def write(content = nil, run=false)
-  add_to_ide(content,run)
+def write(content = nil, run = false)
+  add_to_ide(content, run)
 end
 
 def puts(string)
@@ -118,10 +118,10 @@ def sanitizer(string)
 end
 
 
-def play (params)
-  Object.send(Renderer.engine + 'play', 'snare')
+def play(params)
+  player(params)
+  # Object.send(Renderer.engine + 'play', 'snare')
 end
-
 
 
 def autorun
@@ -187,14 +187,15 @@ def lorem3
 STRdelim
 end
 
-def help(subject="")
-  if subject==""
+def help(subject = "")
+  if subject == ""
     reader("documentations/userdoc.rb", "console")
   else
     return Help.send(subject)
   end
 end
-def example(subject="")
+
+def example(subject = "")
   return Example.send(subject)
 end
 

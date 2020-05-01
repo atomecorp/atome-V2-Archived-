@@ -20,6 +20,15 @@ var html = {
                     $('#html_view').append("<" + param + " id=" + atome_id + " style='border-radius: 100%' class='atomes' ></" + param + ">");
                 }
                 break;
+            case 'video':
+                if (!document.getElementById(atome_id)) {
+                    // html.getSize(atome_id)
+
+                    // $('#html_view').append("<div id=" + atome_id + " style='width: 300px;height: 300px;' class='atomes'></div>");
+                    $('#html_view').append("<div id=" + atome_id + " class='atome'><video controls='' preload='none' poster='' style='width:100%; height:100%'><source id='atome_id' src='./medias/videos/Lion_king.mp4' /></video>");
+                    // poster='nice-default.jpg'
+                }
+                break;
             case 'image':
                 if (!document.getElementById(atome_id)) {
                     // html.getSize(atome_id)
@@ -32,6 +41,8 @@ var html = {
                 break;
             default:
         }
+
+
 
     },
 

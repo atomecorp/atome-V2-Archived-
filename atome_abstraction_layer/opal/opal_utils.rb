@@ -83,8 +83,8 @@ end
 
 
 
+################## code execution ##############
 
-################## file operation ##############
 $require_list = {}
 $split_on = []
 $counter = 1
@@ -141,6 +141,8 @@ def run_code (clear = false)
   nil
 end
 
+
+################## file operation ##############
 def saver(filename, content = '', system_file = false, fct_to_call = false, fct_params = false, error_catch_fct = false)
   if filename.class == Hash
     content = filename[filename.keys[0]]
@@ -196,6 +198,16 @@ def add_to_ide(content = nil, run = false)
     code = `code=editor.getDoc().getValue("\n")`
     return code
   end
+end
+
+################## sound DSP operation ##############
+
+def player params
+  `
+  var audio = new Audio('./medias/sounds/'+#{params}+'.wav');
+  //var audio = new Audio('./medias/sounds/guitar.wav');
+  audio.play();
+ `
 end
 
 #######  CodeMirror methods #############

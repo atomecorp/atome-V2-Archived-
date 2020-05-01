@@ -278,6 +278,42 @@ i.touch do
 	})
 end
 EOT
+
+content_test = <<EOT
+run
+v=video()
+v.x=50
+v.y=0
+v.width(700)
+v.height(394)
+v.shadow({blur: 20})
+v.color(:white)
+v.draggable(:true)
+get("video_0").x("124")
+get("video_0").y("63")
+v.touch do
+  anim({
+           start: {x: 0, y: 0, blur: 0,rotate: 20},
+           end: {x: 400, y: 70,blur: 10,rotate: 180},
+           duration: 2000,
+           loop: 3,
+           curve: :easing,
+           target: self
+       })
+
+end
+
+
+
+t=text("click to play guitar")
+t.size=35
+t.x=20
+  t.y=-390
+t.touch do
+ play(:guitar) 
+end
+EOT
+
 write(content_test)
 open_ide(:true)
 open_console(:true)
