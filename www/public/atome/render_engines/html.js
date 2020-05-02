@@ -1,5 +1,16 @@
-i=0;
+i = 0;
 var html = {
+    img_type_retry: function (value, atome_id, ext) {
+        //dont change teh first item of the lsit or it wont work
+        //Attention on certain unix case senitive it may need to change image name or modify this function
+        var list = ["png", "jpeg", "jpg", "svg"]
+        type = list.indexOf(ext);
+        if (type < list.length - 1) {
+            type = list[type + 1]
+            html.verif(value, atome_id, type)
+        }
+
+    },
 
     preset: function (param, atome_id,) {
 
@@ -31,17 +42,12 @@ var html = {
                 break;
             case 'image':
                 if (!document.getElementById(atome_id)) {
-                    // html.getSize(atome_id)
-
-                    // $('#html_view').append("<div id=" + atome_id + " style='width: 300px;height: 300px;' class='atomes'></div>");
                     $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: 300px;height:300px;' class='atomes'></div>");
-
                 }
 
                 break;
             default:
         }
-
 
 
     },
@@ -68,57 +74,59 @@ var html = {
         return filter_kept;
     },
 
-    getMedia: function (value, atome_id) {
-        content = Opal.Object.$grab(atome_id).$content();
-        var image = './medias/images/' + content + '.png';
-        var img = new Image();
-        img.onload = function () {
-            var height = this.height;
-            var width = this.width;
-            $('#' + atome_id).css("width", width);
-            $('#' + atome_id).css("height", height);
-
-            // Opal.Object.$opal_setter(atome_id, "width", width);
-            // Opal.Object.$opal_setter(atome_id, "height", height);
-        };
-        img.src = image;
-    },
-
     content: function (value, atome_id, add) {
 
         var objectType = Opal.Object.$grab(atome_id).$type();
-
         if (objectType == "text") {
-
             document.getElementById(atome_id).innerText = value;
-
-        } else {
-            $('#' + atome_id).css("background-image", "url(./medias/images/" + value + ".png)");
-            // html.getMedia(value, atome_id, "png");
+        } else if (objectType == "image") {
+            var ext = "png";
+            var image = './medias/images/' + value + "." + ext;
+            let img = document.createElement('img');
+            img.src = image;
+            img.onload = function () {
+                width = img.width;
+                height = img.height;
+                $('#' + atome_id).css("width", width);
+                $('#' + atome_id).css("height", height);
+                $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
+            };
+            img.onerror = function () {
+                html.img_type_retry(value, atome_id, ext);
+                console.clear();
+            };
         }
     },
 
     width: function (value, atome_id, add) {
 
-        // Opal.Object.$clear();
-        // Opal.Object.$puts(i);
-        i++;
-        if (Opal.Object.$grab(atome_id).$type() == "text") {
-            document.getElementById(atome_id).style.fontSize = value + "px";
-        } else if (Opal.Object.$grab(atome_id).$type() == "image") {
-            html.getMedia("width", atome_id);
+        if (typeof (value) == "number") {
+
+            value = value + "px";
         } else {
-            document.getElementById(atome_id).style.width = value + "px";
+            if (!value.endsWith("%")) {
+                value = value + "px";
+            }
+
         }
+        // // else if(value){
+        // //
+        // // }
+        // else {
+        //     value = value + "px";
+        // }
 
 
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
+            document.getElementById(atome_id).style.fontSize = value;
+        } else {
+            document.getElementById(atome_id).style.width = value;
+        }
     },
 
     height: function (value, atome_id) {
-
-
-        if (Opal.Object.$grab(atome_id).$type() == "image") {
-            html.getMedia("height", atome_id);
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
+            document.getElementById(atome_id).style.fontSize = value + "px";
         } else {
             document.getElementById(atome_id).style.height = value + "px";
         }
@@ -158,7 +166,6 @@ var html = {
     },
 
     rotate: function (value, atome_id) {
-
         document.getElementById(atome_id).style.transform = "rotate(" + value + "deg)";
     },
 
@@ -177,8 +184,7 @@ var html = {
         // document.getElementById(atome_id).style.filter = filter_set + " blur(" + value + "px)";
         if (value == 0) {//we delete the shadow!
             document.getElementById(atome_id).style.filter = " blur(0px)";
-            }
-        else{
+        } else {
 
             // if (add == true) {
 
@@ -191,7 +197,6 @@ var html = {
     },
 
     size: function (value, atome_id) {
-
         if (Opal.Object.$grab(atome_id).$type() == "text") {
             document.getElementById(atome_id).style.fontSize = value + "px";
         } else {
@@ -206,12 +211,32 @@ var html = {
     name: function (value, atome_id) {
     },
 
+    align: function (value, atome_id) {
+        // Opal.Object.$opal_setter(atome_id, "x", 654);
+        $(window).resize(function () {
+
+
+            // setTimeout(function () {
+                var max_right = parseFloat($("#html_view").css('width'));
+                var atome_width = parseFloat($('#' + atome_id).css("width"));
+                var position = parseInt(max_right-atome_width) ;
+                $('#' + atome_id).css("left", position);
+            // }, 200);
+
+         //
+         //   alert(position);
+            //
+            // alert(atome_width);
+        });
+        $(window).trigger('resize');
+
+    },
+
     delete: function (value, atome_id) {
         $("#" + atome_id).remove();
     },
 
     shadow: function (value, atome_id, add) {
-
         if (value == 0) {//we delete the shadow!
             if (Opal.Object.$grab(atome_id).$type() == "text") {
                 document.getElementById(atome_id).style.textShadow = "0px 0px 0px transparent";
@@ -369,7 +394,7 @@ var html = {
                     x_position = parseInt(document.getElementById(atome_id).style.left);
                     y_position = parseInt(document.getElementById(atome_id).style.top);
                     Opal.Object.$clear();
-                    Opal.Object.$puts(x_position);
+                    // Opal.Object.$puts(x_position);
                     html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                     html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
                     //Important $opal_setter may trig an infinite loop tha'ts why it's so slow
@@ -431,6 +456,12 @@ var html = {
 
     child: function (value, atome_id) {
         alert(value);
+        // t=text()
+        // t.child({width: 200})
+    },
+
+    refresh: function (value, atome_id) {
+        $(window).trigger('resize');
         // t=text()
         // t.child({width: 200})
     },

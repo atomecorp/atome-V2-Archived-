@@ -1,10 +1,16 @@
 todo =<<StrDelim
 ######## MVP #######
+- text width (format) et align
 - finished the render method() self.render in photon , the codein injected line 124 in require parser method in opal_utils file, the method is created in neutron file line 6
 - enorme bug de multiples envoies de proprietes au moteur de rendu
 - la fonction add est toujours envoyé  a false dans le  module Html (transpile_html) pour certaines proriétés dont blur et content, alors que cela fonctionne pour width, color et shadow
 - la fonction add arrive au moteur que pour certaines methodes (shadow) et arrive undefined pour la plus part des autres methodes
-- drag bug when a roation is added
+- drag bug when a rotation is added
+- add atome object for scene (html_viewer) to catch dimension and other ticks
+- add atome object for animation
+- send atome objct to html view instead of the id
+- remove all Opal hash mthos call in html.js
+- create a series of default script and load the last used script at startup
 - when dragging send continuous data to the atome but directly into th ehas not into send to set method
 - audio image video play back
 - debug when adding multiple filter cf : a blur and a drop shadow ( the second filter remove the first) 

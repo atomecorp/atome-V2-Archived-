@@ -188,7 +188,7 @@ else{
 end
 
 def add_to_console(content)
-  puts content.gsub("\n", "<br>")
+  puts content
 end
 
 def add_to_ide(content = nil, run = false)
@@ -199,6 +199,9 @@ def add_to_ide(content = nil, run = false)
     return code
   end
 end
+
+
+
 
 ################## sound DSP operation ##############
 
@@ -478,9 +481,11 @@ def opal_setter(atome_id, property, value)
   atomes = Atome.atomes
   atomes.each do |_id, atome|
     if atome.atome_id == atome_id
+      puts "msg from opal_utils line 484 atome_id #{atome_id} property #{property} value #{value}"
       #i.set(direct_atome: :true, x: 777)
       #value[:direct_atome]=:true
       #puts "msg from opal_utils line 471 property #{property} value #{value}"
+
       atome.send( property, value)
     end
   end
@@ -496,3 +501,6 @@ def waiter(time)
   `setTimeout(function(){ #{yield} }, #{time * 1000})`
 end
 
+def refresher
+  `html.refresh()`
+end

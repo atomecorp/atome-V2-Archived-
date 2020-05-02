@@ -51,8 +51,8 @@ html, body {
     -moz-user-select: text;
     -o-user-select: text;
     user-select: text;
-    position: relative;
-    display: block ;
+    position: absolute;
+    display: block;
     background-size: contain;
     background-repeat: no-repeat;
 

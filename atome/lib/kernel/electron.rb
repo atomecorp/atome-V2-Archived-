@@ -56,7 +56,10 @@ def image(options)
   # we add the box preset to the default visual
   obj_prop = Hash[:preset, :image].merge!(obj_prop)
   if options
-    atome = Atome.new(obj_prop, options)
+    if options.class ==String ||options.class ==Symbol
+      options={:content => options}
+    end
+        atome = Atome.new(obj_prop, options)
   else
     atome = Atome.new(obj_prop)
   end

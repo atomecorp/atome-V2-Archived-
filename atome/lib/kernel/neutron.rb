@@ -7,7 +7,9 @@ def render *option
   #puts "msg form neutron line 7 : render go"
   $render = true
 end
-
+def refresh
+  refresher
+end
 def trig atome_id, event
   atomes = Atome.atomes
   atomes.each do |_id, atome|
@@ -189,7 +191,7 @@ end
 
 def help(subject = "")
   if subject == ""
-    reader("documentations/userdoc.rb", "console")
+    return Help.send(:api)
   else
     return Help.send(subject)
   end
@@ -199,10 +201,5 @@ def example(subject = "")
   return Example.send(subject)
 end
 
-def news
-  reader("documentations/news.rb", "console")
-end
 
-def version
-  return "v:0.14"
-end
+
