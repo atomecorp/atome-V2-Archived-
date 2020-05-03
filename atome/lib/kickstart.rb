@@ -1,5 +1,5 @@
 def version
-  return "v:0.15"
+  return "v:0.15a"
 end
 
 def news
@@ -557,19 +557,30 @@ end
 
 
 
-content_test = <<EOT
-run
-t=text("e \é")
-t.editable(:true)
-load :thethest
-EOT
 
-
-
-
-
-
-write(content_test)
+#content_test = <<EOT
+#run
+#logo=image("carine")
+#logo.x=200
+##logo.transparency(0)
+##animate
+#anim({
+#         start: {x: 0, y: 0, blur: 0, rotate: -300},
+#         end: {x: 0, y: 0,blur: 10, rotate: 0, },
+#         duration: 3000,
+#         curve: :easing,
+#         target: logo
+#     })
+#
+#logo.touch do
+#  load :carine
+#end
+#EOT
+#
+#
+#
+#
+#write(content_test)
 open_ide(:true)
 open_console(:true)
 #perpetual_run

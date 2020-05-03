@@ -63,6 +63,16 @@ function protect_accent(str) {
     return str.join('');
 }
 
+function restore_accent(str) {
+    var accents    = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    accentsOut =['\\300','\\301','\\302','\\303','\\304','\\305','\\340','\\341','\\342','\\343','\\344','\\345','\\322','\\323','\\324','\\325','\\325','\\326','\\330','\\362','\\363','\\364','\\365','\\366','\\370','\\310','\\311','\\312','\\313','\\350','\\351','\\352','\\353','\\360','\\307','\\347','\\320','\\314','\\315','\\316','\\317','\\354','\\355','\\356','\\357','\\331','\\332','\\333','\\334','\\371','\\372','\\373','\\374','\\321','\\361','\\undefined','\\undefined','\\undefined','\\377','\\375','\\undefined','\\undefined']
+    accentsOut.forEach(function(char, index){
+        str=	str.split(char)
+        str=	str.join(accents[index])
+    })
+    return str
+}
+
 function debug(code) {
     try {
         code = protect_accent(code);
@@ -105,8 +115,9 @@ function get_image(file) {
 }
 
 function send_to_ide(content, run) {
-
-    content=content.replace("\\351","é")
+    content=restore_accent(content)
+    //content=content.replace("\\351","é");
+    // content=  content.replace(/\\/g, '');
     editor.getDoc().setValue(content);
 
 // below code to check if code editor must be open at startup
