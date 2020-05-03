@@ -557,14 +557,19 @@ end
 
 
 
+content_test = <<EOT
+run
+t=text("e \é")
+t.editable(:true)
+load :thethest
+EOT
 
 
 
 
 
 
-
-#write(content_test)
+write(content_test)
 open_ide(:true)
 open_console(:true)
 #perpetual_run

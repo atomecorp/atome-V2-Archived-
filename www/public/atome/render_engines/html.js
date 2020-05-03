@@ -117,19 +117,22 @@ var html = {
         // }
 
 
-        if (Opal.Object.$grab(atome_id).$type() == "text") {
-            document.getElementById(atome_id).style.fontSize = value;
-        } else {
-            document.getElementById(atome_id).style.width = value;
-        }
+        // if (Opal.Object.$grab(atome_id).$type() == "text") {
+        //     document.getElementById(atome_id).style.fontSize = value;
+        // } else {
+        //     document.getElementById(atome_id).style.width = value;
+        // }
+        document.getElementById(atome_id).style.width = value;
     },
 
     height: function (value, atome_id) {
-        if (Opal.Object.$grab(atome_id).$type() == "text") {
-            document.getElementById(atome_id).style.fontSize = value + "px";
-        } else {
-            document.getElementById(atome_id).style.height = value + "px";
-        }
+        // if (Opal.Object.$grab(atome_id).$type() == "text") {
+        //     document.getElementById(atome_id).style.fontSize = value + "px";
+        // } else {
+        //     document.getElementById(atome_id).style.height = value + "px";
+        // }
+        document.getElementById(atome_id).style.height = value + "px";
+
     },
 
     color: function (value, atome_id) {
@@ -359,7 +362,8 @@ var html = {
             var id = Opal.Object.$grab(atome_id).$id();
             var text_found = document.getElementById(atome_id).innerText;
             content_property_declaration_position = html.find_property_declaration_in_ide(text_found, "content", id);
-            html.insert_in_ide(text_found, "content", content_property_declaration_position, id);
+
+           html.insert_in_ide(text_found, "content", content_property_declaration_position, id);
         });
     },
 
@@ -562,4 +566,7 @@ var motion = {
 
     },
 
-}
+};
+
+
+

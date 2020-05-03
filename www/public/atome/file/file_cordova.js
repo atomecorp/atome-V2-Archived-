@@ -68,6 +68,7 @@ function read_file(file_name, call, params, err_callb_fct) {
                 reader.onloadend = function (e) {
                     var file_content = this.result;
                     file_content = file_content.replace(/'/g, "\\'");
+                    file_content= protect_accent(file_content);
                     if (params == "") {
                         Opal.eval(call + "('" + file_content + "')");
                     } else {
