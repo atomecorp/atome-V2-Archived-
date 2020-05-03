@@ -43,6 +43,7 @@ var html = {
             case 'image':
                 if (!document.getElementById(atome_id)) {
                     $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: 300px;height:300px;' class='atomes'></div>");
+                    // $('#html_view').append("<div id=" + atome_id + " style='border: solid 3px black; background-image: url(./medias/images/atome.svg);width: 300px;height:300px;' class='atomes'></div>");
                 }
 
                 break;
@@ -85,10 +86,10 @@ var html = {
             let img = document.createElement('img');
             img.src = image;
             img.onload = function () {
-                width = img.width;
-                height = img.height;
-                $('#' + atome_id).css("width", width);
-                $('#' + atome_id).css("height", height);
+                // width = img.width;
+                // height = img.height;
+                // $('#' + atome_id).css("width", width);
+                // $('#' + atome_id).css("height", height);
                 $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
             };
             img.onerror = function () {
@@ -109,12 +110,6 @@ var html = {
             }
 
         }
-        // // else if(value){
-        // //
-        // // }
-        // else {
-        //     value = value + "px";
-        // }
 
 
         // if (Opal.Object.$grab(atome_id).$type() == "text") {
@@ -122,6 +117,8 @@ var html = {
         // } else {
         //     document.getElementById(atome_id).style.width = value;
         // }
+        document.getElementById(atome_id).style.backgroundSize= "100% 100%";
+
         document.getElementById(atome_id).style.width = value;
     },
 
@@ -131,6 +128,8 @@ var html = {
         // } else {
         //     document.getElementById(atome_id).style.height = value + "px";
         // }
+        // document.getElementById(atome_id).css("backgroundSize","100% 100%");
+        document.getElementById(atome_id).style.backgroundSize= "100% 100%";
         document.getElementById(atome_id).style.height = value + "px";
 
     },
@@ -168,6 +167,10 @@ var html = {
         document.getElementById(atome_id).style.zIndex = value;
     },
 
+    float: function (value, atome_id) {
+        document.getElementById(atome_id).style.postion = "sticky";
+    },
+
     rotate: function (value, atome_id) {
         document.getElementById(atome_id).style.transform = "rotate(" + value + "deg)";
     },
@@ -200,11 +203,24 @@ var html = {
     },
 
     size: function (value, atome_id) {
-        if (Opal.Object.$grab(atome_id).$type() == "text") {
-            document.getElementById(atome_id).style.fontSize = value + "px";
+        var unit;
+        if (typeof (value) == "number") {
+
+            unit= "px";
         } else {
-            alert("create alogo here to find if width or height is bigger the apply settings");
-            // document.getElementById(atome_id).style.backgroundColor = value;
+            if (!value.endsWith("%")) {
+                unit= "px";
+            }
+
+        }
+
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
+            document.getElementById(atome_id).style.fontSize = value+unit ;
+        } else {
+            document.getElementById(atome_id).style.width = value+unit;
+           ratio=parseFloat(document.getElementById(atome_id).style.width) /parseFloat(document.getElementById(atome_id).style.height) ;
+            document.getElementById(atome_id).style.height=((value+value/ratio)/2)+unit;
+            document.getElementById(atome_id).style.backgroundSize="100%";
         }
     },
 
@@ -216,6 +232,7 @@ var html = {
 
     align: function (value, atome_id) {
         // Opal.Object.$opal_setter(atome_id, "x", 654);
+        alert(value);
         $(window).resize(function () {
 
 
