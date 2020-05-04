@@ -210,7 +210,7 @@ var html = {
         document.getElementById(atome_id).style.transform = "rotate(" + value + "deg)";
     },
 
-    transparency: function (value, atome_id) {
+    opacity: function (value, atome_id) {
         document.getElementById(atome_id).style.opacity = value;
     },
 
@@ -563,6 +563,7 @@ var motion = {
         var property = value['$[]']("property");
         var finished = value['$[]']("finished");
         var loop = value['$[]']("loop");
+
 
 
         var a_start = {};

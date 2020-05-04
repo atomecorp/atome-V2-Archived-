@@ -1,5 +1,5 @@
 def version
-  return "v:0.16b"
+  return "v:0.16c"
 end
 
 def news
@@ -311,8 +311,8 @@ b.x=300
 
 b.touch do 
   anim({
-	start: {x: 0, y: 0, blur: 0,rotate: 0,height: 100,  smooth: 100, color: 'rgb(0,255,0)'},
-	end: {x: 900, y: 170,blur: 10,rotate: 180,height: 50, smooth: 0,color: 'rgb(255,0,255)'},
+	start: {x: 0, y: 0, blur: 0,rotate: 0,height: 100,  smooth: 100, color: 'rgb(0,255,0)',opacity: 1},
+	end: {x: 900, y: 170,blur: 10,rotate: 180,height: 50, smooth: 0,color: 'rgb(255,0,255)',opacity: 0},
 	duration: 2000,
 	loop: 8,
 	curve: :easing,
