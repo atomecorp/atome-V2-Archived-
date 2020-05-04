@@ -588,15 +588,15 @@ var motion = {
         }
 
         if (curve == "") {
-            curve = "easeOutBounce";
+            curve = "Out";
         }
 
         if (finished == "") {
             finished = "";
         }
-        if (loop == "") {
-            loop = 1;
-        }
+        // if (loop == "") {
+        //     loop = 1;
+        // }
         var objectType = Opal.Object.$grab(atome_id).$type();
 
         if (typeof (start) == "object") {

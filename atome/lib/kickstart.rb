@@ -1,5 +1,5 @@
 def version
-  return "v:0.16a"
+  return "v:0.16b"
 end
 
 def news
@@ -297,7 +297,7 @@ a.delete(:color)
 Str
   end
 
-  def self.anim
+  def self.animate
     t = <<Str
 run
 a=circle()
