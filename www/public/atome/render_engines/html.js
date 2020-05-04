@@ -14,6 +14,7 @@ var html = {
         }
 
     },
+
     load_image: function (value, atome_id, ext) {
         var image = './medias/images/' + value + "." + ext;
         let img = document.createElement('img');
@@ -31,6 +32,7 @@ var html = {
 
         };
     },
+
     preset: function (param, atome_id,) {
 
         switch (param) {
@@ -264,81 +266,73 @@ var html = {
     },
 
     align: function (value, atome_id) {
-        // Opal.Object.$opal_setter(atome_id, "x", 654);
-        // var start = value['$[]']("start");
-
-        // Opal.Object.$puts(typeof(value)+": "+value);
-     if (typeof(value)=="string"){
-            var  param=value;
-            var val=0;
-        }
-     else if (typeof(value)=="object"){
-           var param=value[0];
+        if (typeof (value) == "string") {
+            var param = value;
+            var val = 0;
+        } else if (typeof (value) == "object") {
+            var param = value[0];
             param.$keys().forEach((item) => {
-                key=item;
-                val=param['$[]'](key);
+                key = item;
+                val = param['$[]'](key);
 
             });
-param=key;
+            param = key;
 
         }
-    switch (param) {
-        case 'center':
-            $(window).resize(function () {
-                var max_right = (parseFloat($("#html_view").css('width'))/2);
-                var atome_width = (parseFloat($('#' + atome_id).css("width"))/2);
-                var position = parseInt(max_right - atome_width);
-                $('#' + atome_id).css("left", position+val);
-            });
-            break;
-        case 'left':
-            $('#' + atome_id).css("left", val);
-            break;
-        case 'right':
-            $(window).resize(function () {
-                var max_right = parseFloat($("#html_view").css('width'));
-                var atome_width = parseFloat($('#' + atome_id).css("width"));
-                var position = parseInt(max_right - atome_width);
-                $('#' + atome_id).css("left", position+val);
-            });
-            break;
-        case 'top':
-            $('#' + atome_id).css("top", val);
-            break;
-        case 'bottom':
-            $(window).resize(function () {
-                var max_bottom = parseFloat($("#html_view").css('height'));
-                var atome_height = parseFloat($('#' + atome_id).css("height"));
-                var position = parseInt(max_bottom - atome_height);
-                $('#' + atome_id).css("top", position+val);
-            });
-            break;
-        case 'middle':
-            $(window).resize(function () {
-                var max_bottom = (parseFloat($("#html_view").css('height'))/2);
-                var atome_height = (parseFloat($('#' + atome_id).css("height"))/2);
-                var position = parseInt(max_bottom - atome_height);
-                $('#' + atome_id).css("top", position+val);
-            });
-            break;
-        case 'centered':
-            $(window).resize(function () {
-                var max_bottom = (parseFloat($("#html_view").css('height'))/2);
-                var atome_height = (parseFloat($('#' + atome_id).css("height"))/2);
-                var position = parseInt(max_bottom - atome_height);
-                $('#' + atome_id).css("top", position);
-                var max_right = (parseFloat($("#html_view").css('width'))/2);
-                var atome_width = (parseFloat($('#' + atome_id).css("width"))/2);
-                var position = parseInt(max_right - atome_width);
-                $('#' + atome_id).css("left", position);
-            });
-            break;
+        switch (param) {
+            case 'center':
+                $(window).resize(function () {
+                    var max_right = (parseFloat($("#html_view").css('width')) / 2);
+                    var atome_width = (parseFloat($('#' + atome_id).css("width")) / 2);
+                    var position = parseInt(max_right - atome_width);
+                    $('#' + atome_id).css("left", position + val);
+                });
+                break;
+            case 'left':
+                $('#' + atome_id).css("left", val);
+                break;
+            case 'right':
+                $(window).resize(function () {
+                    var max_right = parseFloat($("#html_view").css('width'));
+                    var atome_width = parseFloat($('#' + atome_id).css("width"));
+                    var position = parseInt(max_right - atome_width);
+                    $('#' + atome_id).css("left", position + val);
+                });
+                break;
+            case 'top':
+                $('#' + atome_id).css("top", val);
+                break;
+            case 'bottom':
+                $(window).resize(function () {
+                    var max_bottom = parseFloat($("#html_view").css('height'));
+                    var atome_height = parseFloat($('#' + atome_id).css("height"));
+                    var position = parseInt(max_bottom - atome_height);
+                    $('#' + atome_id).css("top", position + val);
+                });
+                break;
+            case 'middle':
+                $(window).resize(function () {
+                    var max_bottom = (parseFloat($("#html_view").css('height')) / 2);
+                    var atome_height = (parseFloat($('#' + atome_id).css("height")) / 2);
+                    var position = parseInt(max_bottom - atome_height);
+                    $('#' + atome_id).css("top", position + val);
+                });
+                break;
+            case 'centered':
+                $(window).resize(function () {
+                    var max_bottom = (parseFloat($("#html_view").css('height')) / 2);
+                    var atome_height = (parseFloat($('#' + atome_id).css("height")) / 2);
+                    var position = parseInt(max_bottom - atome_height);
+                    $('#' + atome_id).css("top", position);
+                    var max_right = (parseFloat($("#html_view").css('width')) / 2);
+                    var atome_width = (parseFloat($('#' + atome_id).css("width")) / 2);
+                    var position = parseInt(max_right - atome_width);
+                    $('#' + atome_id).css("left", position);
+                });
+                break;
 
 
-    }
-
-
-
+        }
 // we trig the position at each window resize
         $(window).trigger('resize');
 
@@ -567,10 +561,164 @@ param=key;
         // }
     },
 
-    child: function (value, atome_id) {
+    select: function (value, atome_id) {
         alert(value);
-        // t=text()
-        // t.child({width: 200})
+        if (value == "childs") {
+            content = Opal.Object.$grab(atome_id).$content();
+            alert(content);
+        } else if (value == "child") {
+            alert(content);
+        } else {
+            alert(value);
+        }
+
+    },
+
+    child: function (value, atome_id) {
+        if (Opal.Object.$grab(atome_id).$type() == "text") {
+
+            child = $("#" + atome_id).text();
+            // alert(child);
+// $("#"+atome_id).css("text-align",value);
+
+            // text-align: left;
+            // text-align: right;
+            // text-align: center;
+            // text-align: justify;
+            // text-align: justify-all;
+
+        } else {
+        }
+    },
+
+    group: function (value, atome_id) {
+        child = Opal.Object.$get(value).$atome_id();
+        $("#" + atome_id).css("overflow", "visible");
+
+        offset = $("#" + child).offset();
+        $("#" + atome_id).append($("#" + child));
+        $("#" + child).offset(offset);
+
+
+    },
+
+    lock: function (value, atome_id) {
+
+        if (typeof (value) == "string") {
+            var param = value;
+            var val = null;
+        } else if (typeof (value) == "object") {
+            var param = value[0];
+            param.$keys().forEach((item) => {
+                key = item;
+                val = param['$[]'](key);
+
+            });
+            param = key;
+
+        }
+        switch (param) {
+            case 'left':
+                    if ((typeof (val) == "number") || (typeof (val) == "string")) {
+                        var left_position = val;
+                        var current_width = parseFloat($('#' + atome_id).css("width"));
+                        var right_position = parseFloat($(window).width()) - (left_position + current_width);
+
+                        $('#' + atome_id).css("width", "auto");
+                        $('#' + atome_id).css("left", left_position);
+                         $('#' + atome_id).css("right", right_position);
+                    }
+                    else{
+                        var left_position = parseFloat($('#' + atome_id).css("left"));
+                        var current_width = parseFloat($('#' + atome_id).css("width"));
+                        var right_position = parseFloat($(window).width()) - (left_position + current_width);
+
+                        $('#' + atome_id).css("width", "auto");
+                        $('#' + atome_id).css("left", left_position);
+                        $('#' + atome_id).css("right", right_position);
+                    }
+                break;
+
+            case 'right':
+                    if ((typeof (val) == "number") || (typeof (val) == "string")) {
+                        var right_position = val;
+                        var current_width = parseFloat($('#' + atome_id).css("width"));
+                        var left_position =  right_position + current_width;
+
+                        $('#' + atome_id).css("width", "auto");
+                         $('#' + atome_id).css("left", left_position);
+                        $('#' + atome_id).css("right", right_position);
+                    }
+                    else{
+                        var left_position = parseFloat($('#' + atome_id).css("left"));
+                        var current_width = parseFloat($('#' + atome_id).css("width"));
+                        var right_position = parseFloat($(window).width()) - (left_position + current_width);
+
+                        $('#' + atome_id).css("width", "auto");
+                        $('#' + atome_id).css("left", left_position);
+                        $('#' + atome_id).css("right", right_position);
+                    }
+                break;
+            case 'top':
+                $(window).resize(function () {
+                    if ((typeof (val) == "number") || (typeof (val) == "string")) {
+                        var top_position = val;
+                        var current_height = parseFloat($('#' + atome_id).css("height"));
+                        var bottom_position = parseFloat($(window).width()) - (top_position + current_height);
+
+                        $('#' + atome_id).css("height", "auto");
+                        $('#' + atome_id).css("top", top_position);
+                        $('#' + atome_id).css("bottom", bottom_position);
+                    }
+                    else{
+                        var top_position = parseFloat($('#' + atome_id).css("top"));
+                        var current_height = parseFloat($('#' + atome_id).css("height"));
+                        var bottom_position = parseFloat($(window).height()) - (top_position + current_height);
+
+                        $('#' + atome_id).css("height", "auto");
+                        $('#' + atome_id).css("top", top_position);
+                        $('#' + atome_id).css("bottom", bottom_position);
+                    }
+                });
+                break;
+
+            case 'bottom':
+                $(window).resize(function () {
+                    if ((typeof (val) == "number") || (typeof (val) == "string")) {
+                        var bottom_position = val;
+                        var current_height = parseFloat($('#' + atome_id).css("height"));
+                        var top_position =  bottom_position + current_width;
+
+                        $('#' + atome_id).css("height", "auto");
+                        $('#' + atome_id).css("top", top_position);
+                        $('#' + atome_id).css("bottom", bottom_position);
+                    }
+                    else{
+                        var bottom_position = parseFloat($('#' + atome_id).css("bottom"));
+                        var current_height = parseFloat($('#' + atome_id).css("height"));
+                        var top_position = parseFloat($(window).height()) - (bottom_position + current_height);
+
+                        $('#' + atome_id).css("height", "auto");
+                        $('#' + atome_id).css("top", top_position);
+                        $('#' + atome_id).css("bottom", bottom_position);
+                    }
+                });
+                break;
+
+        }
+
+        // we trig the position at each window resize
+        // $(window).trigger('resize');
+
+        // alert(value);
+        // child = Opal.Object.$get(value).$atome_id();
+        // $("#" + atome_id).css("overflow", "visible");
+        //
+        // offset = $("#" + child).offset();
+        // $("#" + atome_id).append($("#" + child));
+        // $("#" + child).offset(offset);
+        $(window).trigger('resize');
+
     },
 
     property: function (value, atome_id) {

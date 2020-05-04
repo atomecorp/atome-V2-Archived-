@@ -82,7 +82,6 @@ def console_text_size size
 end
 
 
-
 ################## code execution ##############
 
 $require_list = {}
@@ -121,7 +120,7 @@ def require_parser code
     $counter = 1
     $codes_call = []
     $total_pass = 0
-    base_code=base_code+"\nrender()"
+    base_code = base_code + "\nrender()"
     #puts "msg from opal_utils line 124 ad render at the file of the code : #{base_code}"
     `
     run_script(#{base_code})
@@ -199,8 +198,6 @@ def add_to_ide(content = nil, run = false)
     return code
   end
 end
-
-
 
 
 ################## sound DSP operation ##############
@@ -486,7 +483,7 @@ def opal_setter(atome_id, property, value)
       #value[:direct_atome]=:true
       #puts "msg from opal_utils line 471 property #{property} value #{value}"
 
-      atome.send( property, value)
+      atome.send(property, value)
     end
   end
 end
@@ -503,4 +500,8 @@ end
 
 def refresher
   `html.refresh()`
+end
+
+def httper(url)
+  `window.open("https://"+#{url});`
 end

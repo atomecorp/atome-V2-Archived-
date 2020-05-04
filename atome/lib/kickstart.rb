@@ -1,5 +1,5 @@
 def version
-  return "v:0.17"
+  return "v:0.19"
 end
 
 def news
@@ -13,10 +13,93 @@ def news
   # 04 05 2020 add new object type particle
   # 04 05 2020 add new property api
   # 04 05 2020 add new align api
+  # 04 05 2020 add group api
+  # 04 05 2020 partially add lock api for position
 Str
 end
 
 module Help
+
+
+  def self.lock
+    t = <<Str
+ lock api allow to lock property ( for now only left, right , top , bottom works)
+usage b.lock(:top)#lock position or c.lock(top: 200)# also lock position but force top position
+type Example.group() for an example
+Str
+  end
+
+  def self.group
+    t = <<Str
+ group api allow to group objects
+usage a.group(b.id)
+type Example.group() for an example
+Str
+  end
+
+  def self.align
+    t = <<Str
+   align is to align object inside it's parent 
+syntax is : a.align(:right) or  a.align(right: -50) to align objet to the right with an offset of 50
+params are :left, :right,:top, :bottom, :center
+type Example.align() for an example
+Str
+  end
+
+  def self.property
+    t = <<Str
+   property can be used to store and retrieve attributes from an objet to another
+note that the particle atome can be used to store attributes / property within an invisile object. the particle is a special objet that have no visibilly by default.
+usage b.property(a.id)
+type Example.property for a full use example.
+Str
+  end
+
+  def self.border
+    t = <<Str
+border has 3 parameters : thickness, color, value type  must be string or symbol
+thickness value goes from 0 to infinity , value type  must be integer
+color value can be set in rgb, rgba, hex or color name, value type  must be string or symbol (when using color name ex : :red)
+pattern values are : dashed, solid , double, dotted, value type must be string or symbol
+type Example.border for examples
+Str
+  end
+
+  def self.shadow
+    t = <<Str
+shadows has 6 parameters : x, y, blur, thickness color and invert 
+all params are integer exept color that can be set in rgb, rgba, hex or color name and invert that is :true or :false
+type Example.shadow for examples
+Str
+  end
+
+  def self.delete
+    t = <<Str
+delete can delete a current object or any of speficied prop
+type Example.delete for examples
+Str
+  end
+
+  def self.animate
+    t = <<Str
+anim is a function it has 6 main parameters :
+start
+end 
+duration
+loop
+curve 
+target
+anim can take any prop as a param 
+type Example.anim for examples
+Str
+  end
+
+  def self.image
+    t = <<Str
+simple api to view an image : image()
+type Example.image for examples
+Str
+  end
 
   def self.api
     t = <<Str
@@ -190,75 +273,33 @@ end
 Str
   end
 
-
-  def self.align
-    t = <<Str
-   align is to align object inside it's parent 
-syntax is : a.align(:right) or  a.align(right: -50) to align objet to the right with an offset of 50
-params are :left, :right,:top, :bottom, :center
-type Example.align() for an example
-Str
-  end
-
-  def self.property
-    t = <<Str
-   property can be used to store and retrieve attributes from an objet to another
-note that the particle atome can be used to store attributes / property within an invisile object. the particle is a special objet that have no visibilly by default.
-usage b.property(a.id)
-type Example.property for a full use example.
-Str
-  end
-
-  def self.border
-    t = <<Str
-border has 3 parameters : thickness, color, value type  must be string or symbol
-thickness value goes from 0 to infinity , value type  must be integer
-color value can be set in rgb, rgba, hex or color name, value type  must be string or symbol (when using color name ex : :red)
-pattern values are : dashed, solid , double, dotted, value type must be string or symbol
-type Example.border for examples
-Str
-  end
-
-  def self.shadow
-    t = <<Str
-shadows has 6 parameters : x, y, blur, thickness color and invert 
-all params are integer exept color that can be set in rgb, rgba, hex or color name and invert that is :true or :false
-type Example.shadow for examples
-Str
-  end
-
-  def self.delete
-    t = <<Str
-delete can delete a current object or any of speficied prop
-type Example.delete for examples
-Str
-  end
-
-  def self.animate
-    t = <<Str
-anim is a function it has 6 main parameters :
-start
-end 
-duration
-loop
-curve 
-target
-anim can take any prop as a param 
-type Example.anim for examples
-Str
-  end
-
-  def self.image
-    t = <<Str
-simple api to view an image : image()
-type Example.image for examples
-Str
-  end
-
 end
 
 
 module Example
+
+  def self.lock
+    t = <<Str
+b=box()
+c=circle
+c.y=250
+b.lock(:top)#lock position
+b.lock(:bottom)#lock position
+c.lock(top: 200)# also lock position but force top position
+c.lock(bottom: 100)#lock position but force bottom position
+Str
+  end
+
+
+  def self.group
+    t = <<Str
+c=circle()
+b=box()
+b.x=200
+  b.group(c.id)
+Str
+  end
+
   def self.border
     t = <<Str
     b=box()
@@ -591,11 +632,6 @@ EOT
   def self.demo_8
     t = <<EOT
 run
-b=box()
-b.x(0)
-b.y(0)
-b.shadow(blur: 10)
-b.width("100%")
 d=box()
 d.size(50)
 d.align(:center)
@@ -615,6 +651,45 @@ c.shadow({blur: 5})
 c.align({right: -50})
 EOT
 
+  end
+
+  def self.group
+    t = <<Str
+run
+clear
+c=circle()
+c.color(:red)
+b=box()
+b.draggable(:true)
+b.x=200
+c.touch do
+  b.group(c.id)
+end
+Str
+  end
+
+  def self.lock
+    t = <<Str
+run
+clear
+b=box()
+c=circle
+c.y=250
+b.smooth(5)
+b.lock(:left)#lock position
+b.lock(:right)#lock position
+
+c.lock(left: 200)#lock position
+c.lock(right: 100)#lock position
+b2=box()
+b2.x=500
+c2=circle
+c.y=400
+b2.lock(:top)#lock position
+b2.lock(:bottom)#lock position
+c2.lock(top: 200)# also lock position but force top position
+c2.lock(bottom: 100)#lock position but force bottom position
+Str
   end
 
   def self.carine
@@ -642,6 +717,52 @@ end
 
 
 content_test = <<EOT
+#run
+#t=text(lorem2)
+#t.size=20
+#t.width=600
+#t.height=800
+#t.child({level: 0, from: 10,to: 50}, {align: :left})
+#b=t.select(child: {level: 0, from: 10,to: 50})
+#b.touch do 
+# http("apple.com")
+#end
+
+#t=text(lorem2)
+#t.size=20
+#t.width=600
+#t.height=800
+#t.child({level: 0, from: 10,to: 50}, {align: :left})
+#t.select(level: 1, from: 2, to: 5).color(:red)
+#b.add(a)
+#c=group (a, b)
+
+run
+clear
+c=circle()
+c.color(:red)
+b=box()
+b.draggable(:true)
+b.x=200
+b.touch do
+  b.group(c.id)
+end
+EOT
+
+
+content_test = <<EOT
+run
+clear
+b=box()
+c=circle
+c.y=250
+b.smooth(5)
+b.lock(:left)#lock position
+b.lock(:right)#lock position
+
+c.lock(left: 200)#lock position
+c.lock(right: 100)#lock position
+
 
 EOT
 
