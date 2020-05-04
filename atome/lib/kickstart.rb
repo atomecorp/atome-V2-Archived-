@@ -1,5 +1,5 @@
 def version
-  return "v:0.16c"
+  return "v:0.17"
 end
 
 def news
@@ -11,7 +11,8 @@ def news
   # 29 04 2020 Added anmation api, type help.animation
   # 30 04 2020 Added image object + api
   # 04 05 2020 add new object type particle
-  # 04 05 2020add new property : property
+  # 04 05 2020 add new property api
+  # 04 05 2020 add new align api
 Str
 end
 
@@ -189,10 +190,20 @@ end
 Str
   end
 
+
+  def self.align
+    t = <<Str
+   align is to align object inside it's parent 
+syntax is : a.align(:right) or  a.align(right: -50) to align objet to the right with an offset of 50
+params are :left, :right,:top, :bottom, :center
+type Example.align() for an example
+Str
+  end
+
   def self.property
-    t=<<Str
+    t = <<Str
    property can be used to store and retrieve attributes from an objet to another
-note that the particule atome can be used to store attributes / property within an invisile object. the particle is a special objet that have no visibilly by default.
+note that the particle atome can be used to store attributes / property within an invisile object. the particle is a special objet that have no visibilly by default.
 usage b.property(a.id)
 type Example.property for a full use example.
 Str
@@ -255,8 +266,16 @@ module Example
 Str
   end
 
+  def self.align
+    t = <<Str
+b=box()
+b.align(right: -20)
+b.align(bottom: -480)
+Str
+  end
+
   def self.property
-    t=<<Str
+    t = <<Str
     p=particle()
 p.color(:red)
 p.rotate(50)
@@ -346,7 +365,7 @@ end
 
 module Demo
 
-  def  self.demo_1
+  def self.demo_1
     content_test = <<EOT
 run
 a=circle()
@@ -384,6 +403,7 @@ t.x=200
 t2=text("edit me!!")
 t2.y(200)
 t2.size(70)
+t2.width=900
 t2.color("orange")
 t2.editable=:true
 wait 3 do
@@ -436,12 +456,9 @@ get("box_1").y("84")
 get("circle_0").x("254")
 get("circle_0").y("85")
 EOT
-
   end
-  def  self.demo_2
 
-  end
-  def  self.demo_3
+  def self.demo_2
     content_test = <<EOT
 run
 a=box()
@@ -452,10 +469,10 @@ a.shadow({x: 5}, {y: 5}, {thickness: 3}, {color: :black}, {invert: :true})
 a.smooth(20)
 clear
 a.delete(:colors)
-#puts a
 EOT
   end
-  def  self.demo_4
+
+  def self.demo_3
     content_test = <<EOT
 run
 a=box()
@@ -465,16 +482,19 @@ a.add(:shadow => {color: :orange, blur: 20})
 a.add(:shadow => {color: :blue, blur: 5, x: -3, y: -3})
 a.smooth(20)
 a.add(color: :orange)
-a.add(color: :green)
-#a.delete(:color)
-#a.delete(:colors)
-#a.delete(:border)
 a.delete(:shadow)
-#a.delete(:shadows)
-#puts a
+ anim({
+	start: {x: 0, y: 0, blur: 10,rotate: 20,width: a.width},
+	end: {x: 400, y: 70,blur: 0,rotate: 180,width: a.width*6},
+	duration: 2000,
+	loop: 1,
+	curve: :easing,
+	target: a
+	})
 EOT
   end
-  def  self.demo_5
+
+  def self.demo_4
     content_test = <<EOT
 run
 clear
@@ -504,7 +524,7 @@ end
 EOT
   end
 
-  def  self.demo_6
+  def self.demo_5
     content_test = <<EOT
 run
 v=video()
@@ -537,7 +557,7 @@ end
 EOT
   end
 
-  def  self.demo_7
+  def self.demo_6
     content_test = <<EOT
 run
 b=box()
@@ -551,10 +571,49 @@ i.align(:left)
 EOT
   end
 
-  def  self.demo_8
 
+  def self.demo_7
+    t = <<EOT
+p=particle()
+p.color(:red)
+p.rotate(50)
+p.x=450
+p.blur(5)
+p.border({thickness: 4, color: :yellow})
+p.shadow({blur: 10, x: 5, y:5})
+b=box()
+b.touch do
+  b.property(p.id)
+end
+EOT
   end
-  def  self.demo_9
+
+  def self.demo_8
+    t = <<EOT
+run
+b=box()
+b.x(0)
+b.y(0)
+b.shadow(blur: 10)
+b.width("100%")
+d=box()
+d.size(50)
+d.align(:center)
+d.shadow({blur: 5})
+d.color(:white)
+d.smooth(7)
+e=box()
+e.color(:orange)
+e.size(50)
+e.smooth(7)
+e.align(:center)
+e.align(bottom: -20)
+i=image(:boat)
+i.align({left: 200})
+c=circle({size: 50})
+c.shadow({blur: 5})
+c.align({right: -50})
+EOT
 
   end
 
@@ -582,15 +641,9 @@ EOT
 end
 
 
-
-
-
 content_test = <<EOT
-run
-image("killer")
+
 EOT
-
-
 
 
 write(content_test)

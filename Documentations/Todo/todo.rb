@@ -1,5 +1,6 @@
 todo =<<StrDelim
 ######## MVP #######
+- create module Demo with demo for all prop (totalise 3 modules : help, examples, demo)
 - text width (format) et align
 - add dynamic prop from another objetc
 - finished the render method() self.render in photon , the codein injected line 124 in require parser method in opal_utils file, the method is created in neutron file line 6

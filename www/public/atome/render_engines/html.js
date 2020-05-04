@@ -1,34 +1,33 @@
 i = 0;
 var html = {
-    img_type_retry:function(value, atome_id,ext){
+    img_type_retry: function (value, atome_id, ext) {
         //dont change teh first item of the lsit or it wont work
         //Attention on certain unix case senitive it may need to change image name or modify this function
-        var list =["png", "jpeg", "jpg","svg"]
-        type=list.indexOf(ext);
-        if(type<list.length-1){
-            type=list[type+1]
-            html.load_image(value, atome_id,type)
+        var list = ["png", "jpeg", "jpg", "svg"]
+        type = list.indexOf(ext);
+        if (type < list.length - 1) {
+            type = list[type + 1]
+            html.load_image(value, atome_id, type)
             console.clear()
-        }
-        else{
-          "image not found"
+        } else {
+            "image not found"
         }
 
     },
     load_image: function (value, atome_id, ext) {
-        var image = './medias/images/' + value +"."+ext;
+        var image = './medias/images/' + value + "." + ext;
         let img = document.createElement('img');
         img.src = image;
-        img.onload = function() {
-            width=img.width;
-            height=img.height;
+        img.onload = function () {
+            width = img.width;
+            height = img.height;
             //send the size to Opal.Atome.$set(width: width) not in the style tag like below
-           // $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: " + width + "px;height:" + height + "px;' class='atomes'></div>");
-            $('#' + atome_id).css("background-image", "url(./medias/images/" + value +"."+ext+ ")");
+            // $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: " + width + "px;height:" + height + "px;' class='atomes'></div>");
+            $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
         };
 
-        img.onerror = function() {
-            html.img_type_retry(value, atome_id,ext);
+        img.onerror = function () {
+            html.img_type_retry(value, atome_id, ext);
 
         };
     },
@@ -56,7 +55,7 @@ var html = {
                     // html.getSize(atome_id)
 
                     // $('#html_view').append("<div id=" + atome_id + " style='width: 300px;height: 300px;' class='atomes'></div>");
-                    $('#html_view').append("<div id=" + atome_id + " class='atome'><video controls='' preload='none' poster='' style='width:100%; height:100%'><source id='atome_id' src='./medias/videos/Lion_king.mp4' /></video>");
+                    $('#html_view').append("<div id=" + atome_id + " class='atome'><video  preload='none' poster='' style='width:100%; height:100%'><source id='atome_id' src='./medias/videos/Lion_king.mp4' /></video>");
                     // poster='nice-default.jpg'
                 }
                 break;
@@ -113,7 +112,7 @@ var html = {
         } else if (objectType == "image") {
             var ext = "png";
 
-           html.load_image(value, atome_id, ext);
+            html.load_image(value, atome_id, ext);
             // img.src = image;
             // img.onload = function () {
             //     // width = img.width;
@@ -181,8 +180,7 @@ var html = {
 
         } else if (Opal.Object.$grab(atome_id).$type() == "image") {
             document.getElementById(atome_id).style.backgroundColor = "transparent";
-        }
-        else{
+        } else {
             document.getElementById(atome_id).style.backgroundColor = value;
         }
 
@@ -267,22 +265,81 @@ var html = {
 
     align: function (value, atome_id) {
         // Opal.Object.$opal_setter(atome_id, "x", 654);
-        alert(value);
-        $(window).resize(function () {
+        // var start = value['$[]']("start");
+
+        // Opal.Object.$puts(typeof(value)+": "+value);
+     if (typeof(value)=="string"){
+            var  param=value;
+            var val=0;
+        }
+     else if (typeof(value)=="object"){
+           var param=value[0];
+            param.$keys().forEach((item) => {
+                key=item;
+                val=param['$[]'](key);
+
+            });
+param=key;
+
+        }
+    switch (param) {
+        case 'center':
+            $(window).resize(function () {
+                var max_right = (parseFloat($("#html_view").css('width'))/2);
+                var atome_width = (parseFloat($('#' + atome_id).css("width"))/2);
+                var position = parseInt(max_right - atome_width);
+                $('#' + atome_id).css("left", position+val);
+            });
+            break;
+        case 'left':
+            $('#' + atome_id).css("left", val);
+            break;
+        case 'right':
+            $(window).resize(function () {
+                var max_right = parseFloat($("#html_view").css('width'));
+                var atome_width = parseFloat($('#' + atome_id).css("width"));
+                var position = parseInt(max_right - atome_width);
+                $('#' + atome_id).css("left", position+val);
+            });
+            break;
+        case 'top':
+            $('#' + atome_id).css("top", val);
+            break;
+        case 'bottom':
+            $(window).resize(function () {
+                var max_bottom = parseFloat($("#html_view").css('height'));
+                var atome_height = parseFloat($('#' + atome_id).css("height"));
+                var position = parseInt(max_bottom - atome_height);
+                $('#' + atome_id).css("top", position+val);
+            });
+            break;
+        case 'middle':
+            $(window).resize(function () {
+                var max_bottom = (parseFloat($("#html_view").css('height'))/2);
+                var atome_height = (parseFloat($('#' + atome_id).css("height"))/2);
+                var position = parseInt(max_bottom - atome_height);
+                $('#' + atome_id).css("top", position+val);
+            });
+            break;
+        case 'centered':
+            $(window).resize(function () {
+                var max_bottom = (parseFloat($("#html_view").css('height'))/2);
+                var atome_height = (parseFloat($('#' + atome_id).css("height"))/2);
+                var position = parseInt(max_bottom - atome_height);
+                $('#' + atome_id).css("top", position);
+                var max_right = (parseFloat($("#html_view").css('width'))/2);
+                var atome_width = (parseFloat($('#' + atome_id).css("width"))/2);
+                var position = parseInt(max_right - atome_width);
+                $('#' + atome_id).css("left", position);
+            });
+            break;
 
 
-            // setTimeout(function () {
-            var max_right = parseFloat($("#html_view").css('width'));
-            var atome_width = parseFloat($('#' + atome_id).css("width"));
-            var position = parseInt(max_right - atome_width);
-            $('#' + atome_id).css("left", position);
-            // }, 200);
+    }
 
-            //
-            //   alert(position);
-            //
-            // alert(atome_width);
-        });
+
+
+// we trig the position at each window resize
         $(window).trigger('resize');
 
     },
@@ -517,35 +574,11 @@ var html = {
     },
 
     property: function (value, atome_id) {
-
         var source_atome_id = Opal.Object.$get(value).$atome_id();
-
-        //var source_atome_id = Opal.Object.$get(value).atome_id();
-      // var color = Opal.Object.$get(value).$color();
-      // var x = Opal.Object.$get(value).$x();
-      // var y = Opal.Object.$get(value).$x();
-      // var z = Opal.Object.$get(value).$x();
-      // var width = Opal.Object.$get(value).$x();
-      // var height = Opal.Object.$get(value).$x();
-      // var rotation = Opal.Object.$get(value).$x();
-      // var shadow = Opal.Object.$get(value).$x();
-      // var border = Opal.Object.$get(value).$x();
-      //   $("#"+atome_id).css($("#"+source_atome_id).css());
-       var  display=$("#"+atome_id).css("display")
-        $("#"+atome_id).attr("style", $("#"+source_atome_id).attr("style"))
-            .addClass($("#"+source_atome_id).attr("class"));
-        $("#"+atome_id).css("display", display)
-        // $("#"+atome_id).css("left",$("#"+source_atome_id).css("left"));
-        // $("#"+atome_id).css("top",$("#"+source_atome_id).css("top"));
-        // $("#"+atome_id).css("z",$("#"+source_atome_id).css("z"));
-        // $("#"+atome_id).css("transform","rotate(45eg)");
-        // $("#"+atome_id).css("width",$("#"+source_atome_id).css("x"));
-        // $("#"+atome_id).css("height",$("#"+source_atome_id).css("x"));
-        // $("#"+atome_id).css("rotation",$("#"+source_atome_id).css("x"));
-        // $("#"+atome_id).css("shadow",$("#"+source_atome_id).css("x"));
-        // $("#"+atome_id).css("border",$("#"+source_atome_id).css("x"));
-
-
+        var display = $("#" + atome_id).css("display")
+        $("#" + atome_id).attr("style", $("#" + source_atome_id).attr("style"))
+            .addClass($("#" + source_atome_id).attr("class"));
+        $("#" + atome_id).css("display", display);
     },
     refresh: function (value, atome_id) {
         $(window).trigger('resize');
@@ -563,7 +596,6 @@ var motion = {
         var property = value['$[]']("property");
         var finished = value['$[]']("finished");
         var loop = value['$[]']("loop");
-
 
 
         var a_start = {};
