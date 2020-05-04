@@ -1,5 +1,5 @@
 def version
-  return "v:0.16"
+  return "v:0.16a"
 end
 
 def news
@@ -587,17 +587,7 @@ end
 
 content_test = <<EOT
 run
-p=particle()
-p.color(:red)
-p.rotate(50)
-p.x=450
-p.blur(5)
-p.border({thickness: 4, color: :yellow})
-p.shadow({blur: 10, x: 5, y:5})
-b=box()
-b.touch do
-b.property(p.id)
-end
+image("killer")
 EOT
 
 

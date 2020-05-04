@@ -1,17 +1,37 @@
 i = 0;
 var html = {
-    img_type_retry: function (value, atome_id, ext) {
+    img_type_retry:function(value, atome_id,ext){
         //dont change teh first item of the lsit or it wont work
         //Attention on certain unix case senitive it may need to change image name or modify this function
-        var list = ["png", "jpeg", "jpg", "svg"]
-        type = list.indexOf(ext);
-        if (type < list.length - 1) {
-            type = list[type + 1]
-            html.verif(value, atome_id, type)
+        var list =["png", "jpeg", "jpg","svg"]
+        type=list.indexOf(ext);
+        if(type<list.length-1){
+            type=list[type+1]
+            html.load_image(value, atome_id,type)
+            console.clear()
+        }
+        else{
+          "image not found"
         }
 
     },
+    load_image: function (value, atome_id, ext) {
+        var image = './medias/images/' + value +"."+ext;
+        let img = document.createElement('img');
+        img.src = image;
+        img.onload = function() {
+            width=img.width;
+            height=img.height;
+            //send the size to Opal.Atome.$set(width: width) not in the style tag like below
+           // $('#html_view').append("<div id=" + atome_id + " style='background-image: url(./medias/images/atome.svg);width: " + width + "px;height:" + height + "px;' class='atomes'></div>");
+            $('#' + atome_id).css("background-image", "url(./medias/images/" + value +"."+ext+ ")");
+        };
 
+        img.onerror = function() {
+            html.img_type_retry(value, atome_id,ext);
+
+        };
+    },
     preset: function (param, atome_id,) {
 
         switch (param) {
@@ -92,20 +112,22 @@ var html = {
             document.getElementById(atome_id).innerText = value;
         } else if (objectType == "image") {
             var ext = "png";
-            var image = './medias/images/' + value + "." + ext;
-            let img = document.createElement('img');
-            img.src = image;
-            img.onload = function () {
-                // width = img.width;
-                // height = img.height;
-                // $('#' + atome_id).css("width", width);
-                // $('#' + atome_id).css("height", height);
-                $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
-            };
-            img.onerror = function () {
-                html.img_type_retry(value, atome_id, ext);
-                console.clear();
-            };
+
+           html.load_image(value, atome_id, ext);
+            // img.src = image;
+            // img.onload = function () {
+            //     // width = img.width;
+            //     // height = img.height;
+            //     // $('#' + atome_id).css("width", width);
+            //     // $('#' + atome_id).css("height", height);
+            //     $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
+            // };
+            // img.onerror = function () {
+            //
+            //     html.img_type_retry(value, atome_id, ext);
+            //     alert('fini')
+            //     // console.clear();
+            // };
         }
     },
 

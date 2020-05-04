@@ -1,6 +1,7 @@
 todo =<<StrDelim
 ######## MVP #######
 - text width (format) et align
+- add dynamic prop from another objetc
 - finished the render method() self.render in photon , the codein injected line 124 in require parser method in opal_utils file, the method is created in neutron file line 6
 - enorme bug de multiples envoies de proprietes au moteur de rendu
 - la fonction add est toujours envoyé  a false dans le  module Html (transpile_html) pour certaines proriétés dont blur et content, alors que cela fonctionne pour width, color et shadow
