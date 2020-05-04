@@ -47,6 +47,16 @@ var html = {
                 }
 
                 break;
+            case 'particle':
+                if (!document.getElementById(atome_id)) {
+                    // html.getSize(atome_id)
+                    $('#html_view').append("<" + param + " id=" + atome_id + " class='atomes' style='display: none'></" + param + ">");
+
+                    // $('#html_view').append("<div id=" + atome_id + " style='width: 300px;height: 300px;' class='atomes'></div>");
+                    // $('#html_view').append("<div id=" + atome_id + " class='atome'><video controls='' preload='none' poster='' style='width:100%; height:100%'><source id='atome_id' src='./medias/videos/Lion_king.mp4' /></video>");
+                    // poster='nice-default.jpg'
+                }
+                break;
             default:
         }
 
@@ -117,7 +127,7 @@ var html = {
         // } else {
         //     document.getElementById(atome_id).style.width = value;
         // }
-        document.getElementById(atome_id).style.backgroundSize= "100% 100%";
+        document.getElementById(atome_id).style.backgroundSize = "100% 100%";
 
         document.getElementById(atome_id).style.width = value;
     },
@@ -129,7 +139,7 @@ var html = {
         //     document.getElementById(atome_id).style.height = value + "px";
         // }
         // document.getElementById(atome_id).css("backgroundSize","100% 100%");
-        document.getElementById(atome_id).style.backgroundSize= "100% 100%";
+        document.getElementById(atome_id).style.backgroundSize = "100% 100%";
         document.getElementById(atome_id).style.height = value + "px";
 
     },
@@ -149,6 +159,9 @@ var html = {
 
         } else if (Opal.Object.$grab(atome_id).$type() == "image") {
             document.getElementById(atome_id).style.backgroundColor = "transparent";
+        }
+        else{
+            document.getElementById(atome_id).style.backgroundColor = value;
         }
 
     },
@@ -206,21 +219,21 @@ var html = {
         var unit;
         if (typeof (value) == "number") {
 
-            unit= "px";
+            unit = "px";
         } else {
             if (!value.endsWith("%")) {
-                unit= "px";
+                unit = "px";
             }
 
         }
 
         if (Opal.Object.$grab(atome_id).$type() == "text") {
-            document.getElementById(atome_id).style.fontSize = value+unit ;
+            document.getElementById(atome_id).style.fontSize = value + unit;
         } else {
-            document.getElementById(atome_id).style.width = value+unit;
-           ratio=parseFloat(document.getElementById(atome_id).style.width) /parseFloat(document.getElementById(atome_id).style.height) ;
-            document.getElementById(atome_id).style.height=((value+value/ratio)/2)+unit;
-            document.getElementById(atome_id).style.backgroundSize="100%";
+            document.getElementById(atome_id).style.width = value + unit;
+            ratio = parseFloat(document.getElementById(atome_id).style.width) / parseFloat(document.getElementById(atome_id).style.height);
+            document.getElementById(atome_id).style.height = ((value + value / ratio) / 2) + unit;
+            document.getElementById(atome_id).style.backgroundSize = "100%";
         }
     },
 
@@ -237,14 +250,14 @@ var html = {
 
 
             // setTimeout(function () {
-                var max_right = parseFloat($("#html_view").css('width'));
-                var atome_width = parseFloat($('#' + atome_id).css("width"));
-                var position = parseInt(max_right-atome_width) ;
-                $('#' + atome_id).css("left", position);
+            var max_right = parseFloat($("#html_view").css('width'));
+            var atome_width = parseFloat($('#' + atome_id).css("width"));
+            var position = parseInt(max_right - atome_width);
+            $('#' + atome_id).css("left", position);
             // }, 200);
 
-         //
-         //   alert(position);
+            //
+            //   alert(position);
             //
             // alert(atome_width);
         });
@@ -380,7 +393,7 @@ var html = {
             var text_found = document.getElementById(atome_id).innerText;
             content_property_declaration_position = html.find_property_declaration_in_ide(text_found, "content", id);
 
-           html.insert_in_ide(text_found, "content", content_property_declaration_position, id);
+            html.insert_in_ide(text_found, "content", content_property_declaration_position, id);
         });
     },
 
@@ -450,8 +463,8 @@ var html = {
 
             },
             drag: function () {
-                x_position = parseInt(document.getElementById(atome_id).style.left);
-                y_position = parseInt(document.getElementById(atome_id).style.top);
+                // x_position = parseInt(document.getElementById(atome_id).style.left);
+                // y_position = parseInt(document.getElementById(atome_id).style.top);
                 // html.insert_in_ide(x_position, "x", x_property_declaration_position, id);
                 // html.insert_in_ide(y_position, "y", y_property_declaration_position, id);
                 //Important $opal_setter may trig an infinte loop tha'ts why it's so slow
@@ -481,6 +494,37 @@ var html = {
         // t.child({width: 200})
     },
 
+    property: function (value, atome_id) {
+
+        var source_atome_id = Opal.Object.$get(value).$atome_id();
+
+        //var source_atome_id = Opal.Object.$get(value).atome_id();
+      // var color = Opal.Object.$get(value).$color();
+      // var x = Opal.Object.$get(value).$x();
+      // var y = Opal.Object.$get(value).$x();
+      // var z = Opal.Object.$get(value).$x();
+      // var width = Opal.Object.$get(value).$x();
+      // var height = Opal.Object.$get(value).$x();
+      // var rotation = Opal.Object.$get(value).$x();
+      // var shadow = Opal.Object.$get(value).$x();
+      // var border = Opal.Object.$get(value).$x();
+      //   $("#"+atome_id).css($("#"+source_atome_id).css());
+       var  display=$("#"+atome_id).css("display")
+        $("#"+atome_id).attr("style", $("#"+source_atome_id).attr("style"))
+            .addClass($("#"+source_atome_id).attr("class"));
+        $("#"+atome_id).css("display", display)
+        // $("#"+atome_id).css("left",$("#"+source_atome_id).css("left"));
+        // $("#"+atome_id).css("top",$("#"+source_atome_id).css("top"));
+        // $("#"+atome_id).css("z",$("#"+source_atome_id).css("z"));
+        // $("#"+atome_id).css("transform","rotate(45eg)");
+        // $("#"+atome_id).css("width",$("#"+source_atome_id).css("x"));
+        // $("#"+atome_id).css("height",$("#"+source_atome_id).css("x"));
+        // $("#"+atome_id).css("rotation",$("#"+source_atome_id).css("x"));
+        // $("#"+atome_id).css("shadow",$("#"+source_atome_id).css("x"));
+        // $("#"+atome_id).css("border",$("#"+source_atome_id).css("x"));
+
+
+    },
     refresh: function (value, atome_id) {
         $(window).trigger('resize');
         // t=text()

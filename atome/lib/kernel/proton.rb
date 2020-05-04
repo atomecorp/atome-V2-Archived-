@@ -9,7 +9,7 @@ module Proton
   end
 
   def self.properties
-    properties = {atome_id: :xxxxxxx, key: :false,animate: :false, delete: :false,id: :my_object, preset: :default, content: :lorem, float: :false,color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100, size: 16, rotate: 0,align: :center, blur: 0, transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: {thickness: 7,color: :red}, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true}.merge(events)
+    properties = {atome_id: :xxxxxxx, key: :false,animate: :false, delete: :false,id: :my_object, preset: :default, content: :lorem, float: :false,color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100, size: 16, rotate: 0,align: :center, blur: 0, transparency: 0, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: {thickness: 7,color: :red}, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true, property: :all}.merge(events)
     properties
   end
 
@@ -25,18 +25,18 @@ module Proton
 
   def self.visual_types
     #visual_types's key is the name of type, the value is the associated preset for the type
-    visual_types = {shape: :box, image: :logo, text: :lorem, video: :logo}
+    visual_types = {shape: :box, image: :logo, text: :lorem, video: :logo, particle: :particle}
     visual_types
   end
 
   def self.types
-    types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello, atome: :foo}.merge(visual_types)
+    types = {effect: :distort, sound: :jingle, human: :user, machine: :computer, tool: :text, group: :empty, code: :hello}.merge(visual_types)
     types
   end
 
   def self.presets
     #presets's key is the preset name, the value is the content of the presets
-    presets = {circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
+    presets = {particle: :particle,circle: 'circle desc', box: 'box desc', star: 'star desc', triangle: 'triangle desc', polygon: 'polygon desc', squiggle: 'squiggle desc', bloob: 'bloob desc', text: 'lorem ipsum dolore', user: 'anonymous', computer: 'riscPC', code: "print 'hello world'", foo: 'this object has no body'}
     presets
   end
 

@@ -1,5 +1,5 @@
 def version
-  return "v:0.15a"
+  return "v:0.16"
 end
 
 def news
@@ -10,6 +10,8 @@ def news
   # 27 04 2020 added delete api, type help.delete
   # 29 04 2020 Added anmation api, type help.animation
   # 30 04 2020 Added image object + api
+  # 04 05 2020 add new object type particle
+  # 04 05 2020add new property : property
 Str
 end
 
@@ -187,6 +189,15 @@ end
 Str
   end
 
+  def self.property
+    t=<<Str
+   property can be used to store and retrieve attributes from an objet to another
+note that the particule atome can be used to store attributes / property within an invisile object. the particle is a special objet that have no visibilly by default.
+usage b.property(a.id)
+type Example.property for a full use example.
+Str
+  end
+
   def self.border
     t = <<Str
 border has 3 parameters : thickness, color, value type  must be string or symbol
@@ -241,6 +252,22 @@ module Example
     t = <<Str
     b=box()
     b.border({thickness: 5, pattern: :dotted, color: :black})
+Str
+  end
+
+  def self.property
+    t=<<Str
+    p=particle()
+p.color(:red)
+p.rotate(50)
+p.x=450
+p.blur(5)
+p.border({thickness: 4, color: :yellow})
+p.shadow({blur: 10, x: 5, y:5})
+b=box()
+b.touch do
+b.property(p.id)
+end
 Str
   end
 
@@ -558,29 +585,25 @@ end
 
 
 
-#content_test = <<EOT
-#run
-#logo=image("carine")
-#logo.x=200
-##logo.transparency(0)
-##animate
-#anim({
-#         start: {x: 0, y: 0, blur: 0, rotate: -300},
-#         end: {x: 0, y: 0,blur: 10, rotate: 0, },
-#         duration: 3000,
-#         curve: :easing,
-#         target: logo
-#     })
-#
-#logo.touch do
-#  load :carine
-#end
-#EOT
-#
-#
-#
-#
-#write(content_test)
+content_test = <<EOT
+run
+p=particle()
+p.color(:red)
+p.rotate(50)
+p.x=450
+p.blur(5)
+p.border({thickness: 4, color: :yellow})
+p.shadow({blur: 10, x: 5, y:5})
+b=box()
+b.touch do
+b.property(p.id)
+end
+EOT
+
+
+
+
+write(content_test)
 open_ide(:true)
 open_console(:true)
 #perpetual_run

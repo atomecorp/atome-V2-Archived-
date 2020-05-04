@@ -93,3 +93,18 @@ def sound(options)
   end
   return atome
 end
+
+
+
+def particle(options)
+  obj_prop = Proton.default_visuals
+  obj_prop[:type] = :atome
+  # we add the box preset to the default visual
+  obj_prop = Hash[:preset, :particle].merge!(obj_prop)
+  if options
+    atome = Atome.new(obj_prop, options)
+  else
+    atome = Atome.new(obj_prop)
+  end
+  return atome
+end
