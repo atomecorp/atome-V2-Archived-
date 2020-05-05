@@ -1,5 +1,5 @@
 def version
-  return "v:0.19"
+  return "v:0.19a"
 end
 
 def news
@@ -15,11 +15,22 @@ def news
   # 04 05 2020 add new align api
   # 04 05 2020 add group api
   # 04 05 2020 partially add lock api for position
+  # 05 05 2020 add overflow property
 Str
 end
 
 module Help
 
+
+  def self.overflow
+    t = <<Str
+ overflow api The overflow property specifies whether to clip the content or to reveal when the content of an element is too big to fit in the specified area. 
+The overflow property has the following values: hidden ,and visible.
+by default overflow is visible
+usage :b.overflow(:hidden)
+type Example.overflow() for an example
+Str
+  end
 
   def self.lock
     t = <<Str
@@ -278,6 +289,18 @@ end
 
 module Example
 
+  def self.overflow
+    t = <<Str
+b=box()
+c=circle()
+c.y=200
+c.color :red
+b.group(c.id)
+b.drag(true)
+b.overflow(y: :visible)
+Str
+  end
+
   def self.lock
     t = <<Str
 b=box()
@@ -405,6 +428,69 @@ end
 #EOT
 
 module Demo
+
+  def self.overflow
+    t = <<Str
+run
+t=text("click on the box change overflow")
+t.width=300
+t.x=200
+b=box()
+c=circle()
+c.y=200
+c.color :red
+b.group(c.id)
+b.drag(true)
+b.overflow(:visible)
+
+b.touch do 
+  if b.overflow == :visible
+  b.overflow(:hidden)
+  elsif b.overflow== :hidden
+	  b.overflow(:visible)
+  end
+end
+Str
+  end
+
+  def self.group
+    t = <<Str
+run
+clear
+c=circle()
+c.color(:red)
+b=box()
+b.draggable(:true)
+b.x=200
+c.touch do
+  b.group(c.id)
+end
+Str
+  end
+
+  def self.lock
+    t = <<Str
+run
+clear
+b=box()
+c=circle
+c.y=250
+b.smooth(5)
+b.lock(:left)#lock position
+b.lock(:right)#lock position
+
+c.lock(left: 200)#lock position
+c.lock(right: 100)#lock position
+b2=box()
+b2.x=500
+c2=circle
+c.y=400
+b2.lock(:top)#lock position
+b2.lock(:bottom)#lock position
+c2.lock(top: 200)# also lock position but force top position
+c2.lock(bottom: 100)#lock position but force bottom position
+Str
+  end
 
   def self.demo_1
     content_test = <<EOT
@@ -653,44 +739,7 @@ EOT
 
   end
 
-  def self.group
-    t = <<Str
-run
-clear
-c=circle()
-c.color(:red)
-b=box()
-b.draggable(:true)
-b.x=200
-c.touch do
-  b.group(c.id)
-end
-Str
-  end
 
-  def self.lock
-    t = <<Str
-run
-clear
-b=box()
-c=circle
-c.y=250
-b.smooth(5)
-b.lock(:left)#lock position
-b.lock(:right)#lock position
-
-c.lock(left: 200)#lock position
-c.lock(right: 100)#lock position
-b2=box()
-b2.x=500
-c2=circle
-c.y=400
-b2.lock(:top)#lock position
-b2.lock(:bottom)#lock position
-c2.lock(top: 200)# also lock position but force top position
-c2.lock(bottom: 100)#lock position but force bottom position
-Str
-  end
 
   def self.carine
     content_test = <<EOT
@@ -767,7 +816,7 @@ c.lock(right: 100)#lock position
 EOT
 
 
-write(content_test)
+#write(content_test)
 open_ide(:true)
 open_console(:true)
 #perpetual_run

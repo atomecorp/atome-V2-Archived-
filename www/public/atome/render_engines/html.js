@@ -615,7 +615,6 @@ var html = {
 
             });
             param = key;
-
         }
         switch (param) {
             case 'left':
@@ -718,6 +717,23 @@ var html = {
         // $("#" + atome_id).append($("#" + child));
         // $("#" + child).offset(offset);
         $(window).trigger('resize');
+
+    },
+
+    overflow: function (value, atome_id) {
+        $('#' + atome_id).css("overflow", value);
+        // if (typeof (value) == "string") {
+        //     $('#' + atome_id).css("overflow", value);
+        // } else if (typeof (value) == "object") {
+        //     var param = value[0];
+        //     param.$keys().forEach((item) => {
+        //         key = item;
+        //         val = param['$[]'](key);
+        //         $('#' + atome_id).css("overflow-"+key, val);
+        //
+        //     });
+        //
+        // }
 
     },
 

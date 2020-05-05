@@ -9,7 +9,7 @@ module Proton
   end
 
   def self.properties
-    properties = {atome_id: :xxxxxxx, key: :false,animate: :false, delete: :false,id: :my_object, preset: :default, content: :lorem, float: :false,color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100, size: 16, rotate: 0,align: :center, blur: 0, opacity: 1, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: {thickness: 7,color: :red}, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true, property: :all,select: :none, group: :none, lock: :false}.merge(events)
+    properties = {atome_id: :xxxxxxx, key: :false,animate: :false, delete: :false,id: :my_object, preset: :default, content: :lorem, float: :false,color: :lightgray, x: 70, y: 70, z: 0, width: 100, height: 100, size: 16, rotate: 0,align: :center, blur: 0, opacity: 1, smooth: 7, child: :none, name: :eVe_object, shadow: 20, border: {thickness: 7,color: :red}, label: :eVe_label, type: :text, language: :english, display: :true, run: :true, renderer: :html, selected: :false, editable: :false, draggable: :true, property: :all,select: :none, group: :none, lock: :false, overflow: :hidden}.merge(events)
     properties
   end
 
@@ -42,7 +42,7 @@ module Proton
 
   def self.default_visuals
     default_visuals = {}
-    visuals_presets = [:x, :y, :width, :height, :color]
+    visuals_presets = [:x, :y, :width, :height, :color, :overflow]
     visuals_presets.each do |visual_property|
       default_visuals[visual_property] = properties[visual_property]
     end

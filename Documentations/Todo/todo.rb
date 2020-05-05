@@ -1,5 +1,6 @@
 todo =<<StrDelim
 ######## MVP #######
+- overflow 
 - create module Demo with demo for all prop (totalise 3 modules : help, examples, demo)
 - find a solution to chain method to pass param ( a.select(child: 0, from: 2, to: 5))
 - group object
