@@ -40,13 +40,7 @@ join_files kernel, 'kernel.rb'
 # then we compile the new generated file to js in the app.js file
 `opal --compile kernel.rb > ./www/public/atome/atome.js`
 
-## now we compress uglify and Obfuscate the js file and rewrite it
-##uglified = Uglifier.new(harmony: true).compile(File.read('./www/public/atome/app.js'))
-##
-##open('./www/public/atome/atome.js', 'w') do |f|
-##  f.puts uglified
-##end
-##`rm -r ./www/public/atome/app.js`
+
 
 if !ARGV.empty?
   if ARGV[0] == 'server' || ARGV[0] == 'puma'

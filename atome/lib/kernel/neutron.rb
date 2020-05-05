@@ -7,9 +7,11 @@ def render *option
   #puts "msg form neutron line 7 : render go"
   $render = true
 end
+
 def refresh
   refresher
 end
+
 def trig atome_id, event
   atomes = Atome.atomes
   atomes.each do |_id, atome|
@@ -73,6 +75,12 @@ end
 ################## utils  ##############
 def wait(time, &proc)
   waiter(time) do
+    yield
+  end
+end
+
+def every(option=1, times=5, &proc)
+  everyer(option, times) do
     yield
   end
 end

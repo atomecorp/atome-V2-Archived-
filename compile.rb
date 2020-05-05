@@ -46,34 +46,10 @@ open('./www/public/atome/atome.js', 'w') do |f|
 end
 
 `rm -r ./www/public/atome/app.js`
+`ruby run.rb ios`
+`ruby run.rb osx`
+`ruby run.rb browser`
 
-#if !ARGV.empty?
-#  if ARGV[0] == 'server' || ARGV[0] == 'puma'
-#    `rm -r ./platforms/server`
-#    `cp -r ./www ./platforms/server`
-#    `bash -c ' open http://0.0.0.0:9292 ' &`
-#    `cd ./platforms/server/ && bundle exec puma`
-#  else
-#    if ARGV[0]="osx"
-#      `rm -r ./platforms/osx/build/atome.app`
-#    end
-#    `cordova run #{ARGV[0]}`
-#  end
-#else
-#  `cordova run browser`
-#end
-if !ARGV.empty?
-  if ARGV[0] == 'server' || ARGV[0] == 'puma'
-    `rm -r ./platforms/server`
-    `cp -r ./www ./platforms/server`
-    `bash -c ' open http://0.0.0.0:9292 ' &`
-    `cd ./platforms/server/ && bundle exec puma`
-  else
-    `cordova run #{ARGV[0]}`
-  end
-else
-  `cordova run browser`
-end
 
 
 `mv ./platforms/browser/www  ../../Dropbox/Partage/atome/deliverable/web`

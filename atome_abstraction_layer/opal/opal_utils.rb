@@ -498,6 +498,25 @@ def waiter(time)
   `setTimeout(function(){ #{yield} }, #{time * 1000})`
 end
 
+
+def everyer(option, times, &proc)
+  if option.class==Hash
+    every=option[:every]
+    times=option[:times]
+  else
+    time=option
+  end
+  `  var timesRun = 0;
+var interval = setInterval(function(){
+    timesRun += 1;
+    if(timesRun === #{times}){
+        clearInterval(interval);
+    }
+ #{yield}
+}, #{every}*1000);
+`
+end
+
 def refresher
   `html.refresh()`
 end

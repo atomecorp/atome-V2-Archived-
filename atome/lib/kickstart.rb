@@ -1,10 +1,10 @@
 def version
-  return "v:0.19a"
+  return "v:0.19b"
 end
 
 def news
   t = <<Str
-    # 23 added a news document to list the new functionality available znf version to show current eVe version
+  # 23 added a news document to list the new functionality available znf version to show current eVe version
   # 24 04 2020 added shadows api, type help.shadows
   # 25 04 2020 added border api, type help.border
   # 27 04 2020 added delete api, type help.delete
@@ -16,11 +16,28 @@ def news
   # 04 05 2020 add group api
   # 04 05 2020 partially add lock api for position
   # 05 05 2020 add overflow property
+  # 05 05 2020 add every api
 Str
 end
 
 module Help
-
+  def self.every
+    t = <<Str
+ every api allow to trig action every x time 
+params are "every" in sec and "times" number of times it should be excuted
+usage :
+      every 1,2 do
+        i+=1
+        t.content("good "+i.to_s)
+      end
+or
+      every ({every: 1, times: 3}) do do
+        i+=1
+        t.content("good "+i.to_s)
+      end
+type Example.every() for an example
+Str
+  end
 
   def self.overflow
     t = <<Str
@@ -289,6 +306,16 @@ end
 
 module Example
 
+  def self.every
+    t = <<Str
+ t= text('kool')
+      every ({every: 1, times: 3}) do do
+        i+=1
+        t.content("good "+i.to_s)
+      end
+Str
+  end
+
   def self.overflow
     t = <<Str
 b=box()
@@ -428,6 +455,24 @@ end
 #EOT
 
 module Demo
+
+    def self.every
+      t = <<Str
+run
+ t= text('kool')
+  i=0
+every 1.2,2 do
+  i+=1
+  t.content("good "+i.to_s)
+end
+  
+every ({every: 1, times: 3}) do
+   i+=1
+ t.content("kool "+i.to_s) 
+end
+Str
+    end
+
 
   def self.overflow
     t = <<Str
