@@ -14,6 +14,7 @@ def news
   # 04 05 2020 add new property api
   # 04 05 2020 add new align api
   # 04 05 2020 add group api
+  # 04 05 2020 add http api
   # 04 05 2020 partially add lock api for position
   # 05 05 2020 add overflow property
   # 05 05 2020 add every api
@@ -21,6 +22,17 @@ Str
 end
 
 module Help
+
+
+  def self.http
+    t = <<Str
+ http api is used to open an url
+usage http("www.freebsd.org")
+type Example.http() for an example
+Str
+  end
+
+
   def self.every
     t = <<Str
  every api allow to trig action every x time 
@@ -306,6 +318,13 @@ end
 
 module Example
 
+
+  def self.http
+    t = <<Str
+http("www.freebsd.org")
+Str
+  end
+
   def self.every
     t = <<Str
  t= text('kool')
@@ -456,19 +475,30 @@ end
 
 module Demo
 
+
+  def self.http
+    t = <<Str
+b=box()
+b.touch do
+  http("www.freebsd.org")
+end
+Str
+  end
+
     def self.every
       t = <<Str
 run
- t= text('kool')
-  i=0
-every 1.2,2 do
-  i+=1
-  t.content("good "+i.to_s)
+save :time
+def get_time
+  date = Time.now
+  h=date.hour.to_s
+  m=date.min.to_s
+  s=date.sec.to_s
+  time=h+":"+m+":"+s
 end
-  
-every ({every: 1, times: 3}) do
-   i+=1
- t.content("kool "+i.to_s) 
+t= text(get_time)
+every ({every: 1, times: 300}) do
+  t.content(get_time) 
 end
 Str
     end

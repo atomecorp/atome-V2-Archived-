@@ -522,5 +522,5 @@ def refresher
 end
 
 def httper(url)
-  `window.open("https://"+#{url});`
+  `window.open("https://"+#{url})`
 end

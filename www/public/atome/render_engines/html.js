@@ -107,28 +107,12 @@ var html = {
     },
 
     content: function (value, atome_id, add) {
-
         var objectType = Opal.Object.$grab(atome_id).$type();
         if (objectType == "text") {
-            document.getElementById(atome_id).innerText = value;
+            document.getElementById(atome_id).innerHTML = value;
         } else if (objectType == "image") {
             var ext = "png";
-
             html.load_image(value, atome_id, ext);
-            // img.src = image;
-            // img.onload = function () {
-            //     // width = img.width;
-            //     // height = img.height;
-            //     // $('#' + atome_id).css("width", width);
-            //     // $('#' + atome_id).css("height", height);
-            //     $('#' + atome_id).css("background-image", "url(./medias/images/" + value + "." + ext + ")");
-            // };
-            // img.onerror = function () {
-            //
-            //     html.img_type_retry(value, atome_id, ext);
-            //     alert('fini')
-            //     // console.clear();
-            // };
         }
     },
 

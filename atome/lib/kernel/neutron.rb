@@ -168,7 +168,6 @@ def reload
 end
 
 def http url
-
   httper(url)
 end
 
