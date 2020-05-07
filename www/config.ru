@@ -19,4 +19,4 @@ Unreloader.require './app.rb'
 
 run Unreloader
 # uncomment below for prod or comment to allow code reloading
-# run App.freeze.app
+ run App.freeze.app

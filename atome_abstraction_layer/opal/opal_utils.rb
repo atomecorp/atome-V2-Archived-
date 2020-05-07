@@ -1,6 +1,15 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+module Devicer
+  def self.width
+    `window.innerWidth`
+  end
+  def self.Height
+    `window.innerHeight`
+  end
+end
+
 ################### temp methods ##############
 
 #todo puts opal utils in a module
@@ -169,19 +178,8 @@ end
 def reader filename, action = "run"
   #to send to console action="console"
   `
-$.ajax({
-    url: #{filename},
-    dataType: 'text',
-    success: function (data) {
-if (#{action}=="console"){
-Opal.Object.$puts(data);
-}
-else{
-  Opal.eval(data);
-}
+  read_from_disk(#{filename}, #{action})
 
-    }
-});
 
 `
 end

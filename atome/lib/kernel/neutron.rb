@@ -1,6 +1,16 @@
 #here is all general methods helper for atomes
 # frozen_string_literal: true
 #neutron provide public methods used both by end users and needed by the atome object
+
+module Device
+
+  def self.width
+    Devicer.width
+  end
+
+
+end
+
 $render = false
 
 def render *option
@@ -79,7 +89,7 @@ def wait(time, &proc)
   end
 end
 
-def every(option=1, times=5, &proc)
+def every(option = 1, times = 5, &proc)
   everyer(option, times) do
     yield
   end
@@ -171,6 +181,7 @@ def http url
   httper(url)
 end
 
+
 def lorem
   srt = <<STRdelim
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -204,6 +215,11 @@ end
 
 def example(subject = "")
   return Example.send(subject)
+end
+
+
+def demo demo
+  write(Demo.send(demo))
 end
 
 

@@ -14,7 +14,7 @@ todo =<<StrDelim
 - drag bug when a rotation is added
 - add atome object for scene (html_viewer) to catch dimension and other ticks
 - add atome object for animation
-- ********* when opal works with accents remove "protect_accent" and "restore_accent" and their call in "debug" and "send_to_ide" function  in api.js and also "protect_accent" in "read_file" in file_cordova.js
+- ********* when opal works with accents,remove "protect_accent" and "restore_accent" and their call in "debug" and "send_to_ide" function  in api.js and also "protect_accent" in "read_file" in file_cordova.js and also in api.js read_from_disk function
 - send atome objct to html view instead of the id
 - remove all Opal hash mthos call in html.js
 - create a series of default script and load the last used script at startup

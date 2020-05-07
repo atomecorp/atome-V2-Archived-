@@ -44,6 +44,11 @@ var myIDS = [];
 var myObjects = [];
 var fitToObjeList = [];
 
+
+function puts(str){
+    Opal.Object.$puts(str);
+}
+
 ////////////////////////// ruby interpreter ////////////////////
 
 function protect_accent(str) {
@@ -78,7 +83,9 @@ function debug(code) {
         code = protect_accent(code);
         Opal.eval(code);
     } catch (error) {
-        console.log(JSON.stringify(error));
+       var error=JSON.stringify(error)
+        console.log(error);
+        Opal.Atome.$text(error).$color("red").$width("100%").$x(20);
         msg = "puts \"" + error.stack + "\"";
         Opal.eval(msg);
     }
@@ -86,6 +93,26 @@ function debug(code) {
 
 function run_script(content) {
     debug(content);
+}
+
+function read_from_disk (filename, action){
+    $.ajax({
+        url: filename,
+        dataType: 'text',
+        success: function (data) {
+            data=protect_accent(data)
+            if (action=="console"){
+                Opal.Object.$puts(data);
+            }
+        else{
+                Opal.eval(data);
+            }
+
+        }
+    });
+
+
+
 }
 
 function flash(file) {
@@ -171,3 +198,18 @@ function browser_location() {
 
 }
 
+// function toggleFullScreen() {
+//     var doc = window.document;
+//     var docEl = doc.documentElement;
+//
+//     var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+//     var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+//
+//     if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+//         requestFullScreen.call(docEl);
+//     }
+//     else {
+//         cancelFullScreen.call(doc);
+//     }
+// }
+// toggleFullScreen();

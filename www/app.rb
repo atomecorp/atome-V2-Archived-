@@ -24,7 +24,7 @@ class App < Roda
   index_content = index_content.gsub("<script type='text/javascript' src='../cordova.js' type='text/javascript'></script>", '')
   index_content = index_content.gsub('atome/file/file_cordova.js', 'atome/file/db_roda.js')
   index_content = index_content.gsub('init_cordova.js', 'init_roda.js')
-  plugin :static, ['/app', '/assets', '/atome', '/third_parties', '/utils']
+  plugin :static, ['/app', '/medias', '/atome', '/third_parties']
   plugin 'faye/websocket', adapter: :thin, ping: 45
   route do |r|
     if Faye::WebSocket.websocket?(env)

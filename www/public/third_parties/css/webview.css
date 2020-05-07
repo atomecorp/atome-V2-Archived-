@@ -17,29 +17,18 @@ html, body {
 
 #html_view {
     left: 0px;
+    font-size: 25px;
+    z-Index: 1;
     right: 0px;
     top: 0px;
     bottom: 0px;
-    z-Index: 1;
-    position: absolute;
-    width:100%;
-    height: 100%;
+    width: 100%;
     display: block;
-    /*overflow: auto;*/
-    font-size: 25px;
-    -webkit-transform: translate3d(0px, 0px, 0px);
-    -moz-transform: translate3d(0px, 0px, 0px);
-    -ms-transform: translate3d(0px, 0px, 0px);
-    -o-transform: translate3d(0px, 0px, 0px);
-    transform: translate3d(0px, 0px, 0px);
-    /*-webkit-overflow-scrolling: touch;*/
-    /*overflow-scrolling: touch;*/
-    /*overflow: auto;*/
+    height: 100%;
+    overflow: auto;
+    position: absolute;
 }
 
-#zim_canvas {
-    z-index: 1;
-}
 
 .atomes {
     -webkit-transform: translate3d(0px, 0px, 0px);
@@ -125,4 +114,8 @@ html, body {
     right: 0px;
     bottom: 0px;
     z-index: 6;
+}
+
+#zim_canvas {
+    z-index: 1;
 }

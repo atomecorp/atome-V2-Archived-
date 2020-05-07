@@ -23,6 +23,31 @@ end
 
 module Help
 
+  def self.right
+    t = <<Str
+case Temporay soltution aî will be updated later and document since then
+  maybe use fit instead ex: a.fit(20) or a a.fit({left: 20, right: 50, target: b.id })
+end
+Str
+  end
+
+  def self.left
+    t = <<Str
+Temporay soltution aî will be updated later and document since then
+Str
+  end
+
+  def self.top
+    t = <<Str
+Temporay soltution aî will be updated later and document since then
+Str
+  end
+
+  def self.bottom
+    t = <<Str
+Temporay soltution aî will be updated later and document since then
+Str
+  end
 
   def self.http
     t = <<Str
@@ -515,9 +540,8 @@ c=circle()
 c.y=200
 c.color :red
 b.group(c.id)
-b.drag(true)
+b.draggable(:true)
 b.overflow(:visible)
-
 b.touch do 
   if b.overflow == :visible
   b.overflow(:hidden)
@@ -790,7 +814,7 @@ end
 EOT
   end
 
-  def self.demo_8
+  def self.align
     t = <<EOT
 run
 d=box()
@@ -838,6 +862,8 @@ EOT
 
   end
 end
+
+
 
 
 content_test = <<EOT
@@ -891,7 +917,9 @@ c.lock(right: 100)#lock position
 EOT
 
 
+read "app/app.rb"
+
 #write(content_test)
-open_ide(:true)
-open_console(:true)
+#open_ide(:true)
+#open_console(:true)
 #perpetual_run
