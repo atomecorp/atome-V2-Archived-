@@ -199,28 +199,18 @@ module Nucleon
           atome = find_atome_from_params(params)
           insert(atome)
         else
-          #if @child
-          #  #alert "message is \n\n#{"kool : "+@child.to_s } \n\nLocation: neutron.rb, line 202"
-          #end
-          # we check if the properties store is a string (atome-id), if its an array or an atome when return the raw value
+          # we check if the properties store is astring (atome-id), if its an array or an atome when return the raw value
           if @child.class == String || @child.class == Symbol
-            #grab(@child)
+            grab(@child)
           elsif @child.class == Array
             # now we return an array of atome instead
             atome_child = []
             unless @child.nil?
               @child.each do |child|
-                if find({value: child, property: :atome_id, scope: :all}).class==Atome
-                  puts "message is \n\n#{scour(child)}  \n\n#{@child} \n\nLocation: neutron.rb, line 214"
-                  atome_child << grab(child)
-                  #puts "message is \n\n#{atome_child} \n\nLocation: neutron.rb, line 215"
-                  #atome_child <<  find({value: child, property: :atome_id, scope: :all})
-                end
-                #end
+                atome_child << grab(child)
               end
               atome_child
             end
-            #@child
           else
             @child
           end
@@ -234,9 +224,6 @@ module Nucleon
       def insert(params = nil, refresh = true)
         @child = [] if @child.class == NilClass || (params.class == Hash && params[:add] == true)
         if params || params == false
-          #if params.atome_id== self.atome_id
-          #  alert "message is \n\n#{"montruous dick in the soup"} \n\nLocation: neutron.rb, line 229"
-          #end
           if params.class == String || params.class == Symbol || params.class == Atome
             atome = find_atome_from_params(params)
             params = atome
@@ -244,21 +231,18 @@ module Nucleon
             child_list_found = [params.atome_id]
             @child |= child_list_found
             if params.parent
-              #alert "message is \n\n#{:parent} \n\nLocation: neutron.rb, line 237"
               previous_parent = params.parent
               # the syntax below allow to add the value only if its present before.
               # its it already exist its replace not store twice
               previous_parent |= [atome_id]
               # we check if the child should be extract from it's ancient parent or not( if we add it)
               unless params.class == Hash && params[:add]
-                #alert "message is \n\n#{:hash} \n\nLocation: neutron.rb, line 244"
                 params.parent.each do |parent_found|
                   parent_found.extract(params)
                 end
                 # as we don't wont  to add it but move tthe atome, we have to remove it from it's previous parent
                 previous_parent = [atome_id]
               end
-              #alert "message is \n\n#{child_list_found} \n\nLocation: neutron.rb, line 251"
               @child |= child_list_found
               params.property({property: :parent, value: previous_parent})
             else
@@ -810,8 +794,7 @@ module Nucleon
       end
 
       def clear(params = :console, refresh = true, &proc)
-
-
+        #alert "message :\n#{get(:view).child}\n from : neutron.rb : 797"
         if params.class == Hash
           if params[:exclude] && params[:exclude].class == Array
           elsif params[:exclude]
@@ -835,14 +818,15 @@ module Nucleon
           #alert "message :\n#{get(:view).child}\n from : neutron.rb : 817"
           #alert "message :\n#{find({format: :id})}\n from : neutron.rb : 818"
           get(:view).child.each do |child_found|
-            #if child_found && child_found.id==:view
-            #  #alert "message :\n#{"big couille dans le potage"}\n from : neutron.rb : 822"
-            #else
-              if child_found
-                child_found.delete(true)
-              end
-            #end
-
+            unless child_found
+              # alert "message :\n#{atome_id}\n from : neutron.rb : 822"
+            end
+            if child_found && child_found.id==:view
+              # alert "message :\n#{"big couille dans le potage"}\n from : neutron.rb : 822"
+            end
+            if child_found
+              child_found.delete(true)
+            end
           end
         else
           child.each do |atome_found|
@@ -1416,8 +1400,6 @@ module Nucleon
           @atome_id
         end
       end
-
-      #private :atome_id
 
       def atome_id=(params = nil, refresh = true)
         atome_id params, refresh
