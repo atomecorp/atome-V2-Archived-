@@ -163,16 +163,14 @@ module Nucleon
               @parent.each do |parent_found|
                 if parent_found != nil
                   @@atomes << self
-                  find({value: parent_found, property: :atome_id, scope: :view}).insert(self)
+                  scour(parent_found).insert(self)
                 end
               end
             end
 
             if @child && @child.length > 0
               @child.each do |child_found|
-                alert "message :\n#{grab(child_found).class}\n from : atome.rb : 173"
-                #find({value: child_found, property: :atome_id, scope: :all}).enliven(true)
-                #dig(child_found).enliven(true)
+                scour(child_found).enliven(true)
               end
             end
           end
@@ -184,7 +182,7 @@ module Nucleon
 
       def delete params = nil, refresh = true
         if id==:view
-          #alert "message :\n#{':couille dans le potage !!!'}\n from : atome.rb : 185"
+          # alert "message :\n#{':couille dans le potage !!!'}\n from : atome.rb : 185"
         else
           #alert "message :\nparams:#{params},\n#{atome_id} : #{id}\nfrom : atome.rb : 187"
           if params || params == false
@@ -217,7 +215,6 @@ module Nucleon
                 @selector = new_prop_array
               end
             elsif params == false
-              alert "message is \n\n#{"sure?"} \n\nLocation: atome.rb, line 220"
               get(:view).enliven(atome_id)
             elsif params.class == Boolean || params.to_sym == :true
               # now we delete all child
