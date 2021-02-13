@@ -5,64 +5,14 @@
 Cross platform development
 -
 
-prerequisite:
-
-    ruby :
-        on FreeBSD : 
-		sudo pkg install ruby
-		sudo pkg install ruby27-gems
-		sudo gem install bundler
-        on Linux :
-        on MacOS :  
-		\curl -sSL https://get.rvm.io | bash -s stable --ruby
-        on windows :
-		https://rubyinstaller.org/downloads/
-
-    npm :
-        on FreeBSD : 
-		sudo pkg install npm
-        on Linux :
-	on OSX :
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                    brew install NPM
-	on Windows	  
-		install Npm:
-            		https://nodejs.org/en/
-	
-    GIT :	
-     	on FreeBSD : 
-		pkg install git
-        on Linux :
-        on MacOS :  
-		brew install git
-        on windows :
-		sudo install git :
-	
-	Other :
-	
-        on windows :	
-		Install Visual studio 2017 with feature "universal windows app development tools"
-		cordova build windows --arch="x64"
-
-   
-
-
 To install application and run: 
-	 
-    npm install -g cordova (or depending on platform:  npm install cordova)
-    sudo cordova platform add browser
-    cordova platform add osx
-    cordova platform add windows
-    cordova plugin add cordova-sqlite-storage
-    cordova plugin add cordova-plugin-file
-    bundle update
-    bundle install
+	
+    ./scripts/bootstrap  
+    npm install  
+    cordova platform add browser
     bundle exec rake run::browser  
 
-trouble shooting :
-if : Cannot find module 'shelljs' error
-try sudo cordova platform remove browser
-
+ 
 
 I - Architecture of the folders
 -
@@ -72,11 +22,11 @@ The atome framework is mainly based on a Cordova project, but add the following 
 
 - a web server
 
-- a native mode with 3D rendering (the 3D engine is currently based on Urho3D, this choice may change in the future).
+- a native mode with 3D rendering (the 3D engine is currently based on Urho3D).
  
 - a low latency audio system
 
-- a bootable option for embedded applications
+ -a bootable option for embedded applications
 
 The folders dedicated to the atome framework are : 
 
@@ -245,7 +195,7 @@ the presets method create a new hash that hold the basics properties of the new 
 
 - optionally you can define a new function that behave like a shortcut to create a preconfigured object. In this case a "web" function
 will create the shortcut. 
-ex add the following function in the big_bang.rb file:
+ex add the following function in the bigbang.rb file:
 	(To be consistent the function should have the name of the newly created type)
 	
 	

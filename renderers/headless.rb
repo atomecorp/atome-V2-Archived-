@@ -11,7 +11,7 @@ def render_preset(atome, params)
   atome_id = atome.atome_id
   if params == :view
   else
-    if atome.type[:content]  == :text
+    if atome.type == :text
     elsif atome.preset == :circle
     elsif atome.preset == :image
     elsif atome.preset == :video
@@ -22,10 +22,10 @@ def render_preset(atome, params)
 end
 
 def render_content(atome, params)
-  if atome.type[:content] == "text"
-  elsif atome.type[:content]  == "image"
-  elsif atome.type[:content]  == "video"
-  elsif atome.type[:content]  == "audio"
+  if atome.type== "text"
+  elsif atome.type == "image"
+  elsif atome.type == "video"
+  elsif atome.type == "audio"
   else
   end
 end
@@ -74,7 +74,7 @@ def render_overflow(atome, params)
 end
 
 def render_size(atome, params)
-  if atome.type[:content]  == :text
+  if atome.type == :text
   else
   end
 end

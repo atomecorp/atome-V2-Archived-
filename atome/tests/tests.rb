@@ -140,7 +140,7 @@ p b.color
 
 #read_bufferize_find
 b=box()
-p fiind "b.drag"
+p find "b.drag"
 read "project_0"
 b.drag
 wait 2000 do

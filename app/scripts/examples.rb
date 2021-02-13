@@ -7,7 +7,7 @@ def clear_help (topic, code)
 
 
   ######## test #############
-  atomes_found = grab(:view).child
+  atomes_found= grab(:view).child
 
   #child_list=[]
   #get(:view).child.each do |child_found|
@@ -17,7 +17,7 @@ def clear_help (topic, code)
 
   #alert "message is \n\n#{child_list} \n\nLocation: examples.rb, line 15"
   get(:view).child.each do |child_found|
-    if child_found && child_found.id == :view || child_found.nil?
+    if child_found && child_found.id==:view || child_found.nil?
       #alert "message is \n\n#{"big couille dans le potage"} \n\nLocation: examples.rb, line 8"
     else
       child_found.delete(true)
@@ -140,16 +140,13 @@ grad.x(350)
 grad.y(350)
 grad.size = 223
 wait 1 do
-  grad.color([{content: :red}, :yellow, {color: {red:0 , green: 1, blue: 0}}, {angle: 150}, {diffusion: :radial}])
+  grad.color([{content: :red}, :yellow, {color: :orange}, {angle: 150}, {diffusion: :radial}])
 end
 wait 3 do
   grad.color([{content: :cyan}, :green, :blue])
 end
 wait 5 do
-  grad.color([{content: :orange}, {color: {red:0 , green: 1, blue: 0}}, :blue, {angle: 150, diffusion: :linear}])
-end
-grad.touch do 
-puts grad.inspect
+  grad.color([{content: :orange}, :green, :blue, {angle: 150, diffusion: :linear}])
 end
 strdelim
     self.puts_help :gradient, demo_code
@@ -174,13 +171,14 @@ end
 c=circle()
 c.y=50
 c.drag(true)
-c.touch(option: :up, add: true) do
-c.color(:orange)
+c.touch(option: :down, add: true) do
+c.color(:violet)
 end
 
 strdelim
     self.puts_help :smooth, demo_code
   end
+
 
 
   def border
@@ -207,12 +205,11 @@ strdelim
 b = box({id: :box_test})
 b.shadow({x: 5, y: 5, blur: 7, color: :black, invert: :true})
 b.shadow({add: :true, x: 20, y: 20, color: "rgba(0,0,0,1)", blur: 16})
-c=circle({ drag: true, id: :circle_test})
+c=circle({x: -30 , y: -30, drag: true, id: :circle_test})
 c.shadow({x: -5, y: -5, blur: 7, color: :black, invert: :true})
 c.shadow({add: :true,x: 0, y: 0, color: "rgba(0,0,0,1)", blur: 16})
 b.drag(true)
 b.insert(c)
-c.x=c.y=90
 b.x(500)
 b.y(200)
 b.color(:orange)
@@ -233,15 +230,15 @@ strdelim
   def keypress
     demo_code = <<strdelim
 b=box()
-t=text({content: "type some texte over the box, \n touch the circle to stop the input capture \n ", x:20, y: 20})
-b.key(true) do |key|
- t.content(t.content+" : "+key.key_code.to_s)
-end
-c=circle
-c.x=0
-c.touch do
-  b.key(:stop)
-  b.edit(false)
+info=text("keypress nb")
+info.y(50)
+info.color(:gray)
+t=b.text("press a key!")
+t.x(3)
+t.y(4)
+t.edit(:true)
+b.key do |evt|
+  info.content(evt.key_code) 
 end
 strdelim
     self.puts_help :edit, demo_code
@@ -260,9 +257,10 @@ strdelim
     self.puts_help :eval, demo_code
   end
 
-  def read_code_from_file_api
+  def read_code_api
     demo_code = <<strdelim
 #read("test", "run","text")
+
 read("./medias/rubies/test", :run,:ruby)
 strdelim
     self.puts_help :eval, demo_code
@@ -270,38 +268,21 @@ strdelim
 
   def select_api
     demo_code = <<strdelim
-set=text({content: "treat the selection", x: 30, y: 200})
-reset=text({content: "reset the selection", x: 30, y: 230})
-verif=text({content: "get the list of selected object", x: 30, y: 260})
-
-box(x: 300, y: 300)
-text({content: :hello, y: 300, x: 400})
-circle({ y: 300, x: 500})
-
-get(:view).find(:all).each do |atome|
-  atome.touch do
-    if atome.select
-      atome.select(false)
-    else
-      atome.select(true)
-    end
+b = box(x: 300)
+b.touch do
+  if b.select
+    b.select(false)
+  else
+    b.select(true)
   end
-
 end
-set.touch do
-  get(:view).selection({color: :violet})
-end
-
-reset.touch do
-  get(:view).selection({color: :white, select: false})
-end
-
-verif.touch do
-  selected_atomes=[]
- get(:view).selection().each do |atome_found|
-   selected_atomes << atome_found.id
- end
-  verif.content="get the list of selected object  : \#{selected_atomes}"
+t = text(:hello)
+t.touch do
+  if t.select
+    t.select(false)
+  else
+    t.select(true)
+  end
 end
 strdelim
     self.puts_help :select, demo_code
@@ -309,7 +290,7 @@ strdelim
 
   def find_atome_from_params_api
     demo_code = <<strdelim
-#suppose to find an object based on id atome_id or the object itself
+#assume to find an object based on id atome_id or th object itself
 b=box()
 wait 1 do
   b.find_atome_from_params(b.atome_id).color(:green)
@@ -804,14 +785,11 @@ strdelim
 
   def each
     demo_code = <<strdelim
-d=image({content: :moto, id: :moto})
 b = Atome.new(:box)
 c=circle({x: 34 , y: -34, drag: true, id: :circle_test, color: :red})
 b.insert(c)
+d=image({content: :moto, id: :moto})
 b.insert(d)
-c.x(-150)
-c.y(-150)
-d.x(150)
 b.x(500)
 b.y(200)
 b.color(:orange)
@@ -823,15 +801,22 @@ strdelim
   end
 
   def batch_api
-    demo_code = <<~Strdelim
-a = circle({ x: 100, y: 200 })
-b = text({ content: :hello, x: 50, y: 300 })
-t=text({ content: "touch me to batch process the object below" , x: 70, y: 120})
-t.touch do
-  get(:view).batch(a, b).set({color: :cyan})
-end
-
-Strdelim
+    demo_code = <<strdelim
+text_color=:lightgray
+t1=text("Text 1")
+t1.x=20
+t1.y=20
+t2=text("Text 2")
+t2.x=220
+t2.y=20
+t3=text("Text 3")
+t3.x=440
+t3.y=20
+t4=text("Text 4")
+t4.x=660
+t4.y=20
+batch([t1,t2,t3,t4], {color: text_color, size: 16, y: 150})
+strdelim
     self.puts_help :batch_api, demo_code
   end
 
@@ -881,16 +866,16 @@ strdelim
 c = circle()
 c.xx(250)
 c.yy(300)
+#c.align(:invert)
 c.width("33%")
 t=text('resize the window')
 t.y=20
 t.color(:gray)
 c.resize do |evt|
-  t.content("width set : 33%, in pixel :\n"+Atome.to_px(c, :width).to_s+" px")
+  t.content("width set : 33%, in pixel :\n"+to_px(c, :width).to_s+" px")
 end
 t.size(16)
 t.x(450)
-
 strdelim
     self.puts_help :convert, demo_code
   end
@@ -928,12 +913,6 @@ d.smooth(200)
 d.insert(b)
 d.insert(c)
 b.x=b.y=100
-b.touch do 
-d.overflow(:visible)
-end
-c.touch do 
-d.overflow(:hidden)
-end
 strdelim
     self.puts_help :overflow_api, demo_code
   end
@@ -993,7 +972,6 @@ end
 strdelim
     self.puts_help :drop, demo_code
   end
-
   def play_with_event_api
     demo_code = <<strdelim
 video = video(:lion_king)
@@ -1035,26 +1013,25 @@ strdelim
   def chain_play_api
     demo_code = <<strdelim
 vidz = video(:lion_king)
-video2 = video(:lion_king)
-vidz.x(250)
-vidz.y(0)
-video2.x(250)
-video2.y(400)
-t = text({content: :time_code, y: 3, x: 257, color: :orange})
-vidz.touch do
-  vidz.play(52) do |evt|
-    t.content('timecode : ' + evt.time.to_s)
-    if evt.time > 61
-      video2.play(61) do |evt|
-        if evt.time > 70
-          vidz.play(52)
-          video2.stop(70)
-        end
-      end
-      vidz.stop(70)
-    end
-  end
-end
+ video2 = video(:lion_king)
+ vidz.x(250)
+ vidz.y(0)
+ video2.x(250)
+ video2.y(400)
+ vidz.pick(:audio).level(0)
+ wait 1 do
+   video2.pick(:audio).level(0)
+   vidz.play(25) do |evt|
+     if evt.time > 34
+       vidz.stop(2)
+       video2.play(true)
+       wait 1 do
+         video2.stop(30)
+         vidz.play
+       end
+     end
+   end
+ end
 strdelim
     self.puts_help :chain_play, demo_code
   end
@@ -1081,73 +1058,12 @@ strdelim
     self.puts_help :play_at_api, demo_code
   end
 
-
-
   def virtual_events
     demo_code = <<strdelim
-b=box()
-c=text("touch the box: it'll send avitual click on the circle")
-c.x=c.y=33
-c.touch do
-  c.color(:blue)
-   c.content("touched")
-end
-b.touch do
-  c.virtual_touch({x: 30, y:30})
-end
+  e=box()
+  e.virtual_touch({target: e.atome_id, content: "Opal.Atome.$text('we just simulate a click on box ')"})
 strdelim
     self.puts_help :virtual_events, demo_code
-  end
-
-  def tactile
-    demo_code = <<strdelim
-if get(:view).tactile() == true
-tactile="it's a touch screen"
-else
-tactile="you screen is not tactile"
-end
-t=text(tactile)
-strdelim
-    self.puts_help :tactile, demo_code
-  end
-
-  def create_new_property
-    demo_code = <<strdelim
-#create property
-b=box({color: :red})
-b.create({property: :my_prop })
-b.my_prop="super kool"
-t=text("touch the box to read the newly created 'my_prop' propery")
-b.touch do
-  t.content=b.my_prop()
-end
-
-strdelim
-    self.puts_help :create_new_property, demo_code
-  end
-
-  def record
-    demo_code = <<strdelim
-# capture demo
-recorder=box({width: 30, height: 30, color: :red, x:30, y: 30})
-stop=box({width: 30, height: 30, color: :black, x:90, y: 30})
-starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-text=text("mouse pointer position and timer")
-recorder.touch do
-  get(:view).record(true) do |evt|
-    ending = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    elapsed = ending - starting
-    pointer="\#{evt.page_x}, \#{evt.page_y} : \#{elapsed}"
-    text.content= pointer
-  end
-end
-
-stop.touch do
-  get(:view).record(:stop)
-end
-
-strdelim
-    self.puts_help :record, demo_code
   end
 
   def add_prop_to_all_childs_api
@@ -1155,7 +1071,7 @@ strdelim
 b = image(:atome)
 b.drag(true)
 b.x(300)
-d=b.create(box({id: :my_box,  center: true}))
+d=b.box()
 b.text("hello")
 c=b.circle()
 b.child().each do |atome|
@@ -1298,21 +1214,19 @@ strdelim
   def selector_api
     demo_code = <<strdelim
 b = box()
-box({x: 33, y: 70})
 b.y(400)
-t = text({content:  "touch me to colorize object that have a selector name 'star' with a value superior to 5",selector: { star: 7 } })
-c = circle(selector: { star: 5 })
+b.selector(:validated)
+t = text("my text")
+t.selector(:validated)
+c = circle()
 c.color(:green)
 c.x(400)
 c.y(200)
-c2 = circle({color: :yellow})
-c2.selector(:dummy)
 t.y(350)
-t.touch do
-  get(:view).find(:all).each do|atome|
-    if atome.selector[:star] && atome.selector[:star] > 4
-      atome.color(:orangered)
-    end
+select(:validated).each do |item|
+  if item.selector && item.selector.include?(:validated)
+    item.color(:orangered)
+    item.x(400)
   end
 end
 strdelim
@@ -1491,7 +1405,7 @@ strdelim
 d = box()
 d.set({width: 100, height: 100})
 d.y(50)
-t = d.text(content: 'remove all childrens', color: :gray)
+t = d.text('remove all childrens')
 t.x=2
 t.y=2
 d.touch do
