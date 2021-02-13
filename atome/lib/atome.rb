@@ -1,6 +1,10 @@
-require 'atome/core/neutron'
-require 'atome/core/proton'
-require 'atome/core/photon'
-require 'atome/core/atome'
-require 'atome/core/electron'
-require 'atome/bigbang'
+# require "opal-parser"
+require "atome/builder/property"
+require "atome/environment/default"
+require "atome/properties/info"
+require "atome/properties/visual"
+require "atome/system/helper"
+require "atome/builder/object"
+require "atome/utilities/helper"
+require "atome/environment/initialize"
+require "atome/utilities/creation"

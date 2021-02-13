@@ -1,5 +1,12 @@
 # render methods
 module Render
+  def self.r_get atome_id
+    Element.find('#' + atome_id)
+  end
+
+  def self.js_get atome
+    Element.find('#' + atome.atome_id)
+  end
 
   def self.initialize
     Element.find(JS_utils.device).resize do |evt|
@@ -15,26 +22,25 @@ module Render
     atome_id = atome.atome_id
     dark_matter = Element.find('#dark_matter')
     if atome_id == :blackhole
-      Element.find('body').prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :dark_matter
-      Element.find('body').prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :device
-      Element.find('body').prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :intuition
-      Element.find('body').prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :view
-      Element.find('body').prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     else
-      if atome.type == :text
+      if params == :text
         dark_matter.append("<div class='atome' style='display:inline-block' id='#{atome_id}'></div>")
-      elsif atome.type == :shape
-        #alert "message is \n\n#{atome.id} \n\nLocation: html.rb, line 31"
+      elsif params == :shape
         dark_matter.append(("<div class='atome' id='#{atome_id}'></div>"))
-      elsif atome.type == :image
+      elsif params == :image
         dark_matter.append("<div class='atome' id='#{atome_id}'></div>")
-      elsif atome.type == :video
+      elsif params == :video
         dark_matter.append("<div  id=" + atome_id + " class='atome' ><video  width='512' muted ></video></div>");
-      elsif atome.type == :audio
+      elsif params == :audio
         dark_matter.append("<div  id=" + atome_id + " class='atome' ></div>");
       else
         dark_matter.append(("<div class='atome' id='#{atome_id}'></div>"))
@@ -55,19 +61,21 @@ module Render
   end
 
   def self.render_content(atome, params, add = false)
-    if atome.type == "text" || atome.type == "web"
+    if atome.type[:content] == :text || atome.type[:content] == :web
       #if atome.id=="code_content"
       #  alert "message is \n\n#{atome.id} \n\nLocation: html.rb, line 58"
       #end
       params = params.to_s.gsub("\n", "<br>")
-      Element.find('#' + atome.atome_id).html(params)
+      #r_get( atome.atome_id).html(params)
+      r_get(atome.atome_id).html(params)
+
       #unless atome.width
-      #  atome.width = Element.find('#' + atome.atome_id).width
+      #  atome.width = r_get( atome.atome_id).width
       #end
       #unless atome.height
-      #  atome.height = Element.find('#' + atome.atome_id).height
+      #  atome.height = r_get( atome.atome_id).height
       #end
-    elsif atome.type == "image"
+    elsif atome.type[:content] == "image"
       if $images_list[params.to_sym].nil?
         path = '././medias/images/image_missing.svg'
         width = 390
@@ -77,8 +85,8 @@ module Render
         width = $images_list[params.to_sym][:width]
         height = $images_list[params.to_sym][:height]
       end
-      Element.find('#' + atome.atome_id).css('background-image', 'url(' + path)
-      Element.find('#' + atome.atome_id).css('background-size', '100% 100%')
+      r_get(atome.atome_id).css('background-image', 'url(' + path)
+      r_get(atome.atome_id).css('background-size', '100% 100%')
       if width.nil?
         width = 300
       end
@@ -91,158 +99,218 @@ module Render
       unless atome.height
         atome.height = height
       end
-    elsif atome.type == "video"
+    elsif atome.type[:content] == "video"
       path = if $videos_list[params.to_sym].nil?
                '././medias/videos/video_missing.mp4'
              else
                $videos_list[params.to_sym][:path]
              end
-      Element.find('#' + atome.atome_id).find('video').html("<source src=" + path + " type='video/mp4'></source>")
+      r_get(atome.atome_id).find('video').html("<source src=" + path + " type='video/mp4'></source>")
       unless atome.width
-        atome.width = Element.find('#' + atome.atome_id).find('video').width
+        atome.width = r_get(atome.atome_id).find('video').width
       end
       unless atome.height
-        atome.height = Element.find('#' + atome.atome_id).find('video').height
+        atome.height = r_get(atome.atome_id).find('video').height
       end
-      Element.find('#' + atome.atome_id).find('video').css('width', '100%')
-      #Element.find('#' + params.atome_id).width
-    elsif atome.type == "audio"
+      r_get(atome.atome_id).find('video').css('width', '100%')
+    elsif atome.type[:content] == "audio"
       path = if $audios_list[params.to_sym].nil?
                '././medias/audios/audio_missing.wav'
              else
                $audios_list[params.to_sym][:path]
              end
-      Element.find('#' + atome.atome_id).html("<audio  src=" + path + " type='audio/wav'></audio>")
+      r_get(atome.atome_id).html("<audio  src=" + path + " type='audio/wav'></audio>")
 
-    elsif atome.type == "shape"
+    elsif atome.type[:content] == "shape"
       # below temp patch waiting for parametric shape to allow cirle creation
-      Element.find('#' + atome.atome_id).css('border-radius', params[:tension])
+      r_get(atome.atome_id).css('border-radius', params[:tension])
     else
     end
   end
 
   def self.render_id(atome, params, add = false)
-    Element.find('#' + atome.atome_id).attr(:a_id, params)
+    r_get(atome.atome_id).attr(:a_id, params)
+  end
+
+  # display
+  def self.render_display(atome, params, add = false)
+    #r_get(atome.atome_id).replaceWith('<tr>' + r_get(atome.atome_id).html() +'</tr>')
+    # alert(params[:content].to_s+" : "+atome[:content].type.to_s)
+    #
+    # r_get(atome.atome_id).replaceElementTag(params)
+    #
+    case params[:content]
+    when :vr
+      if atome.type[:content] == :image
+        wait 0.0001 do
+          path = $images_list[atome.content.to_sym][:path]
+          js_get(atome).append("<a-scene className='aframebox' embedded vr-mode-ui='enabled': false device-orientation-permission-ui='enabled: false'> <a-sky src='" + path + "' rotation='0 -130 0'></a-sky></a-scene>")
+        end
+      end
+    when :swap
+      #replaceElementTag(:img)
+    end
   end
 
   # properties
+  def self.parse_color_datas(params)
+    if params[:red]
+      red = params[:red] * 255
+    else
+      red = 0
+    end
+    if params[:green]
+      green = params[:green] * 255
+    else
+      green = 0
+    end
+    if params[:blue]
+      blue = params[:blue] * 255
+    else
+      blue = 0
+    end
+    if params[:alpha]
+      alpha = params[:alpha]
+    else
+      alpha = 1
+    end
+    return "rgba(#{red},#{green},#{blue},#{alpha})"
+  end
 
   def self.render_color(atome, params, add = false)
+    # alert " html.rb line 101 #{params.class}"
     color = "background-image"
-    if atome.type == :text
-      Element.find('#' + atome.atome_id).css('-webkit-background-clip', 'text')
-      Element.find('#' + atome.atome_id).css('-webkit-text-fill-color', 'transparent')
+    if atome.type[:content] == :text
+      r_get(atome.atome_id).css('-webkit-background-clip', 'text')
+      r_get(atome.atome_id).css('-webkit-text-fill-color', 'transparent')
     end
-    if params.class == Hash
-      value = ' linear-gradient(0deg,' + params[:content] + ', ' + params[:content] + ')'
-    elsif params.class == Array
+    if params.class == Array
       value = []
       angle = '180'
       diffusion = "linear"
       params.each do |param|
-        if param.class == Hash
-          if param[:angle]
-            angle = param[:angle].to_s
-          end
-          if param[:diffusion]
-            diffusion = param[:diffusion]
-          end
-          if param[:content]
-            value << param[:content]
-          end
-          if param[:color]
-            value << param[:color]
-          end
-        else
-          value << param
-        end
-      end
-      value = if diffusion == 'linear'
-                ' linear-gradient(' + angle + 'deg, ' + value.join(',') + ')'
+        # params=params[:content]
+          if param.class == Hash
+            if param[:angle]
+              angle = param[:angle].to_s
+            elsif param[:diffusion]
+              diffusion = param[:diffusion]
+            elsif param[:content]
+              if param[:content].class == Hash
+                # alert("hhh")
+                color_found = parse_color_datas(param[:content])
               else
-                ' radial-gradient(' + value.join(',') + ')'
+                color_found = param[:content]
               end
-    else
-      value = ' linear-gradient(0deg,' + params + ', ' + params + ')'
-    end
-    Element.find('#' + atome.atome_id).css(color, value)
-  end
+              value << color_found
+            elsif param[:color]
+              if param[:color].class == Hash
+                color_found = parse_color_datas(param[:color])
+              else
+                color_found = param[:color]
+              end
+              value << color_found
+            else
+              value << parse_color_datas(param)
+            end
+          else
+            value << param
+          end
+        end
 
+      if diffusion == 'linear'
+
+        value=' linear-gradient(' + angle + 'deg, ' + value.join(',') + ')'
+             else
+               value =    ' radial-gradient(' + value.join(',') + ')'
+      end
+      r_get(atome.atome_id).css(color, value)
+    else
+      params=params[:content]
+      if params.class == Hash
+        params = parse_color_datas(params)
+        value = ' linear-gradient(0deg,' + params + ', ' + params + ')'
+      else
+        value = ' linear-gradient(0deg,' + params + ', ' + params + ')'
+      end
+      r_get(atome.atome_id).css(color, value)
+  end
+    end
   def self.render_opacity(atome, params, add = false)
-    Element.find('#' + atome.atome_id).css(:opacity, params)
+    r_get(atome.atome_id).css(:opacity, params[:content])
   end
 
   def self.render_x(atome, params, add = false)
 
     if !atome.width || atome.width == "auto"
-      Element.find('#' + atome.atome_id).css("width", "auto")
+      r_get(atome.atome_id).css("width", "auto")
     end
-    Element.find('#' + atome.atome_id).css('left', params)
+    r_get(atome.atome_id).css('left', params)
   end
 
   def self.render_y(atome, params, add = false)
     if !atome.height || atome.height == "auto"
-      Element.find('#' + atome.atome_id).css("height", "auto")
+      r_get(atome.atome_id).css("height", "auto")
     end
-    Element.find('#' + atome.atome_id).css('top', params)
+    r_get(atome.atome_id).css('top', params)
   end
 
   def self.render_z(atome, params, add = false)
-    Element.find('#' + atome.atome_id).css('z-index', params)
+    r_get(atome.atome_id).css('z-index', params)
   end
 
   def self.render_xx(atome, params, add = false)
     if !atome.width || atome.width == "auto"
-      Element.find('#' + atome.atome_id).css("width", "auto")
+      r_get(atome.atome_id).css("width", "auto")
     else
-      Element.find('#' + atome.atome_id).css("left", "auto")
+      r_get(atome.atome_id).css("left", "auto")
     end
-    Element.find('#' + atome.atome_id).css('right', params)
+    r_get(atome.atome_id).css('right', params)
   end
 
   def self.render_yy(atome, params, add = false)
     if !atome.height || atome.height == "auto"
-      Element.find('#' + atome.atome_id).css("height", "auto")
+      r_get(atome.atome_id).css("height", "auto")
     else
-      Element.find('#' + atome.atome_id).css("top", "auto")
+      r_get(atome.atome_id).css("top", "auto")
     end
-    Element.find('#' + atome.atome_id).css('bottom', params)
+    r_get(atome.atome_id).css('bottom', params)
   end
 
   def self.render_convert(atome, property, unit)
     property = property.to_sym
     case property
     when :width
-      Element.find('#' + atome.atome_id).width
+      r_get(atome.atome_id).width
     when :height
-      Element.find('#' + atome.atome_id).height
+      r_get(atome.atome_id).height
     end
   end
 
   def self.render_width(atome, params, add = false)
 
-    Element.find('#' + atome.atome_id).css('width', params)
+    r_get(atome.atome_id).css('width', params)
   end
 
   def self.render_height(atome, params, add = false)
-    Element.find('#' + atome.atome_id).css('height', params)
+    r_get(atome.atome_id).css('height', params)
   end
 
   def self.render_size(atome, params, add = false)
-    atome_id = Element.find('#' + atome.atome_id)
+    atome_id = r_get(atome.atome_id)
     if params.class == Hash
       axis = params.keys[0]
       value = params.values[0]
-      if atome.type == :text
-        height = Element.find('#' + atome.atome_id).innerHeight
+      if atome.type[:content] == :text
+        height = r_get(atome.atome_id).innerHeight
         atome.height(height, false)
         if params.class == String && params.end_with?("%")
           params.sub("%", "vw")
         end
-        Element.find('#' + atome.atome_id).css('font-size', value)
+        r_get(atome.atome_id).css('font-size', value)
       else
-        el_width = Element.find('#' + atome.atome_id).css('width').to_f
-        el_height = Element.find('#' + atome.atome_id).css('height').to_f
+        el_width = r_get(atome.atome_id).css('width').to_f
+        el_height = r_get(atome.atome_id).css('height').to_f
         ratio = el_width / el_height
         if axis == :width
           atome.width(value * ratio)
@@ -251,26 +319,26 @@ module Render
           atome.width(value)
           atome.height(value * ratio)
         end
-        Element.find('#' + atome.atome_id).css('background-size', "100%")
+        r_get(atome.atome_id).css('background-size', "100%")
       end
     else
-      if atome.type == :text
-        height = Element.find('#' + atome.atome_id).innerHeight
+      if atome.type[:content] == :text
+        height = r_get(atome.atome_id).innerHeight
         atome.height(height, false)
         if params.class == String && params.end_with?("%")
           params = params.sub("%", "vw")
         end
-        Element.find('#' + atome.atome_id).css('font-size', params)
+        r_get(atome.atome_id).css('font-size', params)
       else
-        el_width = Element.find('#' + atome.atome_id).css('width').to_f
-        el_height = Element.find('#' + atome.atome_id).css('height').to_f
+        el_width = r_get(atome.atome_id).css('width').to_f
+        el_height = r_get(atome.atome_id).css('height').to_f
         ratio = el_width / el_height
         atome.width(params * ratio)
         atome.height(params)
-        Element.find('#' + atome.atome_id).css('background-size', "100%")
+        r_get(atome.atome_id).css('background-size', "100%")
       end
     end
-    #alert "message is \n\n#{Element.find('#' + atome.atome_id)} \n\nLocation: html.rb, line 270"
+    #alert "message is \n\n#{r_get( atome.atome_id)} \n\nLocation: html.rb, line 270"
     height = atome_id.height
     atome.height(height, false)
     width = atome_id.width
@@ -282,34 +350,34 @@ module Render
       params = params.values[0]
     else
     end
-    Element.find('#' + atome.atome_id).css('position', params)
+    r_get(atome.atome_id).css('position', params)
   end
 
   def self.render_get_size (params, add = false)
     size = {}
-    size[:width] = Element.find('#' + params.atome_id).width
-    size[:height] = Element.find('#' + params.atome_id).height
+    size[:width] = r_get(params.atome_id).width
+    size[:height] = r_get(params.atome_id).height
     return size
   end
 
   def self.render_get_width(params, add = false)
-    Element.find('#' + params.atome_id).width
+    r_get(params.atome_id).width
   end
 
   def self.render_get_height(params, add = false)
-    Element.find('#' + params.atome_id).height
+    r_get(params.atome_id).height
   end
 
   def self.render_get_x(params, add = false)
-    Element.find('#' + params.atome_id).css(:left)
+    r_get(params.atome_id).css(:left)
   end
 
   def self.render_get_y(params, add = false)
-    Element.find('#' + params.atome_id).css(:top)
+    r_get(params.atome_id).css(:top)
   end
 
   def self.render_rotate(atome, params, add = false)
-    Element.find('#' + atome.atome_id).css('transform', 'rotate(' + params.to_s + 'deg)')
+    r_get(atome.atome_id).css('transform', 'rotate(' + params[:content].to_s + 'deg)')
   end
 
   def self.render_align(atome, params, add = false)
@@ -330,14 +398,14 @@ module Render
       x = params[:x]
       y = params[:y]
       if x
-        Element.find('#' + atome.atome_id).css('overflow-y', :visible)
-        Element.find('#' + atome.atome_id).css('overflow-x', :visible)
+        r_get(atome.atome_id).css('overflow-y', :visible)
+        r_get(atome.atome_id).css('overflow-x', :visible)
       end
       if y
-        Element.find('#' + atome.atome_id).css('overflow-y', y)
+        r_get(atome.atome_id).css('overflow-y', y)
       end
     else
-      Element.find('#' + atome.atome_id).css('overflow', params)
+      r_get(atome.atome_id).css('overflow', params)
     end
   end
 
@@ -367,61 +435,90 @@ module Render
              else
                target.height
              end
-    Element.find('#' + atome.atome_id).css('width', width)
-    Element.find('#' + atome.atome_id).css('height', height)
-    Element.find('#' + atome.atome_id).css('background-repeat', 'space')
+    r_get(atome.atome_id).css('width', width)
+    r_get(atome.atome_id).css('height', height)
+    r_get(atome.atome_id).css('background-repeat', 'space')
     if number
       size = width / number
     else
     end
-    Element.find('#' + atome.atome_id).css('background-size', size)
+    r_get(atome.atome_id).css('background-size', size)
   end
-
+  # def self.render_shadow_recursive(atome, params, add = false)
+    # x = params[:x]
+    # y = params[:y]
+    # blur = params[:blur]
+    # thickness = params[:thickness]
+    # color = params[:color]
+    # invert = params[:invert]
+    # invert = if invert
+    #            :inset
+    #          else
+    #            " "
+    #          end
+    # if atome.type[:content] == :text || atome.type[:content] == :image
+    #   r_get(atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+    # else
+    #   r_get(atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+    # end
+  # end
   def self.render_shadow(atome, params, add = false)
-    #formated_params = case params
-    #                  when Array
-    #                    #"array"
-    #                  when Hash
-    #                    properties = Nucleon::Core::Proton.presets[:shadow]
-    #                    params.each do |key, value|
-    #                      properties[key] = value
-    #                    end
-    #                    properties
-    #                  when Boolean, :true
-    #                    Nucleon::Core::Proton.presets[:shadow]
-    #                  when String, Symbol
-    #                    params
-    #                  end
-    x = params[:x]
-    y = params[:y]
-    blur = params[:blur]
-    thickness = params[:thickness]
-    color = params[:color]
-    invert = params[:invert]
-    invert = if invert
-               :inset
-             else
-               " "
-             end
-    if params && params.class == Hash && params[:add]
-      add = params[:add]
-    end
+    # alert " html.rb line 449 params : #{params} #{params.class}"
+    # if params && params.class == Hash && params[:add]
+    #   add = params[:add]
+    # end
 
-    if add
-      if atome.type == :text || atome.type == :image
-        prev_prop = Element.find('#' + atome.atome_id).css('text-shadow')
-        Element.find('#' + atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+    # if add
+    #   if atome.type[:content] == :text || atome.type[:content] == :image
+    #     prev_prop = r_get(atome.atome_id).css('text-shadow')
+    #     r_get(atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+    #   else
+    #     prev_prop = r_get(atome.atome_id).css('box-shadow')
+    #     r_get(atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+    #   end
+    # else
+    if params.class == Hash
+      x = params[:x]
+      y = params[:y]
+      blur = params[:blur]
+      thickness = params[:thickness]
+      color = params[:color]
+      invert = params[:invert]
+      invert = if invert
+                 :inset
+               else
+                 " "
+               end
+      if atome.type[:content] == :text || atome.type[:content] == :image
+        r_get(atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
       else
-        prev_prop = Element.find('#' + atome.atome_id).css('box-shadow')
-        Element.find('#' + atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+        r_get(atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
       end
     else
-      if atome.type == :text || atome.type == :image
-        Element.find('#' + atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
-      else
-        Element.find('#' + atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+      params.each do |param|
+        ################################
+        x = param[:x]
+        y = param[:y]
+        blur = param[:blur]
+        thickness = param[:thickness]
+        color = param[:color]
+        invert = param[:invert]
+        invert = if invert
+                   :inset
+                 else
+                   " "
+                 end
+          if atome.type[:content] == :text || atome.type[:content] == :image
+            prev_prop = r_get(atome.atome_id).css('text-shadow')
+            r_get(atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+          else
+            prev_prop = r_get(atome.atome_id).css('box-shadow')
+            r_get(atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+          end
       end
     end
+
+    # end
   end
 
   #def self.render_shadow(atome, params, add = false)
@@ -457,17 +554,17 @@ module Render
   #
   #  if add
   #    if atome.type == :text || atome.type == :image
-  #      prev_prop = Element.find('#' + atome.atome_id).css('text-shadow')
-  #      Element.find('#' + atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+  #      prev_prop = r_get( atome.atome_id).css('text-shadow')
+  #      r_get( atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
   #    else
-  #      prev_prop = Element.find('#' + atome.atome_id).css('box-shadow')
-  #      Element.find('#' + atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+  #      prev_prop = r_get( atome.atome_id).css('box-shadow')
+  #      r_get( atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
   #    end
   #  else
   #    if atome.type == :text || atome.type == :image
-  #      Element.find('#' + atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+  #      r_get( atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
   #    else
-  #      Element.find('#' + atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+  #      r_get( atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
   #    end
   #  end
   #end
@@ -476,18 +573,18 @@ module Render
     formated_params = case params
                       when Array
                       when Hash
-                        properties = Nucleon::Core::Proton.presets[:border]
+                        properties = Nucleon::Core::Pi.presets[:border]
                         params.each do |key, value|
                           properties[key] = value
                         end
                         properties
                       when Boolean
-                        Nucleon::Core::Proton.presets[:border]
+                        Nucleon::Core::Pi.presets[:border]
                       when String, Symbol
                         if params.to_sym == :true
-                          Nucleon::Core::Proton.presets[:border]
+                          Nucleon::Core::Pi.presets[:border]
                         else
-                          {thickness: params}
+                          { thickness: params }
                         end
                       end
     pattern = formated_params[:pattern]
@@ -495,9 +592,9 @@ module Render
     color = formated_params[:color]
     if formated_params[:add]
       #todo = find a way to create multiple border in css, if not use shadow to create seconf border
-      Element.find('#' + atome.atome_id).css('border', thickness.to_s + 'px ' + pattern + ' ' + color)
+      r_get(atome.atome_id).css('border', thickness.to_s + 'px ' + pattern + ' ' + color)
     else
-      Element.find('#' + atome.atome_id).css('border', thickness.to_s + 'px ' + pattern + ' ' + color)
+      r_get(atome.atome_id).css('border', thickness.to_s + 'px ' + pattern + ' ' + color)
     end
   end
 
@@ -515,7 +612,7 @@ module Render
                       when String, Symbol
                       when Boolean
                       end
-    Element.find('#' + atome.atome_id).css('border-radius', formated_params)
+    r_get(atome.atome_id).css('border-radius', formated_params)
   end
 
   def self.render_blur(atome, params, add = false)
@@ -528,12 +625,12 @@ module Render
       properties.join(" ").to_s
     when Hash
       if params[:invert]
-        Element.find('#' + atome.atome_id).css('backdrop-filter', 'blur(' + params[:value].to_s + 'px)')
+        r_get(atome.atome_id).css('backdrop-filter', 'blur(' + params[:value].to_s + 'px)')
       else
-        Element.find('#' + atome.atome_id).css('filter', 'blur(' + params[:value].to_s + 'px)')
+        r_get(atome.atome_id).css('filter', 'blur(' + params[:value].to_s + 'px)')
       end
     when String, Symbol, Number
-      Element.find('#' + atome.atome_id).css('filter', 'blur(' + params.to_s + 'px)')
+      r_get(atome.atome_id).css('filter', 'blur(' + params.to_s + 'px)')
     when Boolean
     end
   end
@@ -548,63 +645,65 @@ module Render
   end
 
   def self.render_virtual_touch(atome, params, add = false)
-    JS_utils.virtual_touch params[:target], params[:content]
+    # if JS_utils.mobile
+    #   js_get(atome).trigger("touchstart", [params[:x],params[:y],params[:x]]);
+    # else
+    js_get(atome).trigger("click", [params[:x], params[:y], params[:x]]);
+    # end
   end
 
   def self.render_edit(atome, params, add = false)
-    if params == :true || params == true
-      Element.find('#' + atome.atome_id).attr('contenteditable', 'true')
-      Element.find('#' + atome.atome_id).css('-webkit-user-select', 'text')
-      Element.find('#' + atome.atome_id).css('-khtml-user-select', 'text')
-      Element.find('#' + atome.atome_id).css('-moz-user-select', 'text')
-      Element.find('#' + atome.atome_id).css('-o-user-select', 'text')
-      Element.find('#' + atome.atome_id).css('user-select: text', 'text')
-    elsif params == :false || params == false
-      Element.find('#' + atome.atome_id).attr('contenteditable', 'false')
-      Element.find('#' + atome.atome_id).css('-webkit-user-select', 'none')
-      Element.find('#' + atome.atome_id).css('-khtml-user-select', 'none')
-      Element.find('#' + atome.atome_id).css('-moz-user-select', 'none')
-      Element.find('#' + atome.atome_id).css('-o-user-select', 'none')
-      Element.find('#' + atome.atome_id).css('user-select: text', 'none')
+    if params == :true || params == true || params == :start
+      r_get(atome.atome_id).attr('contenteditable', 'true')
+      r_get(atome.atome_id).css('-webkit-user-select', 'text')
+      r_get(atome.atome_id).css('-khtml-user-select', 'text')
+      r_get(atome.atome_id).css('-moz-user-select', 'text')
+      r_get(atome.atome_id).css('-o-user-select', 'text')
+      r_get(atome.atome_id).css('user-select: text', 'text')
+    elsif params == :false || params == false ||  params == :stop
+      r_get(atome.atome_id).attr('contenteditable', 'false')
+      r_get(atome.atome_id).css('-webkit-user-select', 'none')
+      r_get(atome.atome_id).css('-khtml-user-select', 'none')
+      r_get(atome.atome_id).css('-moz-user-select', 'none')
+      r_get(atome.atome_id).css('-o-user-select', 'none')
+      r_get(atome.atome_id).css('user-select: text', 'none')
     end
 
-    Element.find('#' + atome.atome_id).keyup do |evt|
-      content = Element.find('#' + atome.atome_id).html().gsub('<br>', "\n").gsub('<div>', "\n").gsub('</div>', "").gsub(';', "").gsub('&nbsp', " ")
+    r_get(atome.atome_id).keyup do |evt|
+      content = r_get(atome.atome_id).html().gsub('<br>', "\n").gsub('<div>', "\n").gsub('</div>', "").gsub(';', "").gsub('&nbsp', " ")
       atome.content(content, false)
     end
   end
 
   def self.render_select(atome, params, add = false)
     if params
-      if atome.type == :text
-        Element.find('#' + atome.atome_id).attr('contenteditable', 'true')
-        Element.find('#' + atome.atome_id).css('-webkit-user-select', 'text')
-        Element.find('#' + atome.atome_id).css('-khtml-user-select', 'text')
-        Element.find('#' + atome.atome_id).css('-moz-user-select', 'text')
-        Element.find('#' + atome.atome_id).css('-o-user-select', 'text')
-        Element.find('#' + atome.atome_id).css('user-select: text', 'text')
+      if atome.type[:content] == :text
+        r_get(atome.atome_id).attr('contenteditable', 'true')
+        r_get(atome.atome_id).css('-webkit-user-select', 'text')
+        r_get(atome.atome_id).css('-khtml-user-select', 'text')
+        r_get(atome.atome_id).css('-moz-user-select', 'text')
+        r_get(atome.atome_id).css('-o-user-select', 'text')
+        r_get(atome.atome_id).css('user-select: text', 'text')
       end
 
-      Element.find('#' + atome.atome_id).add_class 'selected'
+      r_get(atome.atome_id).add_class 'selected'
     else
-      if atome.type == :text
-        Element.find('#' + atome.atome_id).attr('contenteditable', 'false')
-        Element.find('#' + atome.atome_id).css('-webkit-user-select', 'none')
-        Element.find('#' + atome.atome_id).css('-khtml-user-select', 'none')
-        Element.find('#' + atome.atome_id).css('-moz-user-select', 'none')
-        Element.find('#' + atome.atome_id).css('-o-user-select', 'none')
-        Element.find('#' + atome.atome_id).css('user-select: text', 'none')
+      if atome.type[:content] == :text
+        r_get(atome.atome_id).attr('contenteditable', 'false')
+        r_get(atome.atome_id).css('-webkit-user-select', 'none')
+        r_get(atome.atome_id).css('-khtml-user-select', 'none')
+        r_get(atome.atome_id).css('-moz-user-select', 'none')
+        r_get(atome.atome_id).css('-o-user-select', 'none')
+        r_get(atome.atome_id).css('user-select: text', 'none')
       end
-      Element.find('#' + atome.atome_id).remove_class 'selected'
+      r_get(atome.atome_id).remove_class 'selected'
     end
   end
 
-  def self.render_active(atome, params, add = false)
-
-  end
+  def self.render_active(atome, params, add = false) end
 
   def self.render_group(atome, params, add = false)
-    parent = Element.find('#' + atome.atome_id)
+    parent = r_get(atome.atome_id)
     if params.class == Array
     else
       if params.class == Atome
@@ -628,7 +727,7 @@ module Render
       #  end
       #end
 
-      child = Element.find('#' + params)
+      child = r_get(params)
 
       #if child.position
       #  #alert "message is \n\n#{child.offsetTop} \n\nLocation: html.rb, line 560"
@@ -689,83 +788,89 @@ module Render
   #      # when have an atome so the method comes from neutron not electron! we clear a prop of a specific atome
   #      case params
   #      when :group
-  #        Element.find('#' + atome.atome_id).empty()
+  #        r_get( atome.atome_id).empty()
   #      end
   #    end
   #  end
   #end
 
   def self.render_selector(atome, params, add = false)
-    Element.find('#' + atome.atome_id).add_class params
+    r_get(atome.atome_id).add_class params
   end
 
   def self.render_delete(atome, params, add = false)
-    atome_body = Element.find('#' + atome.atome_id)
+    params=params[:content]
+    atome_body = r_get(atome.atome_id)
     if params.class == Atome
       Element.find('#blackhole').append(atome_body)
     elsif params.class == Hash
       property = params.keys[0]
       case property
       when :selector
-        Element.find('#' + atome.atome_id).remove_class(params[:selector])
+        r_get(atome.atome_id).remove_class(params[:selector])
       when :touch
         if params[:touch].class == Integer || params[:touch].class == Number
           atome.touch.delete_at(params[:touch])
-          Element.find('#' + atome.atome_id).unbind("click")
-          Element.find('#' + atome.atome_id).unbind("touchstart")
-          Element.find('#' + atome.atome_id).unbind("mousedown")
-          Element.find('#' + atome.atome_id).unbind("mouseup")
-          Element.find('#' + atome.atome_id).unbind("touchend")
+          r_get(atome.atome_id).unbind("click")
+          r_get(atome.atome_id).unbind("touchstart")
+          r_get(atome.atome_id).unbind("mousedown")
+          r_get(atome.atome_id).unbind("mouseup")
+          r_get(atome.atome_id).unbind("touchend")
           atome.touch.each_with_index do |event, index|
             proc = event[:content]
             if index == 0
-              atome.set(touch: {option: event[:option]}, &proc)
+              atome.set(touch: { option: event[:option] }, &proc)
             else
-              atome.add(touch: {option: event[:option]}, &proc)
+              atome.add(touch: { option: event[:option] }, &proc)
             end
           end
         elsif params[:touch].to_sym == :up
-          Element.find('#' + atome.atome_id).unbind('mouseup')
-          Element.find('#' + atome.atome_id).unbind('touchend')
+          r_get(atome.atome_id).unbind('mouseup')
+          r_get(atome.atome_id).unbind('touchend')
         elsif params[:touch].to_sym == :down
-          Element.find('#' + atome.atome_id).unbind('mousedown')
-          Element.find('#' + atome.atome_id).unbind('touchstart')
+          r_get(atome.atome_id).unbind('mousedown')
+          r_get(atome.atome_id).unbind('touchstart')
         elsif params[:touch].to_sym == :all
-          Element.find('#' + atome.atome_id).unbind("click")
-          Element.find('#' + atome.atome_id).unbind("touchstart")
-          Element.find('#' + atome.atome_id).unbind("mousedown")
-          Element.find('#' + atome.atome_id).unbind("mouseup")
-          Element.find('#' + atome.atome_id).unbind("touchend")
+          r_get(atome.atome_id).unbind("click")
+          r_get(atome.atome_id).unbind("touchstart")
+          r_get(atome.atome_id).unbind("mousedown")
+          r_get(atome.atome_id).unbind("mouseup")
+          r_get(atome.atome_id).unbind("touchend")
         else
-          Element.find('#' + atome.atome_id).unbind("click")
-          Element.find('#' + atome.atome_id).unbind("touchstart")
-          Element.find('#' + atome.atome_id).unbind("mousedown")
-          Element.find('#' + atome.atome_id).unbind("mouseup")
-          Element.find('#' + atome.atome_id).unbind("touchend")
+          r_get(atome.atome_id).unbind("click")
+          r_get(atome.atome_id).unbind("touchstart")
+          r_get(atome.atome_id).unbind("mousedown")
+          r_get(atome.atome_id).unbind("mouseup")
+          r_get(atome.atome_id).unbind("touchend")
           atome.touch.each_with_index do |event, index|
             next if (event[:name] && event[:name].to_sym == params[:touch].to_sym)
             proc = event[:content]
             if index == 0
-              atome.set(touch: {option: event[:option]}, &proc)
+              atome.set(touch: { option: event[:option] }, &proc)
             else
-              atome.add(touch: {option: event[:option]}, &proc)
+              atome.add(touch: { option: event[:option] }, &proc)
             end
           end
         end
       end
     else
       if params == :touch
-        Element.find('#' + atome.atome_id).unbind("click")
-        Element.find('#' + atome.atome_id).unbind("touchstart")
-        Element.find('#' + atome.atome_id).unbind("mousedown")
-        Element.find('#' + atome.atome_id).unbind("mouseup")
-        Element.find('#' + atome.atome_id).unbind("touchend")
+        r_get(atome.atome_id).unbind("click")
+        r_get(atome.atome_id).unbind("touchstart")
+        r_get(atome.atome_id).unbind("mousedown")
+        r_get(atome.atome_id).unbind("mouseup")
+        r_get(atome.atome_id).unbind("touchend")
       end
       if params == :true || params == true
         atome_to_delete = '#' + atome.atome_id
         Element.find(atome_to_delete).remove('')
       end
     end
+  end
+
+
+  def render_enliven(atome, params)
+
   end
 
   def self.render_http(url)
@@ -803,19 +908,19 @@ module Render
       option = params[:option]
       add = params[:add]
     end
-    unless add == true || add == :true
+    unless add == true
       atome.delete(:touch)
     end
     if option == :down
-      Element.find('#' + atome.atome_id).on("touchstart mousedown") do |evt|
+      r_get(atome.atome_id).on("touchstart mousedown") do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     elsif option == :up
-      Element.find('#' + atome.atome_id).on("touchend mouseup") do |evt|
+      r_get(atome.atome_id).on("touchend mouseup") do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     elsif option == :long
-      Element.find('#' + atome.atome_id).on("touchstart mousedown") do |evt|
+      r_get(atome.atome_id).on("touchstart mousedown") do |evt|
         @trig = true
         wait 1.2 do
           if @trig
@@ -823,22 +928,34 @@ module Render
           end
         end
       end
-      Element.find('#' + atome.atome_id).on("touchend mouseup") do |evt|
+      r_get(atome.atome_id).on("touchend mouseup") do |evt|
         @trig = false
       end
     else
-      Element.find('#' + atome.atome_id).on(:click) do |evt|
+      r_get(atome.atome_id).on(:click) do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     end
     return atome
   end
 
+  def self.render_record(atome, params, add = false)
+    if params[:content] == true
+      js_get(atome).on(:mousemove) do |evt|
+        proc = params[:proc]
+        proc.call(evt) if proc.is_a?(Proc)
+      end
+    else
+      js_get(atome).unbind(:mousemove)
+    end
+
+  end
+
   def self.render_drag(atome, params, add = false)
     unless add
       atome.delete(:drag)
     end
-    current_atome = Element.find('#' + atome.atome_id)
+    current_atome = r_get(atome.atome_id)
     if params != true
       proc = params[:proc]
       params = params[:params]
@@ -848,20 +965,23 @@ module Render
     if params && params.class == Hash
       case params[:lock]
       when :parent
-        options = {containment: "parent"}
+        options = { containment: "parent" }
       when :x
-        options = {axis: "y"}
+        options = { axis: "y" }
       when :y
-        options = {axis: "x"}
+        options = { axis: "x" }
       when :test
-        options = {containment: "parent", axis: "x"}
+        # atome_y=js_get(atome).css('top').sub("px","")
+        # atome_x=js_get(atome).css('left').sub("px","")
+        atome_y = atome.y[:content]
+        options = { containment: [-900, atome_y, 0, atome_y] }
       when :all
         left = current_atome.css("left").sub("px", '').to_i
         top = current_atome.css("top").sub("px", '').to_i
-        options = {containment: [left, top, left, top]}
+        options = { containment: [left, top, left, top] }
       else
         if options
-          {containment: "#" + params[:lock].id}
+          { containment: "#" + params[:lock].id }
         end
       end
     end
@@ -875,20 +995,20 @@ module Render
       # we update current_atome position
       if atome.x
         x_position = current_atome.css('left').sub('px', '').to_i
-        atome.x({content: x_position}, false)
+        atome.x({ content: x_position }, false)
       end
       if atome.y
         y_position = current_atome.css('top').sub('px', '').to_i
-        atome.y({content: y_position}, false)
+        atome.y({ content: y_position }, false)
       end
       if atome.xx
-        xx_position = Element.find('#' + atome.parent.last.atome_id).width - (current_atome.offset().left + current_atome.width())
-        atome.xx({content: xx_position}, false)
+        xx_position = r_get(atome.parent.last.atome_id).width - (current_atome.offset().left + current_atome.width())
+        atome.xx({ content: xx_position }, false)
       end
 
       if atome.yy
-        yy_position = Element.find('#' + atome.parent.last.atome_id).height - (current_atome.offset().top + current_atome.height())
-        atome.yy({content: yy_position}, false)
+        yy_position = r_get(atome.parent.last.atome_id).height - (current_atome.offset().top + current_atome.height())
+        atome.yy({ content: yy_position }, false)
       end
     end
     current_atome.on(:dragstop) do |evt|
@@ -911,15 +1031,15 @@ module Render
       params = params[:params]
     end
     if params == :enter || params == :in
-      Element.find('#' + atome.atome_id).mouseenter do |evt|
+      r_get(atome.atome_id).mouseenter do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     elsif params == :exit || params == :leave || params == :out
-      Element.find('#' + atome.atome_id).mouseleave do |evt|
+      r_get(atome.atome_id).mouseleave do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     else
-      Element.find('#' + atome.atome_id).mouseover do |evt|
+      r_get(atome.atome_id).mouseover do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     end
@@ -928,7 +1048,6 @@ module Render
 
   def self.render_enter(atome, params, add = false)
     atome_id = '#' + atome.atome_id
-
 
     Element.find("#device")
     if params != true
@@ -941,7 +1060,7 @@ module Render
   end
 
   def self.render_exit(atome, params, add = false)
-    current_atome = Element.find('#' + atome.atome_id)
+    current_atome = r_get(atome.atome_id)
     atome_id = '#' + atome.atome_id
     if params != true
       proc = params[:proc]
@@ -953,7 +1072,7 @@ module Render
   end
 
   def self.render_drop(atome, params, add = false)
-    current_atome = Element.find('#' + atome.atome_id)
+    current_atome = r_get(atome.atome_id)
     atome_id = '#' + atome.atome_id
     if params != true
       proc = params[:proc]
@@ -965,6 +1084,8 @@ module Render
   end
 
   def self.render_key(atome, params, add = false)
+    # the line below is important for the object to get focus if not keypress wont be trigged
+    atome.edit(true)
     unless add
       atome.delete(:touch)
     end
@@ -973,16 +1094,21 @@ module Render
       params = params[:params]
     end
     if params == :down
-      Element.find('#' + atome.atome_id).on("keydown") do |evt|
+      js_get(atome).on("keydown") do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
     elsif params == :up
-      Element.find('#' + atome.atome_id).on("keyup") do |evt|
+      js_get(atome).on("keyup") do |evt|
         proc.call(evt) if proc.is_a?(Proc)
       end
+    elsif params == :stop
+      js_get(atome).unbind("keypress")
+      atome.edit(:false)
     else
-      view = JS_utils.document
-      view.on(:keypress) do |evt|
+      # view = JS_utils.document
+      js_get(atome).on(:keypress) do |evt|
+        # alert  Element.find(`document.activeElement`).id
+        evt.prevent_default
         proc.call(evt) if proc.is_a?(Proc)
       end
     end
@@ -994,14 +1120,14 @@ module Render
   end
 
   def self.render_scale(atome, params, add = false)
-    Element.find('#' + atome.atome_id).resizable({handles: 'all'})
-    Element.find('#' + atome.atome_id).on('resize') do |evt|
-      atome.width(Element.find('#' + atome.atome_id).css("width").to_i, false)
-      atome.height(Element.find('#' + atome.atome_id).css("height").to_i, false)
+    r_get(atome.atome_id).resizable({ handles: 'all' })
+    r_get(atome.atome_id).on('resize') do |evt|
+      atome.width(r_get(atome.atome_id).css("width").to_i, false)
+      atome.height(r_get(atome.atome_id).css("height").to_i, false)
       params.call(evt) if params.is_a?(Proc)
     end
     Element.find("#device").on('resize') do |evt|
-      if atome.width != (Element.find('#' + atome.atome_id).css("width")).to_i
+      if atome.width != (r_get(atome.atome_id).css("width")).to_i
         params.call(evt) if params.is_a?(Proc)
       end
     end
@@ -1010,7 +1136,7 @@ module Render
   end
 
   def self.render_scroll(atome, params, add = false)
-    atome_id = Element.find('#' + atome.atome_id)
+    atome_id = r_get(atome.atome_id)
     Element.find(atome_id).on(:scroll) do |evt|
       offset_y = Element.find(atome_id).prop('scrollHeight').to_i - Element.find(atome_id).css('height').sub("px", "").to_i
       params.call(offset_y) if params.is_a?(Proc)
@@ -1032,12 +1158,17 @@ module Render
   def self.render_play(atome, params, add = false)
     #below to play also all video child (mostly audio tracks)
     if atome.child
-      if atome.child.each do |child|
-        if child.type == :audio || atome.child[0].type == :video
-          render_play(child, params, add = false)
+      atome.child.each do |child_found|
+        if child_found.type[:content] == :audio || atome.child[0].type[:content] == :video
+          render_play(child_found, params, add = false)
         end
       end
-      end
+      #if atome.child.each do |child|
+      #  if child.type[:content] == :audio || atome.child[0].type[:content] == :video
+      #    render_play(child, params, add = false)
+      #  end
+      #end
+      #end
     end
     if params != true && params != nil
       proc = params[:proc]
@@ -1046,30 +1177,39 @@ module Render
       params = true
       proc = false
     end
-    if atome.type == :video && params == false
+    if atome.type[:content] == :video && params == false
       video_pause atome, 0
-    elsif atome.type == :audio && params == false
+    elsif atome.type[:content] == :audio && params == false
       audio_pause atome, 0
-    elsif atome.type == :video
+    elsif atome.type[:content] == :video
       JS_utils.video_play atome, params, proc
-    elsif atome.type == :audio
+    elsif atome.type[:content] == :audio
       JS_utils.audio_play atome, params, proc
     end
   end
 
   def self.render_pause(atome, params, add = false)
-    #below to pause also all video child (mostly audio tracks)
+    #below to pause also pause all video child (mostly audio tracks)
     if atome.child
-      if atome.child.each do |child|
-        if child.type == :audio || atome.child[0].type == :video
-          render_pause(child, params, add = false)
+      atome.child.each do |child_found|
+        #alert "message is \n\n#{child_found.type} \n\nLocation: html.rb, line 1075"
+        if child_found.type[:content] == :audio || atome.child[0].type[:content] == :video
+          #alert "message is \n\n#{:audio_pause} \n\nLocation: html.rb, line 1070"
+          render_pause(child_found, params, add = false)
         end
       end
-      end
+      #alert "message is \n\n#{:child} \n\nLocation: html.rb, line 1068"
+      #if atome.child.each do |child|
+      #  if child.type == :audio || atome.child[0].type == :video
+      #    alert "message is \n\n#{:audio_pause} \n\nLocation: html.rb, line 1070"
+      #    render_pause(child, params, add = false)
+      #  end
+      #end
+      #end
     end
-    if atome.type == :video
+    if atome.type[:content] == :video
       JS_utils.video_pause atome, params
-    elsif atome.type == :audio
+    elsif atome.type[:content] == :audio
       JS_utils.audio_pause atome, params
     end
   end
@@ -1097,7 +1237,7 @@ module Render
   #util
   def self.render_to_px(atome, property)
     property = property.to_sym
-    atome_body = Element.find('#' + atome.atome_id)
+    atome_body = r_get(atome.atome_id)
     case property
     when :width
       return atome_body.width()
@@ -1118,6 +1258,11 @@ module Render
     unless JS_utils.codemirror_ready
       JS_utils.load_codemirror(ide_atome_id, content)
     end
+  end
+
+  # dummy methods for test only can be remove
+  def self.render_my_prop(i, params)
+    # code here
   end
 
 end
