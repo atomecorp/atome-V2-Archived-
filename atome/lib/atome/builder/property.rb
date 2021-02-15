@@ -3,23 +3,15 @@
 
 module Atome_methods_list
   def self.atome_methods
-    %i[border display record color delete opacity shadow enliven tactile selector atome_id id type]
+    %i[border display record tactile selector color ]
   end
   #the line below specify if the properties need specific processing
-  def self.need_pre_processing
-    %i[add opacity shadow atome_id]
-  end
-  def self.no_broadcast
-    %i[atome_id]
-  end
   def self.need_processing
-    %i[delete]
+    %i[border]
   end
-  def self.need_post_processing
-    %i[]
-  end
+
   def self.need_rendering
-    %i[border display record color delete opacity shadow id type]
+    %i[border display record color]
   end
 end
 # the class below initialize the default values and generate properties's methods
@@ -28,6 +20,7 @@ class Sparkle
   def initialize
     # the line below create atomes's methods using meta-programming
     atome_methods = Atome_methods_list.atome_methods
+
     atome_methods.each do |method_name|
       create_property(method_name)
     end
@@ -43,20 +36,12 @@ module Properties
        end
     else
       # if prop needs to be refresh we send it to the Render engine
-      unless  Atome_methods_list.no_broadcast.include?(method_name)
-
-        broadcast(atome_id[:content]=> {method_name => params})
-      end
-
+      broadcast(atome_id => {method_name => params})
       if Atome_methods_list.need_processing.include?(method_name)
-        params= send("#{method_name}_processor", params)
+        send("#{method_name}_processing", params)
       end
-
       if Atome_methods_list.need_rendering.include?(method_name)
         Render.send("render_#{method_name}", self, params) if params.class==Array || params[:render].nil? || params[:render] == true
-      end
-      if Atome_methods_list.need_post_processing.include?(method_name)
-        send("#{method_name}_post_processor", params)
       end
     end
     if self.type[:content]==:collector
@@ -109,9 +94,6 @@ module Properties
   end
 
   def method_analysis(params, instance_variable, method_name, proc)
-    if Atome_methods_list.need_pre_processing.include?(method_name)
-      params = send("#{method_name}_pre_processor", params)
-    end
     if params.instance_of?(Array)
       array_parsing params, instance_variable, method_name, proc
     else
@@ -124,18 +106,13 @@ module Properties
     end
   end
 
-  def magic_getter(method,instance_method_name)
+  def magic_getter(method)
     # the aim of this method is only return the value of the content if the property hash only have a content set
-    # if method.length == 1 && method.instance_of?(Hash) && method[:content]
-    #   if instance_method_name ==:atome_id
-    #     method[:content]
-    #   else
-    #     method
-    #   end
-    # else
-    #   method
-    # end
-    method
+    if method.length == 1 && method.instance_of?(Hash) && method[:content]
+      method[:content]
+    else
+      method
+    end
   end
 end
 

@@ -1,11 +1,11 @@
 # render methods
 module Render
   def self.r_get atome_id
-    Element.find('#' + atome_id[:content])
+    Element.find('#' + atome_id)
   end
 
   def self.js_get atome
-    Element.find('#' + atome.atome_id[:content])
+    Element.find('#' + atome.atome_id)
   end
 
   def self.initialize
@@ -19,16 +19,18 @@ module Render
   end
 
   def self.render_type(atome, params, parent = :body)
-    atome_id = atome.atome_id[:content]
+    atome_id = atome.atome_id
     dark_matter = Element.find('#dark_matter')
-    if atome_id == :dark_matter
-      r_get({ content: 'user_device'}).prepend("<div class='atome' id='#{atome_id}'></div>")
+    if atome_id == :blackhole
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
+    elsif atome_id == :dark_matter
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :device
-      r_get({ content: 'user_device'}).prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :intuition
-      r_get({ content: 'user_device'}).prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     elsif atome_id == :view
-      r_get({ content: 'user_device'}).prepend("<div class='atome' id='#{atome_id}'></div>")
+      r_get('device').prepend("<div class='atome' id='#{atome_id}'></div>")
     else
       if params == :text
         dark_matter.append("<div class='atome' style='display:inline-block' id='#{atome_id}'></div>")
@@ -44,6 +46,12 @@ module Render
         dark_matter.append(("<div class='atome' id='#{atome_id}'></div>"))
       end
     end
+    #atome.properties.each do |property|
+    #we collect all previously stored property to avoid inifinite recursive loop and atome_id which may be already set as it should be set in first
+    #unless property.keys[0].to_sym == :type || property.keys[0].to_sym == :parent || property.keys[0].to_sym == :advertise || property.keys[0].to_sym == :preset || property.keys[0].to_sym == :atome_id || property.keys[0].to_sym == :child || property.keys[0].to_sym == :center || property.keys[0].to_sym == :render
+    #  send("render_" + property.keys[0], atome, property.values[0])
+    #end
+    #end
   end
 
   def self.render_parent(atome, params, add = false)
@@ -54,8 +62,19 @@ module Render
 
   def self.render_content(atome, params, add = false)
     if atome.type[:content] == :text || atome.type[:content] == :web
+      #if atome.id=="code_content"
+      #  alert "message is \n\n#{atome.id} \n\nLocation: html.rb, line 58"
+      #end
       params = params.to_s.gsub("\n", "<br>")
+      #r_get( atome.atome_id).html(params)
       r_get(atome.atome_id).html(params)
+
+      #unless atome.width
+      #  atome.width = r_get( atome.atome_id).width
+      #end
+      #unless atome.height
+      #  atome.height = r_get( atome.atome_id).height
+      #end
     elsif atome.type[:content] == "image"
       if $images_list[params.to_sym].nil?
         path = '././medias/images/image_missing.svg'
@@ -159,7 +178,6 @@ module Render
   end
 
   def self.render_color(atome, params, add = false)
-    # alert " html.rb line 101 #{params.class}"
     color = "background-image"
     if atome.type[:content] == :text
       r_get(atome.atome_id).css('-webkit-background-clip', 'text')
@@ -174,9 +192,13 @@ module Render
           if param.class == Hash
             if param[:angle]
               angle = param[:angle].to_s
+
             elsif param[:diffusion]
               diffusion = param[:diffusion]
+
             elsif param[:content]
+
+              #value << param[:content]
               if param[:content].class == Hash
                 # alert("hhh")
                 color_found = parse_color_datas(param[:content])
@@ -184,6 +206,7 @@ module Render
                 color_found = param[:content]
               end
               value << color_found
+
             elsif param[:color]
               if param[:color].class == Hash
                 color_found = parse_color_datas(param[:color])
@@ -218,7 +241,7 @@ module Render
   end
     end
   def self.render_opacity(atome, params, add = false)
-    r_get(atome.atome_id).css(:opacity, params[:content])
+    r_get(atome.atome_id).css(:opacity, params)
   end
 
   def self.render_x(atome, params, add = false)
@@ -425,81 +448,52 @@ module Render
     end
     r_get(atome.atome_id).css('background-size', size)
   end
-  # def self.render_shadow_recursive(atome, params, add = false)
-    # x = params[:x]
-    # y = params[:y]
-    # blur = params[:blur]
-    # thickness = params[:thickness]
-    # color = params[:color]
-    # invert = params[:invert]
-    # invert = if invert
-    #            :inset
-    #          else
-    #            " "
-    #          end
-    # if atome.type[:content] == :text || atome.type[:content] == :image
-    #   r_get(atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
-    # else
-    #   r_get(atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
-    # end
-  # end
-  def self.render_shadow(atome, params, add = false)
-    # alert " html.rb line 449 params : #{params} #{params.class}"
-    # if params && params.class == Hash && params[:add]
-    #   add = params[:add]
-    # end
 
-    # if add
-    #   if atome.type[:content] == :text || atome.type[:content] == :image
-    #     prev_prop = r_get(atome.atome_id).css('text-shadow')
-    #     r_get(atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
-    #   else
-    #     prev_prop = r_get(atome.atome_id).css('box-shadow')
-    #     r_get(atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
-    #   end
-    # else
-    if params.class == Hash
-      x = params[:x]
-      y = params[:y]
-      blur = params[:blur]
-      thickness = params[:thickness]
-      color = params[:color]
-      invert = params[:invert]
-      invert = if invert
-                 :inset
-               else
-                 " "
-               end
+  def self.render_shadow(atome, params, add = false)
+    #formated_params = case params
+    #                  when Array
+    #                    #"array"
+    #                  when Hash
+    #                    properties = Nucleon::Core::Proton.presets[:shadow]
+    #                    params.each do |key, value|
+    #                      properties[key] = value
+    #                    end
+    #                    properties
+    #                  when Boolean, :true
+    #                    Nucleon::Core::Proton.presets[:shadow]
+    #                  when String, Symbol
+    #                    params
+    #                  end
+    x = params[:x]
+    y = params[:y]
+    blur = params[:blur]
+    thickness = params[:thickness]
+    color = params[:color]
+    invert = params[:invert]
+    invert = if invert
+               :inset
+             else
+               " "
+             end
+    if params && params.class == Hash && params[:add]
+      add = params[:add]
+    end
+
+    if add
+      if atome.type[:content] == :text || atome.type[:content] == :image
+        prev_prop = r_get(atome.atome_id).css('text-shadow')
+        r_get(atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
+      else
+        prev_prop = r_get(atome.atome_id).css('box-shadow')
+        r_get(atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
+      end
+    else
       if atome.type[:content] == :text || atome.type[:content] == :image
         r_get(atome.atome_id).css('filter', 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
       else
         r_get(atome.atome_id).css('box-shadow', x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
       end
-    else
-      params.each do |param|
-        ################################
-        x = param[:x]
-        y = param[:y]
-        blur = param[:blur]
-        thickness = param[:thickness]
-        color = param[:color]
-        invert = param[:invert]
-        invert = if invert
-                   :inset
-                 else
-                   " "
-                 end
-          if atome.type[:content] == :text || atome.type[:content] == :image
-            prev_prop = r_get(atome.atome_id).css('text-shadow')
-            r_get(atome.atome_id).css('filter', prev_prop + " " + 'drop-shadow(' + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + color + ')')
-          else
-            prev_prop = r_get(atome.atome_id).css('box-shadow')
-            r_get(atome.atome_id).css('box-shadow', prev_prop + " ," + x.to_s + 'px ' + y.to_s + 'px ' + blur.to_s + 'px ' + thickness.to_s + 'px ' + color + ' ' + invert)
-          end
-      end
     end
-
-    # end
   end
 
   #def self.render_shadow(atome, params, add = false)
@@ -688,12 +682,66 @@ module Render
     if params.class == Array
     else
       if params.class == Atome
-        params = params.atome_id[:content]
+        params = params.atome_id
       elsif params.class == String || params.class == Symbol
-        params = Object.get(params).atome_id[:content]
+        params = Object.get(params).atome_id
       end
-      child = r_get({ content: params })
+
+      #parent.children.each do |child_found|
+      #  alert "message is \n\n#{child_found} \n\nLocation: html.rb, line 558"
+      #end
+      #alert "message is \n\n#{parent.children.to_a.class} \n\nLocation: html.rb, line 560
+      #if grab(params)
+      #  child_to_add=grab(params)
+      #  parent.children.each do |child_found|
+      #    if child_found.id==child_to_add.atome_id
+      #      alert "message is \n\n#{child_found.id} \n\nLocation: html.rb, line 564"
+      #    else
+      #      alert "message is \n\n#{parent.id} : #{child_to_add.atome_id} \n\nLocation: html.rb, line 567"
+      #    end
+      #  end
+      #end
+
+      child = r_get(params)
+
+      #if child.position
+      #  #alert "message is \n\n#{child.offsetTop} \n\nLocation: html.rb, line 560"
+      #  child_top=child.offsetTop
+      #  child_left=child.offsetTop
+      #  parent_top= parent.offsetTop
+      #  parent_left= parent.offsetTop
+      #  offset_y=child_top-parent_top
+      #  offset_x=child_left-parent_left
+      #  #if atome.id == :toto || atome.id==:titi
+      #    alert "message is #{atome.id} \n\n#{child_top}  : #{parent_top}  \n\nLocation: html.rb, line 563"
+      #  #end
+      #  child.css('top',offset_y.to_s+'px')
+      #  child.css('left',offset_x.to_s+'px')
+      #end
       parent.append(child)
+      #if grab(params)
+      #  child=grab(params)
+      #  child.x=child.x[:content]-atome.x[:content]
+      #  child.y=child.y[:content]-atome.y[:content]
+      #end
+      #  child_top=child.position.top
+      #  child_left=child.position.left
+      #parent_top=parent.position.top
+      #parent_left=parent.position.left
+      #  child.css('left',child_left-parent_left)
+      #  child.css('top',child_top-parent_top)
+      ##  #if parent.offset
+      ##  #  offset=parent.offset
+      ##  #  child.offset(offset)
+      ##  #end
+      ##  #the line below causes problem when enliven an atome : it's position is lost
+      ##  # alert "message :\n#{:offset_problem}\n from : html.rb : 570"
+      #  offset=parent.offset
+      #child.offset(offset)
+
+      #c_offset=child.offset
+      #end
+
     end
   end
 
@@ -726,16 +774,12 @@ module Render
   end
 
   def self.render_delete(atome, params, add = false)
-    params=params[:content]
-    # atome_body = r_get(atome.atome_id)
+    atome_body = r_get(atome.atome_id)
     if params.class == Atome
-      # Element.find('#blackhole').append(atome_body)
+      Element.find('#blackhole').append(atome_body)
     elsif params.class == Hash
       property = params.keys[0]
       case property
-      # when true
-        # atome_to_delete = '#' + atome.atome_id
-        # Element.find(atome_to_delete).remove('')
       when :selector
         r_get(atome.atome_id).remove_class(params[:selector])
       when :touch
@@ -792,15 +836,10 @@ module Render
         r_get(atome.atome_id).unbind("touchend")
       end
       if params == :true || params == true
-        atome_to_delete = '#' + atome.atome_id[:content]
+        atome_to_delete = '#' + atome.atome_id
         Element.find(atome_to_delete).remove('')
       end
     end
-  end
-
-
-  def render_enliven(atome, params)
-
   end
 
   def self.render_http(url)
@@ -977,19 +1016,21 @@ module Render
   end
 
   def self.render_enter(atome, params, add = false)
-    atome_id = '#' + atome.atome_id[:content]
+    atome_id = '#' + atome.atome_id
+
+    Element.find("#device")
     if params != true
       proc = params[:proc]
       params[:params]
     else
       :true
     end
-    JS_utils.enter(atome_id[:content], proc)
+    JS_utils.enter(atome_id, proc)
   end
 
   def self.render_exit(atome, params, add = false)
     current_atome = r_get(atome.atome_id)
-    atome_id = '#' + atome.atome_id[:content]
+    atome_id = '#' + atome.atome_id
     if params != true
       proc = params[:proc]
       params[:params]
@@ -1001,14 +1042,14 @@ module Render
 
   def self.render_drop(atome, params, add = false)
     current_atome = r_get(atome.atome_id)
-    atome_id = '#' + atome.atome_id[:content]
+    atome_id = '#' + atome.atome_id
     if params != true
       proc = params[:proc]
       params[:params]
     else
       :true
     end
-    JS_utils.drop(atome_id[:content], proc)
+    JS_utils.drop(atome_id, proc)
   end
 
   def self.render_key(atome, params, add = false)
@@ -1065,8 +1106,8 @@ module Render
 
   def self.render_scroll(atome, params, add = false)
     atome_id = r_get(atome.atome_id)
-    Element.find(atome_id[:content]).on(:scroll) do |evt|
-      offset_y = Element.find(atome_id[:content]).prop('scrollHeight').to_i - Element.find(atome_id[:content]).css('height').sub("px", "").to_i
+    Element.find(atome_id).on(:scroll) do |evt|
+      offset_y = Element.find(atome_id).prop('scrollHeight').to_i - Element.find(atome_id).css('height').sub("px", "").to_i
       params.call(offset_y) if params.is_a?(Proc)
     end
   end

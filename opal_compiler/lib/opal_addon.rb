@@ -274,7 +274,7 @@ $(#{atome}).droppable({
   end
 
   def self.video_play video, params, proc
-    video_id = video.atome_id[:content]
+    video_id = video.atome_id
     `
 var media=$("#"+#{video_id} +' video:first-child')[0];
 if (#{params}==true || #{params}=='true'){
@@ -295,7 +295,7 @@ media.play();
 
 
   def self.audio_play audio, params, proc
-    audio_id = audio.atome_id[:content]
+    audio_id = audio.atome_id
     `
  var media=$("#"+#{audio_id} +' audio:first-child')[0];
 if (#{params}==true || #{params}=='true'){
@@ -315,7 +315,7 @@ media.play()
   end
 
   def self.video_pause video, play_pos
-    video_id = video.atome_id[:content]
+    video_id = video.atome_id
     `
 var media=$("#"+#{video_id} +' video:first-child')[0];
   media.pause();
@@ -327,7 +327,7 @@ media.currentTime = play_pos;
   end
 
   def self.audio_pause audio, play_pos
-    audio_id = audio.atome_id[:content]
+    audio_id = audio.atome_id
     `
  var audio=$("#"+#{audio_id} +' audio:first-child')[0];
 audio.pause();
@@ -339,7 +339,7 @@ audio.currentTime = play_pos;
   end
 
   def self.audio_level audio, params
-    audio_id = audio.atome_id[:content]
+    audio_id = audio.atome_id
     `
  var media=$("#"+#{audio_id} +' audio:first-child')[0];
 media.volume= (#{params})
@@ -632,7 +632,7 @@ module Opal_utils
 end
 def message params
   message="{ \"action\": \"#{params}\"}"
-  `webSocketHelper.sendMessage(#{message})`
+  `webSocketHelper.sendMessage(#{message});`
 end
 
 ################ media manipulation ############
@@ -640,11 +640,11 @@ end
 def animate(params)
   obj = params[:target]
   obj = if obj.nil?
-          self.atome_id[:content]
+          self.atome_id
         elsif obj.class == Atome
-          obj.atome_id[:content]
+          obj.atome_id
         else
-          Object.get(obj).atome_id[:content]
+          Object.get(obj).atome_id
         end
   params.delete(:target)
   if params[:start][:blur]
