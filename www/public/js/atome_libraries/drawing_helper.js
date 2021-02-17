@@ -35,10 +35,8 @@ class DrawingHelper {
 
             var backing = new Rectangle(this.frame.width, this.frame.height, white).center();
 
-            // const line = new Shape().addTo();
-
-            const precision = 50;
-            const curving = 0.25;
+            const precision = 25;
+            const curving = 0.15;
             const color = blue;
             const thickness = 4;
 
@@ -71,8 +69,8 @@ class DrawingHelper {
                         squiggle.addTo();
                         squiggleInitialised = true;
                     }
+                    stage.update();
                 }
-                stage.update();
             }
 
             function mouseUp(x, y) {
@@ -83,32 +81,14 @@ class DrawingHelper {
                     if (i===t-1) return;
                     const previousPoint = squiggle.pointControls[i - 1];
                     const nextPoint = squiggle.pointControls[i + 1];
-                    const middleX = (previousPoint.x + nextPoint.x) / 2;
-                    const middleY = (previousPoint.y + nextPoint.y) / 2;
 
-                    const w = middleX - obj[0].x;
-                    const h = middleY - obj[0].y;
+                    obj[2].x= -(nextPoint.x - previousPoint.x) * curving;
+                    obj[2].y= -(nextPoint.y - previousPoint.y) * curving;
 
-                    let a = Math.atan2(h, w) * zim.DEG;
-                    a = (360+a)%360;
-                    const a2 = zim.angle(obj[0].x, obj[0].y, nextPoint.x, nextPoint.y);
+                    obj[3].x= (nextPoint.x - previousPoint.x) * curving;
+                    obj[3].y= (nextPoint.y - previousPoint.y) * curving;
 
-                    if (a > a2) {
-                        a = (a-a2 < 180) ? a - 90 : a + 90;
-                    } else {
-                        a = (a2-a < 180) ? a + 90 : a - 90;
-                    }
-
-                    const d = zim.dist(previousPoint.x, previousPoint.y, nextPoint.x, nextPoint.y) / 2 * curving;
-
-                    obj[2].x=-d;
-                    obj[2].y=0;
-                    obj[3].x=d;
-                    obj[3].y=0;
-                    obj[3].color = red;
-                    obj[0].rotation=a;
-
-                    obj[4] = "mirror";
+                    obj[4] = "free";
                 });
                 squiggle.update();
 
@@ -118,7 +98,7 @@ class DrawingHelper {
                 stage.update();
             }
 
-            backing.on("mousedown", function(e) {
+            backing.on("mousedown", function() {
                 switch (self.mode) {
                     case self.modeType.Use:
                         break;
@@ -128,7 +108,7 @@ class DrawingHelper {
                 }
             });
 
-            backing.on("pressmove", function(e) {
+            backing.on("pressmove", function() {
                 switch (self.mode) {
                     case self.modeType.Use:
                         break;
