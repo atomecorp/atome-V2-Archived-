@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+		body {transition: opacity ease-in 0.2s; } 
+		body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+		</style>
+		<meta charset="utf-8">
+		<title>
+			Player
+		</title>
+			<!-- <link rel="icon" type="image/png" sizes="174x174" href="./favicon.png"> -->
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> -->
+		<script src="./Tone.js"></script>
+		<script src="./tonejs-ui.js"></script><style
+	</head>
+	<body>
+		<script type="text/javascript">
+/*			var player = new Tone.Player("./assets/audio.m4a").toMaster();
+			player.autostart = true;
+			function mousePressed(player){
+			  if(player.state == "started"){
+				    alert('jlll')
+			    player.start();
+			  } else if (player.state == "stopped") {
+			    player.start();
+				  alert('jl')
+			  }
+
+			}
+			function mafonction() {mousePressed(player) }
+			setTimeout(mafonction, 500);
+
+		// var player = new Tone.Player({
+		// 	"url" : "./assets/audio.m4a",
+		// 	"autostart" : true,
+		// }).toMaster();*/
+	
+		var player = new Tone.Player("./assets/audio.m4a").toMaster();
+		//play as soon as the buffer is loaded
+		player.autostart = true;
+	
+		</script>
+	</body>
+</html>

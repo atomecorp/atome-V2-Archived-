@@ -1,0 +1,307 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+		<div>
+	<canvas id="testCanvas" width="960" height="400"
+			style="background:none;"></canvas>
+</div>
+<script>
+	
+/*
+var img;
+
+function init() {
+	//wait for the image to load
+	img = new Image();
+	img.onload = handleImageLoad;
+  img.src="https://raw.githubusercontent.com/CreateJS/EaselJS/master/_assets/art/flowers.jpg";
+}
+
+function handleImageLoad() {
+	//find canvas and load images, wait for last image to load
+	var canvas = document.getElementById("testCanvas");
+
+	// create a new stage and point it at our canvas:
+	stage = new createjs.Stage(canvas);
+
+	var bmp = new createjs.Bitmap(img).set({scaleX: 0.5, scaleY: 0.5});
+	stage.addChild(bmp);
+
+	var colorMatrix = new createjs.ColorMatrix();
+	colorMatrix.adjustSaturation(-100);
+	colorMatrix.adjustContrast(50);
+	var blackAndWhiteFilter = new createjs.ColorMatrixFilter(colorMatrix);
+	bmp = bmp.clone();
+	// filters are only displayed when the display object is cached
+	// later, you can call updateCache() to update changes to your filters
+	bmp.filters = [blackAndWhiteFilter];
+	bmp.cache(0, 0, img.width, img.height);
+	bmp.x = 480;
+	stage.addChild(bmp);
+
+	var blurFilter = new createjs.BlurFilter(64, 0, 1);
+	bmp = bmp.clone();
+	bmp.filters = [blurFilter];
+	bmp.cache(0, 0, img.width, img.height);
+	bmp.y = 200;
+	stage.addChild(bmp);
+
+	var removeRedFilter = new createjs.ColorFilter(0.25, 0.75, 1, 1); // red, green, blue, alpha
+	bmp = bmp.clone();
+	bmp.filters = [removeRedFilter];
+	bmp.cache(0, 0, img.width, img.height);
+	bmp.x = 0;
+	stage.addChild(bmp);
+
+	var frame = new createjs.Shape();
+	frame.graphics.setStrokeStyle(10).beginStroke("#000")
+			.moveTo(480, 0).lineTo(480, 400)
+			.moveTo(0, 200).lineTo(960, 200);
+	frame.compositeOperation = "destination-out"; // punch the frame out.
+	stage.addChild(frame);
+
+	// draw to the canvas:
+	stage.update();
+}
+*/
+
+// ZIM is a JavaScript Canvas Framework for coding creativity!
+// https://zimjs.com - please visit to start a wonderful coding journey.
+// The main site has banner sections of TEN excellent uses of ZIM.
+
+// ZIM provides many conveniences, components and controls 
+// to help designers, developers and artists create interactive media 
+// https://zimjs.com/about.html - why ZIM, features, applications
+// https://zimjs.com/docs.html - expand open any feature for info and examples
+
+// Here are CodePen examples with comments for learning:
+// https://codepen.io/zimjs/pens/public - ZIM CodePen
+// https://codepen.io/danzen/pens/public - ZIM Founder's CodePen
+// https://codepen.io/zimjs/post/welcome-to-zim-on-codepen
+
+// There are also many tutorials, videos and references here:
+// https://zimjs.com/learn.html - ZIM Skool, ZIM Kids, ZIM Badges, etc.
+// https://zimjs.com/code.html - ZIM Template, tools and more
+// https://zimjs.com/slack/ - join us on *** Slack *** for discussion and support
+
+// -----------------
+
+// ZIM is powered by CreateJS so we import CreateJS and ZIM in CodePen settings
+// We make a Frame object which makes a stage on an HTML canvas 
+// We then add objects to the stage and update the stage to see them 
+
+const scaling = "fit"; // this will resize to fit inside the screen dimensions
+const width = 1024;
+const height = 768;
+const color = green;
+const outerColor = yellow;
+
+// as of ZIM 5.5.0 you do not need to put zim before ZIM functions and classes
+const frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+	zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+	const stage = frame.stage;
+	const stageW = frame.width;
+	const stageH = frame.height;
+
+	const darkgreen = "#84a131";
+	const darkergreen = "#55691d";
+	const darkBlue = "#449188";
+	const darkPink = "#c65ba8";
+	
+	// Create the data for the RadialMenu
+
+	// SIMPLE HIERARCHY with EXTRA
+	// allows addition of styles - to style specific rings
+	// and use ZIM PICK (VEE) to style colors for specific buttons	
+	const data = {
+		list:{ // use object literal if list has more lists inside
+			"smooth things":{
+				list:{
+					"shapes":{
+						// use array literal if all items are leaf nodes (end nodes)
+						list:["oval","circle","wave","petal","arc","feather"],
+						styles:{backgroundColor:darkPink}
+					},
+					"materials":{
+						list:["velvet","velour","angora","silk","microfiber","spandex"],
+						styles:{backgroundColor:darkPink}
+					},
+					"gigolos":{
+						list:["hey baby","come here often","see my etchings","what's your sign"],
+						styles:{backgroundColor:darkPink}
+					},
+					"sounds":{
+						list:["jazz","world","new wave","trance","ambient","tango"],
+						styles:{backgroundColor:darkPink}
+					}
+				},
+				styles:{
+					backgroundColor:pink,
+					rollBackgroundColor:darkPink,
+					rollColor:white,
+					selectedBackgroundColor:darkPink,
+					selectedRollBackgroundColor:darkPink
+				}
+			},
+			"sharp things":{
+				list:{
+					"shapes":{
+						// an array is okay as all items are leaf nodes (end nodes)
+						list:["triangle","spike","spade","saw-tooth","crescent","star"],
+						styles:{backgroundColor:darkBlue}
+					},
+					"items":{
+						list:["swords","pins","knives","glass","tacks","cheese"],
+						styles:{backgroundColor:darkBlue}
+					},
+					"sounds":{
+						list:["bang","snap","crash","clap","snap","ring"],
+						styles:{backgroundColor:darkBlue}
+					}
+				},
+				styles:{
+					backgroundColor:blue,
+					rollBackgroundColor:darkBlue,
+					rollColor:white,
+					selectedBackgroundColor:darkBlue,
+					selectedRollBackgroundColor:darkBlue
+				}
+			},
+		},
+		styles:{
+			// first ring
+			rollColor:white,
+			selectedRollColor:white,
+			backgroundColor:series(pink, blue),
+			rollBackgroundColor:series(pink, blue),
+			selectedBackgroundColor:series(pink, blue),
+			selectedRollBackgroundColor:series(pink, blue)
+		}
+	}
+
+	var menu = new RadialMenu({
+		menu:data,
+		open:true,
+		gradient:.1,
+		// default colors - may be overridden by styles in menu data
+		backgroundColor:dark,
+		selectedBackgroundColor:dark,
+		selectedRollColor:white,
+		rollBackgroundColor:white,
+		rollColor:dark,
+		// totalAngle:320,
+		// startAngle:-160
+	})
+		.center()
+		.mov(-20,30)		
+		.sca(0)
+		.animate({
+			wait:2500,
+			time:500,
+			ease:"backOut",
+			props:{scale:.8}
+		})
+		.tap(()=>{ // also a change() method
+			if (menu.leafNode) {
+				new Tip({
+					text:menu.text,
+					align:RIGHT,
+					valign:MIDDLE,
+					backgroundColor:grey
+				}).sca(.7).show();
+			}
+		});
+
+	// TITLE WORK using LabelLetters() to animate each letter
+
+	const title = new Label({
+		text:"ZIM can be smooth, loose and groovy",
+		color:purple
+	}).loc(30,40).alp(.6);
+
+	// LabelLetters breaks label up into individual letters
+	// here, each gets a registration point at the center and bottom
+	const one = new LabelLetters(title, CENTER, BOTTOM, 0)
+		.alp(.6)
+		.loc(title)
+		.animate({
+			props:{y:"20"}, // relative 20 from current y
+			wait:100,
+			time:320,
+			sequence:30,
+			rewind:true,
+			call:function(target){
+				// leaving two copies of text on text slightly reduces quality
+				// so remove copies after animating and bring up alpha of original
+				one.removeFrom();
+				two.removeFrom();
+				title.alp(.9)
+			}
+		});
+
+	const two = one.clone()
+		.addTo() // clone keeps location and alpha properties too
+		.animate({
+			props:{y:"-20"},
+			wait:100, // try a wait of 800
+			time:320,
+			sequence:30,
+			rewind:true
+		});
+
+	const titleTwo = new Label({
+		text:"or ZIM can be sharp, fast and serious!",
+		color:darker
+	});
+
+	new LabelLetters(titleTwo)
+		.sca(.76)
+		.alp(.6)
+		.loc(30,90)
+		.animate({
+			from:true,
+			wait:1900,
+			time:100,
+			set:{scaleY:4},
+			props:{alpha:0, scaleY:1},
+			sequence:12
+		});
+
+	// DOCS FOR ITEMS USED
+	// https://zimjs.com/docs.html?item=Frame
+	// https://zimjs.com/docs.html?item=Label
+	// https://zimjs.com/docs.html?item=Tip
+	// https://zimjs.com/docs.html?item=tap
+	// https://zimjs.com/docs.html?item=change
+	// https://zimjs.com/docs.html?item=animate
+	// https://zimjs.com/docs.html?item=loc
+	// https://zimjs.com/docs.html?item=mov
+	// https://zimjs.com/docs.html?item=alp
+	// https://zimjs.com/docs.html?item=sca
+	// https://zimjs.com/docs.html?item=addTo
+	// https://zimjs.com/docs.html?item=removeFrom
+	// https://zimjs.com/docs.html?item=center
+	// https://zimjs.com/docs.html?item=timeout
+	// https://zimjs.com/docs.html?item=zog
+
+	// FOOTER
+	// call remote script to make ZIM Foundation for Creative Coding icon
+	createIcon(); 
+	timeout(3500, ()=>{
+		createGreet();
+	});
+
+}); // end of ready
+
+
+	</script>
+	</body>
+</html>

@@ -280,7 +280,6 @@ class Atome
   #end
 
   def trig proc, event
-
     class_exec(proc, event)
     #proc = properties.values[0]
     #proc = send_to_get_proc_content(proc)

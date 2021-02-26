@@ -1,0 +1,29 @@
+Problem ios :
+
+ - doc.find is not a function : delete ios.json in platform/ios/
+check the iOS specific options in main config.xml in   <platform name="ios"> three is a bad option 
+The error has thrown when the platforms/ios/ios.json file is conflicting to the config.xml.
+To resolve this issue, remove *-Info.plist key and its value in platforms/ios/ios.json and do cordova prepare ios
+
+- Command PhaseScriptExecution failed with a nonzero exit code : recreate copy-www-build-step.sh  in atome/platforms/ios/atome/Scripts folder or simply re-save it with textmate or other text editor
+
+- can't compile :  sign the app in signing& capabilities
+
+
+- fullscreen : https://stackoverflow.com/questions/34795921/how-to-completely-hide-the-status-bar-in-ios-using-cordova
+(attention this method is overwrite at each new deployment)This requires you to modify your app's info.plist file inside platforms/ios/atome/atome-Info.plist file to add the following lines: at the end of file before the </dict> closing tag
+<key>UIStatusBarHidden</key>
+<true/>
+<key>UIViewControllerBasedStatusBarAppearance</key>
+<false/>
+
+
+- to allow itunes file sharing
+cordova plugin add cordova-plugin-itunesfilesharing
+
+
+- to allow file iOS file app compatibility add to the atome.plist file in atome/platforms/ios/atome/atome-Info.plist:
+<key>UIFileSharingEnabled</key>
+<true/>
+<key>LSSupportsOpeningDocumentsInPlace</key>
+<true/>

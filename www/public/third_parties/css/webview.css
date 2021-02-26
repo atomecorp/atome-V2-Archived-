@@ -11,6 +11,7 @@ html, body {
     padding: 0px;
     background: rgba(43, 43, 43, 1);
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 
 }
 
@@ -27,6 +28,7 @@ html, body {
     height: 100%;
     overflow: auto;
     position: absolute;
+    -webkit-overflow-scrolling: touch;
 }
 
 

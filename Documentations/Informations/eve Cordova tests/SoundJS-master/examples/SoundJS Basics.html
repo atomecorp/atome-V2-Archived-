@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			SoundJS: Basics
+		</title>
+	</head>
+	<body >
+
+		<script type="text/javascript" src="./createjs.min.js"></script>
+		<script >
+		var src;            
+		var soundInstance;  
+		var displayStatus;  
+		function init() {
+		var assetsPath = "../_assets/audio/";
+		src = assetsPath + "audio.m4a";
+		createjs.Sound.alternateExtensions = ["mp3"];	
+		createjs.Sound.addEventListener("fileload", playSound); 
+		createjs.Sound.registerSound(src);  
+		}
+		function playSound(event) { soundInstance = createjs.Sound.play(event.src); }		
+		init()
+		</script>
+	</body>
+</html>

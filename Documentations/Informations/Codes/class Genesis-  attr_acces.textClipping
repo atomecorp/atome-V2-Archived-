@@ -1,0 +1,272 @@
+bplist00ÑXUTI-DataÓ_$com.apple.traditional-mac-plain-text_public.utf8-plain-text_public.utf16-plain-textOÄclass Genesis  attr_accessor :user, :renderer, :language  include Zym_renderer, Konva_renderer  def user    @user = :anonymous  end  def renderer    @renderer = "zim_"  end  def language    @language = "french"  end  def time    time = Time.now    time = time.strftime "%Y-%m-%d %H:%M:%S".gsub(" ", "").gsub("-", "").gsub(":", "")  end  def location    location = "Clermont-Fd-France-earth"    return location  end  def machine    return :my_device  endendmodule Properties  properties = [:color, :x, :y, :z, :width, :height]  #line below add all prop that end with =, ex my_ob.x=200  properties.each do |property|    properties << property + "="  end  properties.each do |property|    define_method(property) do |opts|      electron_builder(property, opts)    end  end    def default_props object_type,props    #only used when anonymous params are passed at object creation    if object_type!= :text       props_list=[:x, :y,:width,:height,  :color]     else       puts "create list of default props!!"    end       props_to_send={}    props.each_with_index do |prop, index|      props_to_send[props_list[index]]=prop    end     props_to_send.each do |prop, value|       electron_builder(prop, value)     end  endendmodule Objects  objects = [:circle, :box, :triangle]  objects.each do |object|    # for echa we define a function accesible at top level avoiding users having to use Atome class    Object.define_method(object) do |*opts|      atome = Atome.new      atome.send(object, opts)    end    # we define object creation    define_method(object) do |opts|      atome_builder(object, opts)    end  endendmodule Events  def touch *params    puts params.to_s  end   endclass Atome < Genesis  include  Objects, Properties, Events  @@atomes = []  attr_accessor :id, :atome_id, :atome    def on (&proc)    fct_to_send = "zim_lib.grab('#{atome_id}').on('mousedown',#{proc.curry});"              puts (proc.curry).inspect     `     eval(#{fct_to_send});     zim_lib.app.stage.update();     `          end    def initialize    @atome={}    @atome[:atome_id]= "[#{user}][#{machine}][#{time}][#{location}][#{Atome.atomes.length.to_s}]"  end  # def touch content #      # `self.on("mousedown", function(evt) {alert(#{content})});` # #    return content #  end #	# def touch(&proc)##     `self.on("mousedown", function(evt) {alert('okoko')});`##   end  def verif     puts "verified"  end    def atome    return @atome  end    def add_electron electron, value       @atome[electron]=value  end  def atome_builder(object, opt)    # set_atome_id    fct_to_call = (renderer + "gen_obj").to_sym    send(fct_to_call, object, @atome[:atome_id], opt)    if opt.length > 0      if opt[0].class == Hash        opt[0].each do |prop, value|          electron_builder(prop, value)        end      else            #here we parse anomynous values passed to the object at creation time        default_props(object,opt)      end    end    @@atomes << self    return self  end  def electron_builder(property, opt)    # here we add prop to the object    # if no opt then the function is a getter that return current value of the prop    if opt.class==NilClass      # opt = send(renderer + "get_propt_value")      return @atome[property.to_sym]    else      add_electron property.gsub("=","").to_sym, opt      fct_to_call = (renderer + "gen_prop").to_sym      send(fct_to_call, property, @atome[:atome_id], opt)    end     return opt  end  def self.atomes    return @@atomes  end  def self.delete_atomes    @@atomes[]  end  def inspect    return "object inspection :#{self.id}"  end  def id    return @id  end  def type type    return "object type if possible"  end  def add_child  end  def childrens  end  # def set_atome_id  #   @atome_id = "[#{user}][#{machine}][#{time}][#{location}][#{Atome.atomes.length.to_s}]"  # end  def atome_id    return @atome[:atome_id]  end  def set_id (id)    @id = id  end  def set_id= (id)    @id = id  end  def get_id    return id  end  def info    return "infos of the object "  end  def help    return "create strategie for help according to object type, if user settable and permissions"  end  def example    return "example of creation usage and manipulation"  end  def autorun    #method add just to prevent error  end  def autorisation  endendatome = Atome.newatome.infodef play  zim_play("snare")enddef autorun()  #method added here just to prevent method not found errorenddef render()end######################## init ################### load ('mon fichier.txt')open_ide()open_console()load_script(true)# run_code()_Ä
+
+class Genesis
+  attr_accessor :user, :renderer, :language
+  include Zym_renderer, Konva_renderer
+
+  def user
+    @user = :anonymous
+  end
+
+  def renderer
+    @renderer = "zim_"
+  end
+
+  def language
+    @language = "french"
+  end
+
+  def time
+    time = Time.now
+    time = time.strftime "%Y-%m-%d %H:%M:%S".gsub(" ", "").gsub("-", "").gsub(":", "")
+  end
+
+  def location
+    location = "Clermont-Fd-France-earth"
+    return location
+  end
+
+  def machine
+    return :my_device
+  end
+end
+
+module Properties
+  properties = [:color, :x, :y, :z, :width, :height]
+  #line below add all prop that end with =, ex my_ob.x=200
+  properties.each do |property|
+    properties << property + "="
+  end
+  properties.each do |property|
+    define_method(property) do |opts|
+      electron_builder(property, opts)
+    end
+  end
+  
+  def default_props object_type,props
+    #only used when anonymous params are passed at object creation
+    if object_type!= :text
+       props_list=[:x, :y,:width,:height,  :color]
+     else
+       puts "create list of default props!!"
+    end
+   
+    props_to_send={}
+    props.each_with_index do |prop, index|
+      props_to_send[props_list[index]]=prop
+    end
+     props_to_send.each do |prop, value|
+       electron_builder(prop, value)
+     end
+  end
+
+end
+
+module Objects
+  objects = [:circle, :box, :triangle]
+  objects.each do |object|
+    # for echa we define a function accesible at top level avoiding users having to use Atome class
+    Object.define_method(object) do |*opts|
+      atome = Atome.new
+      atome.send(object, opts)
+    end
+    # we define object creation
+    define_method(object) do |opts|
+      atome_builder(object, opts)
+    end
+  end
+end
+
+module Events
+  def touch *params
+    puts params.to_s
+  end
+ 
+  
+end
+
+
+class Atome < Genesis
+  include  Objects, Properties, Events
+  @@atomes = []
+  attr_accessor :id, :atome_id, :atome
+  
+  def on (&proc)
+    fct_to_send = "zim_lib.grab('#{atome_id}').on('mousedown',#{proc.curry});"
+         
+     puts (proc.curry).inspect
+     `
+     eval(#{fct_to_send});
+     zim_lib.app.stage.update();
+     `
+    
+    
+  end
+  
+  def initialize
+    @atome={}
+    @atome[:atome_id]= "[#{user}][#{machine}][#{time}][#{location}][#{Atome.atomes.length.to_s}]"
+  end
+  # def touch content
+ #      # `self.on("mousedown", function(evt) {alert(#{content})});`
+ #
+ #    return content
+ #  end
+ #
+	# def touch(&proc)
+#
+#     `self.on("mousedown", function(evt) {alert('okoko')});`
+#
+#   end
+  def verif 
+    puts "verified"
+  end
+  
+  def atome
+    return @atome
+  end
+  
+  def add_electron electron, value
+    
+   @atome[electron]=value
+  end
+
+  def atome_builder(object, opt)
+    # set_atome_id
+    fct_to_call = (renderer + "gen_obj").to_sym
+    send(fct_to_call, object, @atome[:atome_id], opt)
+    if opt.length > 0
+      if opt[0].class == Hash
+        opt[0].each do |prop, value|
+          electron_builder(prop, value)
+        end
+      else    
+        #here we parse anomynous values passed to the object at creation time
+        default_props(object,opt)
+      end
+    end
+    @@atomes << self
+    return self
+  end
+
+  def electron_builder(property, opt)
+    # here we add prop to the object
+    # if no opt then the function is a getter that return current value of the prop
+    if opt.class==NilClass
+      # opt = send(renderer + "get_propt_value")
+      return @atome[property.to_sym]
+    else
+      add_electron property.gsub("=","").to_sym, opt
+      fct_to_call = (renderer + "gen_prop").to_sym
+      send(fct_to_call, property, @atome[:atome_id], opt)
+    end
+
+ 
+    return opt
+  end
+
+  def self.atomes
+    return @@atomes
+  end
+
+  def self.delete_atomes
+    @@atomes[]
+  end
+
+  def inspect
+    return "object inspection :#{self.id}"
+  end
+
+  def id
+    return @id
+  end
+
+  def type type
+    return "object type if possible"
+  end
+
+  def add_child
+
+  end
+
+  def childrens
+
+  end
+
+  # def set_atome_id
+  #   @atome_id = "[#{user}][#{machine}][#{time}][#{location}][#{Atome.atomes.length.to_s}]"
+  # end
+
+  def atome_id
+    return @atome[:atome_id]
+  end
+
+
+  def set_id (id)
+    @id = id
+  end
+
+  def set_id= (id)
+    @id = id
+  end
+
+  def get_id
+    return id
+  end
+
+  def info
+    return "infos of the object "
+  end
+
+
+  def help
+    return "create strategie for help according to object type, if user settable and permissions"
+  end
+
+  def example
+    return "example of creation usage and manipulation"
+  end
+
+  def autorun
+    #method add just to prevent error
+  end
+
+
+  def autorisation
+
+
+  end
+
+
+end
+atome = Atome.new
+
+atome.info
+
+
+
+def play
+  zim_play("snare")
+end
+
+def autorun()
+  #method added here just to prevent method not found error
+end
+
+
+def render()
+
+
+end
+
+######################## init ##################
+
+
+# load ('mon fichier.txt')
+open_ide()
+open_console()
+load_script(true)
+# run_code()
+
+
+O%ˆ  c l a s s   G e n e s i s      a t t r _ a c c e s s o r   : u s e r ,   : r e n d e r e r ,   : l a n g u a g e      i n c l u d e   Z y m _ r e n d e r e r ,   K o n v a _ r e n d e r e r       d e f   u s e r          @ u s e r   =   : a n o n y m o u s      e n d       d e f   r e n d e r e r          @ r e n d e r e r   =   " z i m _ "      e n d       d e f   l a n g u a g e          @ l a n g u a g e   =   " f r e n c h "      e n d       d e f   t i m e          t i m e   =   T i m e . n o w          t i m e   =   t i m e . s t r f t i m e   " % Y - % m - % d   % H : % M : % S " . g s u b ( "   " ,   " " ) . g s u b ( " - " ,   " " ) . g s u b ( " : " ,   " " )      e n d       d e f   l o c a t i o n          l o c a t i o n   =   " C l e r m o n t - F d - F r a n c e - e a r t h "          r e t u r n   l o c a t i o n      e n d       d e f   m a c h i n e          r e t u r n   : m y _ d e v i c e      e n d  e n d   m o d u l e   P r o p e r t i e s      p r o p e r t i e s   =   [ : c o l o r ,   : x ,   : y ,   : z ,   : w i d t h ,   : h e i g h t ]      # l i n e   b e l o w   a d d   a l l   p r o p   t h a t   e n d   w i t h   = ,   e x   m y _ o b . x = 2 0 0      p r o p e r t i e s . e a c h   d o   | p r o p e r t y |          p r o p e r t i e s   < <   p r o p e r t y   +   " = "      e n d      p r o p e r t i e s . e a c h   d o   | p r o p e r t y |          d e f i n e _ m e t h o d ( p r o p e r t y )   d o   | o p t s |              e l e c t r o n _ b u i l d e r ( p r o p e r t y ,   o p t s )          e n d      e n d           d e f   d e f a u l t _ p r o p s   o b j e c t _ t y p e , p r o p s          # o n l y   u s e d   w h e n   a n o n y m o u s   p a r a m s   a r e   p a s s e d   a t   o b j e c t   c r e a t i o n          i f   o b j e c t _ t y p e ! =   : t e x t                p r o p s _ l i s t = [ : x ,   : y , : w i d t h , : h e i g h t ,     : c o l o r ]            e l s e                p u t s   " c r e a t e   l i s t   o f   d e f a u l t   p r o p s ! ! "          e n d                 p r o p s _ t o _ s e n d = { }          p r o p s . e a c h _ w i t h _ i n d e x   d o   | p r o p ,   i n d e x |              p r o p s _ t o _ s e n d [ p r o p s _ l i s t [ i n d e x ] ] = p r o p          e n d            p r o p s _ t o _ s e n d . e a c h   d o   | p r o p ,   v a l u e |                e l e c t r o n _ b u i l d e r ( p r o p ,   v a l u e )            e n d      e n d   e n d   m o d u l e   O b j e c t s      o b j e c t s   =   [ : c i r c l e ,   : b o x ,   : t r i a n g l e ]      o b j e c t s . e a c h   d o   | o b j e c t |          #   f o r   e c h a   w e   d e f i n e   a   f u n c t i o n   a c c e s i b l e   a t   t o p   l e v e l   a v o i d i n g   u s e r s   h a v i n g   t o   u s e   A t o m e   c l a s s          O b j e c t . d e f i n e _ m e t h o d ( o b j e c t )   d o   | * o p t s |              a t o m e   =   A t o m e . n e w              a t o m e . s e n d ( o b j e c t ,   o p t s )          e n d          #   w e   d e f i n e   o b j e c t   c r e a t i o n          d e f i n e _ m e t h o d ( o b j e c t )   d o   | o p t s |              a t o m e _ b u i l d e r ( o b j e c t ,   o p t s )          e n d      e n d  e n d   m o d u l e   E v e n t s      d e f   t o u c h   * p a r a m s          p u t s   p a r a m s . t o _ s      e n d          e n d    c l a s s   A t o m e   <   G e n e s i s      i n c l u d e     O b j e c t s ,   P r o p e r t i e s ,   E v e n t s      @ @ a t o m e s   =   [ ]      a t t r _ a c c e s s o r   : i d ,   : a t o m e _ i d ,   : a t o m e           d e f   o n   ( & p r o c )          f c t _ t o _ s e n d   =   " z i m _ l i b . g r a b ( ' # { a t o m e _ i d } ' ) . o n ( ' m o u s e d o w n ' , # { p r o c . c u r r y } ) ; "                               p u t s   ( p r o c . c u r r y ) . i n s p e c t            `            e v a l ( # { f c t _ t o _ s e n d } ) ;            z i m _ l i b . a p p . s t a g e . u p d a t e ( ) ;            `                        e n d           d e f   i n i t i a l i z e          @ a t o m e = { }          @ a t o m e [ : a t o m e _ i d ] =   " [ # { u s e r } ] [ # { m a c h i n e } ] [ # { t i m e } ] [ # { l o c a t i o n } ] [ # { A t o m e . a t o m e s . l e n g t h . t o _ s } ] "      e n d      #   d e f   t o u c h   c o n t e n t    #             #   ` s e l f . o n ( " m o u s e d o w n " ,   f u n c t i o n ( e v t )   { a l e r t ( # { c o n t e n t } ) } ) ; `    #    #         r e t u r n   c o n t e n t    #     e n d    #  	 #   d e f   t o u c h ( & p r o c )  #  #           ` s e l f . o n ( " m o u s e d o w n " ,   f u n c t i o n ( e v t )   { a l e r t ( ' o k o k o ' ) } ) ; `  #  #       e n d      d e f   v e r i f            p u t s   " v e r i f i e d "      e n d           d e f   a t o m e          r e t u r n   @ a t o m e      e n d           d e f   a d d _ e l e c t r o n   e l e c t r o n ,   v a l u e                 @ a t o m e [ e l e c t r o n ] = v a l u e      e n d       d e f   a t o m e _ b u i l d e r ( o b j e c t ,   o p t )          #   s e t _ a t o m e _ i d          f c t _ t o _ c a l l   =   ( r e n d e r e r   +   " g e n _ o b j " ) . t o _ s y m          s e n d ( f c t _ t o _ c a l l ,   o b j e c t ,   @ a t o m e [ : a t o m e _ i d ] ,   o p t )          i f   o p t . l e n g t h   >   0              i f   o p t [ 0 ] . c l a s s   = =   H a s h                  o p t [ 0 ] . e a c h   d o   | p r o p ,   v a l u e |                      e l e c t r o n _ b u i l d e r ( p r o p ,   v a l u e )                  e n d              e l s e                          # h e r e   w e   p a r s e   a n o m y n o u s   v a l u e s   p a s s e d   t o   t h e   o b j e c t   a t   c r e a t i o n   t i m e                  d e f a u l t _ p r o p s ( o b j e c t , o p t )              e n d          e n d          @ @ a t o m e s   < <   s e l f          r e t u r n   s e l f      e n d       d e f   e l e c t r o n _ b u i l d e r ( p r o p e r t y ,   o p t )          #   h e r e   w e   a d d   p r o p   t o   t h e   o b j e c t          #   i f   n o   o p t   t h e n   t h e   f u n c t i o n   i s   a   g e t t e r   t h a t   r e t u r n   c u r r e n t   v a l u e   o f   t h e   p r o p          i f   o p t . c l a s s = = N i l C l a s s              #   o p t   =   s e n d ( r e n d e r e r   +   " g e t _ p r o p t _ v a l u e " )              r e t u r n   @ a t o m e [ p r o p e r t y . t o _ s y m ]          e l s e              a d d _ e l e c t r o n   p r o p e r t y . g s u b ( " = " , " " ) . t o _ s y m ,   o p t              f c t _ t o _ c a l l   =   ( r e n d e r e r   +   " g e n _ p r o p " ) . t o _ s y m              s e n d ( f c t _ t o _ c a l l ,   p r o p e r t y ,   @ a t o m e [ : a t o m e _ i d ] ,   o p t )          e n d              r e t u r n   o p t      e n d       d e f   s e l f . a t o m e s          r e t u r n   @ @ a t o m e s      e n d       d e f   s e l f . d e l e t e _ a t o m e s          @ @ a t o m e s [ ]      e n d       d e f   i n s p e c t          r e t u r n   " o b j e c t   i n s p e c t i o n   : # { s e l f . i d } "      e n d       d e f   i d          r e t u r n   @ i d      e n d       d e f   t y p e   t y p e          r e t u r n   " o b j e c t   t y p e   i f   p o s s i b l e "      e n d       d e f   a d d _ c h i l d       e n d       d e f   c h i l d r e n s       e n d       #   d e f   s e t _ a t o m e _ i d      #       @ a t o m e _ i d   =   " [ # { u s e r } ] [ # { m a c h i n e } ] [ # { t i m e } ] [ # { l o c a t i o n } ] [ # { A t o m e . a t o m e s . l e n g t h . t o _ s } ] "      #   e n d       d e f   a t o m e _ i d          r e t u r n   @ a t o m e [ : a t o m e _ i d ]      e n d        d e f   s e t _ i d   ( i d )          @ i d   =   i d      e n d       d e f   s e t _ i d =   ( i d )          @ i d   =   i d      e n d       d e f   g e t _ i d          r e t u r n   i d      e n d       d e f   i n f o          r e t u r n   " i n f o s   o f   t h e   o b j e c t   "      e n d        d e f   h e l p          r e t u r n   " c r e a t e   s t r a t e g i e   f o r   h e l p   a c c o r d i n g   t o   o b j e c t   t y p e ,   i f   u s e r   s e t t a b l e   a n d   p e r m i s s i o n s "      e n d       d e f   e x a m p l e          r e t u r n   " e x a m p l e   o f   c r e a t i o n   u s a g e   a n d   m a n i p u l a t i o n "      e n d       d e f   a u t o r u n          # m e t h o d   a d d   j u s t   t o   p r e v e n t   e r r o r      e n d        d e f   a u t o r i s a t i o n        e n d    e n d  a t o m e   =   A t o m e . n e w   a t o m e . i n f o     d e f   p l a y      z i m _ p l a y ( " s n a r e " )  e n d   d e f   a u t o r u n ( )      # m e t h o d   a d d e d   h e r e   j u s t   t o   p r e v e n t   m e t h o d   n o t   f o u n d   e r r o r  e n d    d e f   r e n d e r ( )    e n d   # # # # # # # # # # # # # # # # # # # # # # # #   i n i t   # # # # # # # # # # # # # # # # # #    #   l o a d   ( ' m o n   f i c h i e r . t x t ' )  o p e n _ i d e ( )  o p e n _ c o n s o l e ( )  l o a d _ s c r i p t ( t r u e )  #   r u n _ c o d e ( )         B [ u=&             	              K‘

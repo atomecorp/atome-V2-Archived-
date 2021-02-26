@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+
+</div>
+<script>
+ 
+
+
+
+var frame = new Frame();
+var stage = frame.stage;
+    var stageW = frame.width;
+    var stageH = frame.height;
+frame.on("ready", function() {
+
+// Dynamic Animation
+var rect = new Circle({style:false,radius:150, color:pink,borderWidth:0, percent:20,  strokeObj : ( {caps:"butt", joints:"miter", miterLimit:10, ignoreScale:false})}).center()
+   .centerReg()
+   .animate({
+      props:{ scale:0.1, percent:90,borderWidth:70,radius:250,color:green},
+      
+      loop:true,
+      time:2000,
+      ease:"linear",
+      dynamic:true,
+      set:{percentSpeed:0} // no speed to start
+   });
+
+// example using a Slider to set speed from 0 to 5 times as fast
+var slider = new Slider(0,500).pos(100, 100);
+slider.on("change", function () {
+   rect.percentSpeed = slider.currentValue;
+});
+
+// example using an Accelerator and MotionController
+// to set speed from -200 to 200 percent
+// depending on mouse position
+// multiple targets including Dynamo and Scroller objects can be added to Accelerator
+// if adding multiple objects, use an array new Accelerator([rect, otherObject, anotherObject])
+new MotionController({
+target:new Accelerator(rect),
+type:"mousemove",
+minPercentSpeed:-200,
+maxPercentSpeed:200
+});
+
+/*
+var rect = new Rectangle(200, 200, pink)
+   .centerReg(stage)
+   .animate({obj:{scale:2}, time:2000, loop:true, rewind:true, id:"scale"})
+   .animate({obj:{rotation:360}, time:4000, loop:true, ease:"linear", override:false});
+rect.cursor = "pointer";
+rect.on("click", function() {rect.pauseAnimate()}); // will pause all tweens on rect
+*/
+
+//     stage.update(); 
+
+}); 
+
+	</script>
+	</body>
+</html>

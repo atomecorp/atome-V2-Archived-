@@ -1,0 +1,93 @@
+clear
+`
+function store(options){
+ params= Opal.eval(options);
+  	var keys=params.$keys();
+  	var values=params.$values();
+  	var file_name =params.$fetch('file_name');
+  	var file_content =params.$fetch('file_content');
+  	var trig_function =params.$fetch('trig_function');
+	var function_params = params.$fetch('function_params');
+	var object_type = params.$fetch('object_type');
+    if (object_type=="project"){
+     	var file_name =Opal.Atome.$user()+"."+file_name;
+  }
+  //Opal.Object.$puts(file_name+" : "+file_content+" : "+trig_function+" : "+params)
+  //////////////////////////////////////// saver //////////////////////////////////
+    var type = window.PERSISTENT;
+    var size = 5 * 1024 * 1024;
+    window.requestFileSystem(type, size, successCallback, errorCallback);
+    function successCallback(fs) {
+        fs.root.getFile(file_name, {create: true}, function (fileEntry) {
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                };
+                fileWriter.onerror = function (e) {
+                    console.log('Write failed: ' + e.toString());
+                };
+                var blob = new Blob([file_content], {type: 'text/plain'});
+                // var blob = new Blob([file_content], {type: file_content.type});
+                fileWriter.write(blob);
+                if (trig_function != false) {
+                    Opal.eval(trig_function + "('" + function_params + "')");
+                }
+            }, errorCallback);
+        }, errorCallback);
+    }
+    function errorCallback(error) {
+        console.log("ERROR: " + error.code);
+    }
+}
+`
+def to_js(fct,val )
+  val=val.to_s
+  val= val.gsub('"','\"')
+  js= fct+'("'+val+'")'
+  `eval(#{js})`
+end
+def save *val
+  send_this={file_name: :project_0,file_content: "#project_0",trig_function: false, function_params: false, object_type: :project}
+  if val.length> 1
+	val[1]=val[1].gsub('"',"'")
+	send_this[:file_name]=val[0]
+	send_this[:file_content]=val[1]
+  elsif val[0].class==Hash
+	val[0].each do |key, value|
+	 send_this[key]=value
+	end
+
+  elsif val[0].class==String
+	send_this[:file_name]=val[0]
+	send_this[:file_content]='#'+val[0]
+  end
+  #we test if project exist before save
+  if !projects.include? send_this[:file_name]
+	if  send_this[:object_type].to_sym==:project
+	  Atome.projects<<send_this[:file_name]
+	  save({file_name: Atome.user, file_content: Atome.projects.join("\n"), object_type: :user})
+	elsif send_this[:object_type].to_sym==:user
+	  p "check if user exist, if not add it to eDen !!"
+	end	
+
+	# we should test if user exist too before storing
+	# and if object_type==users we must refresh users list Atome.users=Atome.users+file_name
+#puts Atome.eDen
+	#alert('file saved')
+	to_js :store,send_this
+  else 
+	alert("file exist!")
+  end
+    #puts projects
+end
+test={file_name: "my_great_and_incredible_file2",file_content: '#the incredible script',trig_function: :alert, function_params: :goody, object_type: :project }
+toto={file_name: :too_much_cool, file_content: :the_content, object_type: :user }
+titi={file_name: :torino, object_type: :user}
+save({file_name: :topino, object_type: :user})
+save titi
+
+p users
+load :load_code
+#alert projects
+
+
+

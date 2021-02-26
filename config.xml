@@ -16,6 +16,8 @@
   <preference name="BackgroundColor" value="0x00000000"/>
   <preference name="Fullscreen" value="true"/>
   <preference name="WindowSize" value="1000x800"/>
+<!--  <preference name="iosPersistentFileLocation" value="Library" />-->
+
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>

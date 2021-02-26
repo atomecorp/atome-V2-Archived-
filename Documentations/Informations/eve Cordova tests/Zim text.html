@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>test</title>
+		<script src="https://zimjs.org/cdn/1.2.3/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+
+<script>
+
+
+var frame = new Frame();
+frame.on("ready", function() {
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "orange";
+	var label = new Label()
+	.addTo(stage)
+	.drag();
+	label.text=("po\nil");
+	label.on("click",function(){
+		label.color='red'
+	});
+	label.on("drag",function(e){
+		console.log("c dragged!")
+	})
+	label.on("change", function(event) {
+    		console.log("c changed!")
+});
+	label.change(function(e){
+		console.log("c changed! chainable")
+	})
+	stage.update();
+});
+
+
+	</script>
+	</body>
+</html>

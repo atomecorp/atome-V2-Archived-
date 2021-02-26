@@ -1,0 +1,37 @@
+<html><head>
+<meta charset="utf-8">
+<title>ZIM SoundWave - Bars</title>
+
+<!-- Welcome to ZIM at https://zimjs.com - Code Interactive Media Pizzazz! 				-->
+<!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS https://createjs.com -->
+<!-- Founded by Inventor Dan Zen - https://danzen.com - Canadian New Media Award Winner 	-->
+<!-- ZIM is free to use. You can donate to help improve ZIM at https://zimjs.com/donate 	-->
+
+<!-- as of ZIM 4.3.0 load createjs namespace first -->
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+
+<!-- use zimjs.com/code/distill for minified individual functions! -->
+
+<style>
+	body {background-color:#0EFA;}
+</style>
+
+<script>
+	createjs.Sound.alternateExtensions = ["m4a"];
+	 createjs.Sound.on("fileload", this.loadHandler, this);
+	 createjs.Sound.registerSound("./assets/audio.m4a", "sound");
+	 function loadHandler(event) {
+	     // This is fired for each sound that is registered.
+	     var instance = createjs.Sound.play("sound");  // play using id.  Could also use full sourcepath or event.src.
+	     instance.on("complete", this.handleComplete, this);
+	     instance.volume = 0.5;
+	 }
+</script>
+</head>
+
+<body>
+<!-- canvas with id="myCanvas" is made by zim Frame -->
+
+
+
+<canvas id="myCanvas" tabindex="0" width="1024" height="768" style="position: absolute; width: 656px; height: 492px; left: 378px; top: 0px; background-color: rgb(17, 17, 17);"></canvas><audio preload="auto" src="audio.m4a" style=""></audio></body></html>

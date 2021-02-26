@@ -1,0 +1,41 @@
+<input type='file' accept='image/*' onchange='openFile(event)'><br>
+<img id='output'>
+		<pre id="fileDisplayArea"><pre>
+https://www.javascripture.com/FileReader
+<script>
+// alert('ok')
+	
+  var openFile = function(event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result
+		alert(dataURL)
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
+  
+  
+  
+  
+  // var openFile = function(event) {
+ //    console.log('entering openFile()');
+ //    var input = event.target;
+
+ //    var printEventType = function(event) {
+ //      console.log('got event: ' + event.type);
+ //    };
+ //
+ //    var reader = new FileReader();
+ //    reader.onloadstart = printEventType;
+ //    reader.onprogress = printEventType;
+ //    reader.onload = printEventType;
+ //    reader.onloadend = printEventType;
+ //
+ //    console.log('  starting read');
+ //    reader.readAsDataURL(input.files[0]);
+ //    console.log('leaving openFile()');
+</script>

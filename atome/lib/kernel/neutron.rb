@@ -8,6 +8,9 @@ module Device
     Devicer.width
   end
 
+  def self.height
+    Devicer.height
+  end
 
 end
 
@@ -90,9 +93,7 @@ def wait(time, &proc)
 end
 
 def every(option = 1, times = 5, &proc)
-  everyer(option, times) do
-    yield
-  end
+  everyer(option, times,&proc)
 end
 
 ################## system object  ##############

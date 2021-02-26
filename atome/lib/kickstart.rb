@@ -17,7 +17,7 @@ def news
   # 04 05 2020 add http api
   # 04 05 2020 partially add lock api for position
   # 05 05 2020 add overflow property
-  # 05 05 2020 add every api
+  # 05 05 2020 add every (timer) api
 Str
 end
 
@@ -234,9 +234,9 @@ write("box()")
 alert("hello")
 # log send text to console
 log("hello")
-# grab get an atome from it's atome_id
+# grab gt an atome from it's atome_id
 grab(6548798)
-# grab get an atome from it's id
+#  get an atome from it's id
 get("shape_0")
 # obtain demo text
 lorem
@@ -923,3 +923,6 @@ read "app/app.rb"
 #open_ide(:true)
 #open_console(:true)
 #perpetual_run
+
+
+

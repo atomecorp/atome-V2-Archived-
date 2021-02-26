@@ -1,0 +1,14 @@
+# to run the app in a browser
+#in the terminal :
+cordova platform add browser
+ruby run.rb
+
+# to create an oas App
+#in the terminal :
+cordova platform add osx
+ruby run.rb osx
+
+# to re-compile the app ( if naw apis are added)
+#in the terminal :
+cordova platform add osx
+ruby compile.rb

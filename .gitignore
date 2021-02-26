@@ -1,9 +1,7 @@
 *.ds_store
 .idea
-/atome/kernel.rb
 /www/public/atome/atome.js
 /www/public/atome/atome.rb
 /package-lock.json
 /platform/
 /node_modules/
-/kernel.rb

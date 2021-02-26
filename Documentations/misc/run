@@ -1,0 +1,15 @@
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
+if [ -z "$1" ]
+then
+cordova run browser
+elif [ $1 = "server" ]
+then
+	rm -r ./platforms/server
+	cp -r ./www ./platforms/server
+	bash -c 'sleep 2; open http://0.0.0.0:9292 ' &
+	cd ./platforms/server/ && bundle exec puma
+else
+	#rm platforms/ios/ios.json
+	cordova run $1
+fi

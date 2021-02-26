@@ -17,6 +17,8 @@
 #  read(path+"carine.rb")
 #end
 
-open_ide(:true)
+#open_ide(:true)
 #open_console(:true)
 #perpetual_run
+alert "good"
+

@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		<style >
+			
+			body{
+				background-color: aqua;
+			}
+			</style>
+			
+	</head>
+	<body>
+	
+
+				
+
+			<canvas id="canvas" ></canvas>
+
+
+<script>
+		
+var stage = new createjs.Stage("canvas");
+var box = new Rectangle()
+
+box.color="purple"
+box.drag();
+box.radius=30;
+box.pos(40, 40);
+box.addTo(stage)
+stage.update();
+
+	</script>
+	</body>
+</html>

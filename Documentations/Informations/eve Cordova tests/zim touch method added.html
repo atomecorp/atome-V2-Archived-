@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<title>test</title>
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+
+<script>
+    function extend_obj(obj_to_extend, method_name, function_to_call) {
+        if (typeof (obj_to_extend) == "string") {
+            add_method = obj_to_extend + ".prototype." + method_name + " = function (" + method_name + "){" + function_to_call + "(this," + method_name + ");}";
+            new Function(add_method)();
+        } else {
+            obj_to_extend.forEach(function (obj_type) {
+                add_method = obj_to_extend + ".prototype." + method_name + " = function (" + method_name + "){" + function_to_call + "(this," + method_name + ");}";
+                new Function(add_method)();
+            });
+        }
+    }
+
+    function set_touch_method(obj, actions) {
+        obj.on("mousedown", function (evt) {eval(actions)});
+    }
+    extend_obj("Circle", "touch", "set_touch_method");
+
+var frame = new Frame();
+var circle;
+frame.on("ready", function() {
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "orange";
+	var circle = new Circle(50, "#acd241", "#e472c4", 5) 
+		.addTo(stage)
+		.pos(200, 200);
+		// alert(actions);
+		//circle.on("mousedown", function (evt) {alert('oo');});
+			circle.x=200
+		circle.touch("circle.color('yellow')");
+		//circle.touch("alert('k')");
+	// var rectangle = new Rectangle(80, 80, "#50c4b7")
+	// .centerReg(stage)
+	// .sca(2);
+	// var triangle = new Triangle(100, 100, 100, "red")
+	// 	.addTo(stage)
+	// 	.pos(stageW-180, stageH-230)
+	// triangle.color = "#e472c4";
+	// triangle.borderColor = "#acd241";
+	// triangle.borderWidth = 5;
+	stage.update();
+});
+
+
+// end of ready
+	</script>
+	</body>
+</html>

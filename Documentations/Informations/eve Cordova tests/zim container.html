@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM BITS</title>
+
+
+<script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/zim_9.4.1.js"></script>
+
+</head>
+
+<body>
+
+
+</body>
+<script>
+	
+
+////////////////////////////////////////////// tests //////////////////////////////////////////////
+	function extend_obj(obj_to_extend,method_name, function_to_call) {	
+		if(typeof(obj_to_extend)=="string"){
+			add_method = obj_to_extend + ".prototype." + method_name + " = function (" + method_name + "){" + function_to_call + "(this," + method_name + ");}";
+	
+			new Function(add_method)();
+		}
+		else
+		{	
+			obj_to_extend.forEach(function(obj_type) {
+					add_method = obj_to_extend + ".prototype." + method_name + " = function (" + method_name + "){" + function_to_call + "(this," + method_name + ");}";
+			});
+		}
+	}
+
+	function set_color_method(obj, color) {
+		obj.getChildAt(0).color = color;
+	}
+
+	function set_new_meth_method(obj, toto) {
+		//obj.color="blue"
+		//obj.getChildAt(0).color = color;
+	}
+
+
+	 extend_obj("Container","new_meth", "set_new_meth_method");
+////////////////////////////////////////////// tests //////////////////////////////////////////////
+	
+	
+var scaling = "fit";
+var width = 1000;
+var height = 800;
+var color =  "violet" 
+var outerColor = light;
+
+
+
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+
+var container = new Container();
+stage.addChild(container);
+container.x = 300; container.y = 100;
+
+
+var circle = new Circle(40, "red");
+circle.center(container) // add the circle to the container and center
+container.addChild(circle)
+container.drag(); // will drag either the rectangle or the circle
+container.drag({currentTarget:true}); // will drag both the rectangle and the circle
+container.color="green"
+//////////// tests //////////////
+//
+// container.id="tagIDok";
+// container.color("blue")
+container.new_meth("blue")
+
+container.on("click", function (evt) { 
+	
+	msg="container: "+container.x+", circle: "+circle.x
+	alert(msg)
+
+});
+
+
+
+
+
+ // container.color("blue")
+
+	stage.update();
+
+});
+	
+	
+	
+	
+	
+
+
+
+
+</script>
+</html>

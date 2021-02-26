@@ -1,0 +1,217 @@
+<html>
+	<head>
+		<title>test</title>
+
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+	<canvas id="canvas" styke="z-index:45"></canvas>
+<script>
+
+	// SCALING OPTIONS
+	// scaling can have values as follows with full being the default
+	// "fit"		sets canvas and stage to dimensions and scales to fit inside window size
+	// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+	// "full"		sets stage to window size with no scaling
+	// "tagID"		add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+	var scaling = "fit"; // fit scales to fit the browser window while keeping the aspect ratio
+	var width = 1024; // can go higher...
+	var height = 768;
+	var frame = new Frame(scaling, width, height); // see docs for more options and info
+	frame.on("ready", function() {
+		zog("ready from ZIM Frame");
+
+		var stage = frame.stage;
+		var stageW = frame.width;
+		var stageH = frame.height;
+		frame.outerColor = dark;
+		frame.color = green;
+
+		// end of first part of ZIM Fit template
+		// ~~~~~~~~~~~~~~~~~~~~
+
+		// ZIM ZOO lets you type ZIM code here and view the results.
+		// You can try out any of the ZIM features or add an animal from above to play!
+		// The code will run inside a ZIM FIT template with
+		// frame, stage, stageW, stageH, zim and createjs variables
+		// stage.update(); will run after the code
+		// If you need a helper library, then check the box above
+		// for instance, selecting Giraffe will auto check the physics library
+		
+		frame.outerColor = dark;
+		frame.color = green;
+		
+		
+		function makeSnake() { // just wrapping this in a function incase you make two snakes in zim zoo
+		
+		    // SNAKE CODE
+		    // We will use a Blob with 6 points to make a snake - with its head a the left - can you tell?
+		    // We arranged the Blob to make it long like the snake and then used the record() method to get these points:
+		    var points = [[130.3,-73.1,0,0,-81.6,1,81.6,-1,"mirror"],[336.3,-49,0,0,0,-22.9,0,22.9,"mirror"],[132.4,-23.6,0,0,79.6,-1.9,-79.6,1.9,"mirror"],[-100.5,-20.3,0,0,70.6,-1.9,-70.6,1.9,"mirror"],[-261.7,-45.5,0,0,0,35.8,0,-35.8,"mirror"],[-102.5,-70.9,0,0,-64.7,1,64.7,-1,"mirror"]];
+		    var snake = new Blob({
+		        color:frame.red,
+		        // points:6, // started off with 6 points then moved them and recorded them with keydown
+		        points:points, // then put the results of the recording here
+		        allowToggle:false, // can't click to show controls
+		        onTop:false, // leave the snake on its layer or the mask (made later) will be hidden
+		        showControls:false
+		    })
+		        .center(stage)
+		        .drag({all:true, onTop:false})
+		        .sha();
+		
+		    // Here is the keyboard control to record using the R key
+		    // We could comment this out or delete it now that we have recorded our initial snake
+		    // See the example in the Blob docs for how we could record user generated shapes
+		    // http://zimjs.com/code/docs.html?item=blob
+		    frame.on("keydown", function(e) {
+		        if (e.keyCode == 82) snake.record(true); // true pops results in a window
+		    });
+		
+		    // We will animate the pairs of middle points up and down in opposite directions
+		    // We will also animate its rotation a little
+		    // This is the top point on the right (but not the end point)
+		    var p0 = snake.pointObjects[0][0]; // the first 0 is which point, the second 0 is the point's container
+		    p0.wiggle({
+		        property:"y",
+		        baseAmount:p0.y, // animate about its current y location
+		        minAmount:20, // animate up and down at least 20
+		        maxAmount:50, // animate up and down no more than 50
+		        minTime:3000, // often we set a range to pick from - but we want to syncronize with other pair of points
+		        maxTime:3000,
+		        startType:"negative" // start animating in negative direction
+		    });
+		    p0.wiggle("rotation", p0.rotation, 2, 10, 1000, 2000);
+		
+		    var p5 = snake.pointObjects[5][0]; // counting around the snake blob, this gives us the top left point (but not the head)
+		    p5.wiggle({
+		        property:"y",
+		        baseAmount:p5.y,
+		        minAmount:50,
+		        maxAmount:100,
+		        minTime:3000,
+		        maxTime:3000,
+		        startType:"positive" // here we start animating in positive direction
+		    });
+		    p5.wiggle("rotation", p5.rotation, 2, 10, 1000, 2000);
+		
+		    // In a Ticker, we will constantly set the matching point of the pair
+		    // to a distance from the animated point in the pair
+		    // We also match its rotation and update the snake Blob
+		    Ticker.add(function(){
+		        var p2 = snake.pointObjects[2][0];
+		        p2.y = p0.y+40;
+		        p2.rotation = p0.rotation;
+		
+		        var p3 = snake.pointObjects[3][0];
+		        p3.y = p5.y+50; // a bit fatter in the "front" which is the left side of the snake
+		        p3.rotation = p5.rotation;
+		
+		        snake.update();
+		    });
+		
+		    // We will make a pattern for the snake using Noise()
+		    // Make a smaller pattern of width and height and then tile it with Tile()
+		    var width = 80;
+		    var height = 140;
+		
+		    // where we draw the noise
+		    var bmp = new Bitmap(null, width, height); // null means no image yet
+		
+		    // the Noise object
+		    var noise = new Noise();
+		
+		    // We are going to animate the noise in two ways
+		    // we will animate its "clamp" which determines how much dark or light we show
+		    // and we are going to animate its frequency which determines how zoomed in on the bumps we are
+		    // We will use wiggle for these and as the properties are not on any zim object, we make an object
+		    var data = {frequency:20, clamp:.1};
+		
+		    // these animate the blobs by changing frequency and where in the black or white we are clamping
+		    // When we animate on non-zim object, we pass that in as the first parameter of the wiggle
+		    wiggle(data, "frequency", 20, 5, 5, 5000, 10000);
+		    wiggle(data, "clamp", 0, .05, .1, 1000, 5000);
+		
+		    var z = 0; // the current value in the Noise equation
+		    Ticker.add(function() {
+		        z+=.005; // make this bigger to go faster and smaller to go slower
+		        var f = data.frequency;
+		        // Use 3D noise to give us a wiggly weird 3D world in x, y and z
+		        // We display only the x and y as a cross-section plane of this wiggly world
+		        // Then we animate the z just slightly each time to move the plane
+		        // We will loop through all the x and y values the Noise equation gives
+		        // and plot these out to the Bitmap
+		        for (var y = 0; y < height; y++) {
+		            for (var x = 0; x < width; x++) {
+		                // Find the value from the Noise equation at x, y and z
+		                // x and y are divided by the frequency to tell us how much to zoom in on the noise
+		                // If the frequency is high then we do not move through the equation quickly - we are zoomed in
+		                // The z does not change for this slice of the picture which plots only x and y across the Bitmap
+		                // In the next Ticker step, the z will change slightly causing the image to change slightly
+		                // The noise value is between -1 and 1
+		                // We want a number between 0 and 1 so we add 1 to the noiseValue and divide by 2
+		                var noiseValue = (noise.simplex3D(x/f, y/f, z) +1 ) / 2;
+		
+		
+		                // The value above goes meanders between numbers from 0-1
+		                // and relates to all x/y the values around as Noise is made with an equation (not random numbers).
+		                // We are going to plot the value multiplied by 255 so that we can set
+		                // red, green, blue to the result and get a shade of grey
+		                // but the result will be very unfocused because of basically a linear blend.
+		                // We will use the smoothStep function to add focus.
+		                // smoothStep "clamps" below a minimum value to 0 and above a maximum value to 1
+		                // and then eases any values between the min and max.
+		                // Here we use .5 as the min and .55 as the max
+		                // So half will go to 0 and 45% will go to 1
+		                // The values inbetween will be blended by an f shaped equation
+		                // that applies focus without being black and white ;-)
+		                // We are also animating this clamp range so we shift between more dark and more light.
+		                // We take the result of smoothStep and multipy it by 255
+		                var value = smoothStep(noiseValue, .5+data.clamp, .55+data.clamp)*255;
+		                // The Bitmap imageData requires 4 values for each point - the red, green, blue and alpha
+		                // This equation will manage dispersing the values from the Noise equation
+		                var i = (x + y * width) * 4;
+		                bmp.imageData.data[i] = value; // applying the same value to red, green, blue makes a grey
+		                bmp.imageData.data[i + 1] = value;
+		                bmp.imageData.data[i + 2] = value;
+		                bmp.imageData.data[i + 3] = 255;
+		            }
+		        }
+		        // we draw the data to the Bitmap
+		        bmp.drawImageData();
+		
+		        // we set the mask of the tile to the snake
+		        // we need to do this here as the shape is changing
+		        // tile.setMask(snake);
+		        // tile.mask = snake.shape;
+		        tile.setMask(snake)
+		
+		        // move the tile to where the snake is
+		        tile.loc(snake.shape).mov(20,-30);
+		    });
+		
+		    // Tile the bitmap which will clone each bitmap
+		    // tile will be moved around with the snake in the Ticker
+		    var tile = new Tile({
+		        obj:bmp,
+		        cols:8,
+		        rows:2,
+		        mirrorH:true,
+		        mirrorV:true
+		    }) // true and true will mirror horizonal and vertical
+		        .centerReg(stage)
+		        .alp(.4);
+		}
+		makeSnake();
+
+		// ~~~~~~~~~~~~~~~~~~~~
+		// start of second part of ZIM Fit template
+
+		stage.update(); // update the stage to see any changes
+
+	}); // end of ready
+	</script>
+	</body>
+</html>

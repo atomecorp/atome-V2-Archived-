@@ -1,0 +1,35 @@
+
+ # JS :   
+`
+	function parse_hash(value)
+	{
+  	value.$keys().forEach((item) => {
+  		key=item;
+  		val=value['$[]'](key);
+              alert("key:" + key + ", value:" + val+", type : "+ typeof(val))
+  			if(typeof(val)=="object"){
+  			val.$keys().forEach((item_2) => {
+  			key_2=item_2
+  			val_2=val['$[]'](key_2)
+  			alert(key)
+  			alert(key_2)
+  			alert(val_2)
+  			})
+  			}
+          })
+
+
+   // alert(value['$[]']("y"));
+	}
+`
+
+
+def my_def my_hash
+
+`
+parse_hash(#{my_hash})
+`
+
+end
+
+my_def({x: 200, y:50,color: {x: 88, color: :red}})

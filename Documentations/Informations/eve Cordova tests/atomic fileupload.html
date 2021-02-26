@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<title>Drag n drop test</title>
+
+	<style type="text/css">
+		body {text-align: center; padding-top: 100px;}
+	    em {position: absolute; bottom: 0; right: 0}
+		canvas { border: 1px solid black; }
+	</style>
+
+	<script type="text/javascript">
+		"AVOXOVA"
+		"TYUIHMWX"
+		window.ondragover = function (e) {e.preventDefault()}
+		window.ondrop = function(e) {e.preventDefault()};
+		// var files =e.dataTransfer.files||e.target.files;
+		// var nb_of_file_drop=e.dataTransfer.files.length;
+		var files=e.dataTransfer.files
+	    for (var i = 0; i < files.length; i++) {
+			file_type=files[i].type;
+			console.log(file_type);
+			
+			switch (file_type) {
+			case 'video/quicktime':
+				play_video(files[i]);	
+			case 'video/x-m4v':
+				play_video(files[i]);
+			case 'text/plain':
+			case 'video/mp4':
+				play_video(files[i]);
+			case 'audio/x-m4a':
+			case 'image/png':
+				 draw(files[i]);
+			case 'image/jpeg':
+				 draw(files[i]);
+			case 'text/xml':
+			alert('ok')
+			case 'image/svg+xml':	
+			    // expected output: "Mangoes and papayas are $2.79 a pound."
+			    break;
+			  default:
+			    //console.log('Sorry, we are out of ' + file_type + '.');
+			}
+			 
+	      }
+	
+
+			
+		
+		  }
+		    
+			function play_video(file)
+		  
+		  {
+		   
+			  var video = new Image();
+			  video.src = (window.webkitURL ? webkitURL : URL).createObjectURL(file);
+			   var canvas = document.getElementById("image_canvas");
+			   var canvasContext = canvas.getContext("2d");
+
+			   // la fonction afficherDansCanvas
+			   var afficherDansCanvas = function() {
+			     canvasContext.drawImage(video, 0, 0, 427, 240);
+			   }
+
+			   // appel de la fonction afficherDansCanvas sur l'événement play de la vidéo
+			   video.addEventListener("play", afficherDansCanvas);
+		  }
+			
+			
+			
+		function draw(file){
+		    
+		    var img =new Image();
+		    // URL @ Mozilla, webkitURL @ Chrome
+		   	img.src = (window.webkitURL ? webkitURL : URL).createObjectURL(file);
+		    var canvas=document.getElementById("image_canvas");
+		    var ctx = canvas.getContext("2d");
+		    // call ctx.drawImage when the image got loaded
+		    img.onload = function() {
+		    	// ctx.drawImage(img, 0, 0);
+				// alert('j')
+   				ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height); // stretch img to canvas size
+			}
+		}
+	</script>
+</head>
+<body>
+
+	
+	<canvas id="image_canvas" width="200" height="200"></canvas>
+</body>
+</html>

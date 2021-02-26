@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title></title>
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>			
+	</head>
+	<body>
+		<div id="create_here">Create me</div>
+		<!-- <div id="add_child">add child</div> -->
+		<div id="clear_canvas">clear</div>
+		
+		<div id="colorize_here">colorize me</div>
+<script>
+	
+	//////////////////// code to allow  adding new methods to zim classes \\\\\\\\\\\\\\\\\
+	function extend_primtives(method_name,function_to_call) {
+		var zim_obj_list = ["Triangle", "Circle", "Rectangle", "Squiggle", "Blob", "Label"];
+		zim_obj_list.forEach(function(obj_type) {
+			method_added(method_name,function_to_call, obj_type);
+		});
+	}
+	function extend_obj(method_name,function_to_call) {
+			method_added(method_name,function_to_call, "Container");
+	}
+
+	function method_added(method_name,function_to_call, obj_type) {
+		method_to_add = obj_type + ".prototype." + method_name + " = function (" + method_name + "){" + function_to_call + "(this," + method_name + ");}";
+		new Function(method_to_add)();
+	}
+	//////////////////// add grab and set_id methods to zim object  use extend_obj object  \\\\\\\\\\\\\\\\\
+
+	var myIDS = [];
+	var myObjects = [];
+	var fitToObjeList = []
+
+	function grab(id) {
+		obj = myObjects[myIDS.indexOf(id)]
+		return obj;
+	}
+	function set_id_method(obj, id) {
+		obj.id = id
+		if (myIDS.indexOf(id) == -1) {
+			id_position = myIDS.length;
+			myIDS[id_position] = id;
+			myObjects[id_position] = obj; 
+		} else {
+			id_position = myIDS.indexOf(id);
+			myObjects[id_position] = obj;
+		};
+	}
+	extend_obj("set_id","set_id_method");
+
+		//////////////////// add color method  \\\\\\\\\\\\\\\\\
+	function color_method(obj, color) {	
+		obj.getChildAt(0).color = color;
+	}
+	extend_obj("color","color_method");
+	
+	////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+var scaling = "fit";
+var width = window.innerWidth;
+var height = window.innerHeight;
+var app = {};
+
+var frame = new Frame(scaling, width, height);
+
+
+
+// frame.color= pink
+
+frame.on("ready", function() {
+
+  var stage = app.stage = frame.stage;
+stage.id='poil'
+    var stageW = frame.width;
+    var stageH = frame.height;
+    stage.update();
+});
+
+
+
+
+function creator(shape){
+    var container = new Container();
+    container.set_id("the_id");
+	  var shape = new shape
+    container.addChild(shape);
+    container.drag();
+    container.addTo(app.stage);
+    app.stage.update(container);	
+}
+setTimeout(function() { creator(Circle); }, 2000);  
+
+document.getElementById("create_here").onclick = function(){
+creator(Circle)
+};
+
+function clear_it(){
+	app.stage.clear();	
+	app.stage.update();
+}
+
+
+document.getElementById("clear_canvas").onclick = function(){
+
+	clear_it()
+};
+
+
+// document.getElementById("add_child").onclick = function(){
+// //creator(Circle)
+// 	the_cont=grab("the_id");
+// 	var shape1 = new Rectangle
+// 	the_cont.addChild(shape1)
+// 	 app.stage.update();
+// };
+
+document.getElementById("#colorize_here").onclick = function(){
+	the_cont=grab("the_id");
+	the_cont.width=200;
+	the_cont.color("blue")
+	titi=the_cont.childrens()
+		 toto= Array.isArray(titi);
+	alert(toto)
+	// childs.forEach((item, index) => {
+	//   alert(item) //value
+	//   alert(index) //index
+	// })
+	// the_cont.getChildAt(0).color = orange;
+	// the_cont.getChildAt(0).childrens();
+	// the_cont.color = orange;
+	 // tutu=the_cont.childrens
+
+    	//alert(the_cont.numChildren)
+    app.stage.update();
+};
+
+
+</script>
+	</body>
+</html>

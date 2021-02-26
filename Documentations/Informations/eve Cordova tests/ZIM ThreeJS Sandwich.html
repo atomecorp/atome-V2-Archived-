@@ -1,0 +1,114 @@
+<html><head>
+<meta charset="utf-8">
+<title>ZIM ThreeJS Sandwich</title>
+
+
+
+<script src="../cdn/1.2.2/createjs.js"></script>
+<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+<!-- use zimjs.com/distill for minified individual functions! -->
+
+<script src="https://zimjs.org/cdn/r109/three.min.js"></script>
+<script src="https://zimjs.org/cdn/r109/OrbitControls.js"></script>
+<script src="https://zimjs.org/cdn/three_2.0.js"></script>
+
+<script>
+
+// SCALING OPTIONS
+// scaling can have values as follows with full being the default
+// "fit"    sets canvas and stage to dimensions and scales to fit inside window size
+// "outside"    sets canvas and stage to dimensions and scales to fit outside window size
+// "full"    sets stage to window size with no scaling
+// "tagID"    add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1024;
+var height = 768;
+var color = light;
+var outerColor = darker;
+
+var zimControl; // declare outside to use in next frame
+
+// as of ZIM 5.5.0 you do not need to put zim before ZIM functions and classes
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+    var stage = frame.stage;
+    var stageW = frame.width;
+    var stageH = frame.height;
+
+    // this will be used to control ThreeJS OribitControls
+    zimControl = new Rectangle(stageW, stageH, frame.color).addTo();
+
+    // unfortunately, pressing on this through ThreeJS object will activate this
+    new Tile(new Circle(40,[blue,green,red,yellow,orange,pink]), 10, 6, 10, 10).alp(.5).center().gesture();
+
+    stage.update(); // this is needed to show any changes
+
+}); // end of ready
+
+var frame2 = new Frame(scaling, width, height);
+frame2.on("ready", function() {
+    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+    var stage = frame2.stage;
+    var stageW = frame2.width;
+    var stageH = frame2.height;
+    frame2.setDefault();
+
+    // note declared outside so can add orbitcontrols from next frame
+    three = new Three(frame2, stageW, stageH);
+
+    var scene = three.scene;
+    var geometry = new THREE.CubeGeometry(100, 100, 100);
+    var materials = [];
+    // x+,x-,y+,y-,z+,z-
+    var colors = [green, blue, brown, yellow, orange, pink];
+    for (var i=0; i<6; i++) {
+        materials.push(new THREE.MeshBasicMaterial({color: colors[i], side: THREE.FrontSide}));
+    }
+    var mesh = new THREE.Mesh(geometry, materials);
+    mesh.position.set(0,0,0);
+    scene.add(mesh);
+
+    // pass in the ZIM control object from first ZIM Frame
+    var orbitControls = new THREE.OrbitControls(three.camera, three.renderer.domElement, zimControl);
+
+    stage.update(); // this is needed to show any changes
+
+}); // end of ready
+
+var frame3 = new Frame({scaling, width, height, nextFrame:frame});
+frame3.on("ready", function() {
+    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+    var stage = frame3.stage;
+    var stageW = frame3.width;
+    var stageH = frame3.height;
+    frame3.setDefault();
+
+    // note that on mobile, ThreeJS seems to load on top despite being second canvas made
+    // so bring this canvas to a higher zIndex
+    // to set zIndex, must set position - but I think ZIM sets position on the canvas already
+    // frame3.canvas.style.position = "relative";
+    frame3.canvas.style.zIndex = 5;
+
+    new Tile(new Rectangle(80,80, [blue,green,red,yellow,orange,pink]), 10, 6, 10, 10).alp(.5).center().gesture();
+
+    new Label("ThreeJS canvas between two ZIM Frames - all interactive").pos(30,30).sca(.7).alp(.5)
+
+    stage.update(); // this is needed to show any changes
+
+}); // end of ready
+
+</script>
+
+<meta name="viewport" content="width=device-width, user-scalable=no">
+
+</head>
+
+<body style="background-color: rgb(17, 17, 17); overflow: hidden;">
+<!-- canvas with id="myCanvas" is made by zim Frame -->
+
+<canvas id="myCanvas" tabindex="0" width="728" height="546" style="background-color: rgb(204, 204, 204); position: absolute; width: 728px; height: 546px; left: 406.5px; top: 0px;"></canvas><canvas id="myCanvasTEXBJ" tabindex="0" width="728" height="546" style="position: absolute; width: 728px; height: 546px; left: 406.5px; top: 0px;"></canvas><canvas width="1024" height="768" id="zimThree0" style="width: 1024px; height: 768px; position: absolute; left: 0px; top: 0px; pointer-events: none; transform-origin: 0% 0%; visibility: visible; transform: matrix(0.7109, 0, 0, 0.7109, 15, 0);"></canvas><canvas id="myCanvas4ZUKD" tabindex="0" width="728" height="546" style="position: absolute; width: 728px; height: 546px; left: 406.5px; top: 0px; z-index: 5;"></canvas></body></html>

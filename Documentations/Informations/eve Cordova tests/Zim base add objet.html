@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>test</title>
+
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+	<canvas id="canvas" styke="z-index:45"></canvas>
+<script>
+	var box;
+var color="red"
+	function toto(params){
+		var frame = new Frame();
+		frame.on("ready", function() {
+		    var stage = frame.stage;
+		   var stageW = frame.width;
+		   var stageH = frame.height;
+		   frame.outerColor = "#eee";
+		   frame.color = color;
+		    box = new Rectangle();box.addTo(stage);box.color='orange';box.drag();box.radius=30;box.pos(100, 100);stage.update();
+// eval(params)	
+		});	
+	}
+// box.color='orange'
+
+toto( "var box = new box();box.addTo(stage);box.color='orange';box.drag();box.radius=30;box.pos(100, 100);stage.update();")
+
+	</script>
+	</body>
+</html>

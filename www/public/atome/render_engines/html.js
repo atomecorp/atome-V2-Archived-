@@ -43,7 +43,7 @@ var html = {
                 break;
             case 'text':
                 if (!document.getElementById(atome_id)) {
-                    $('#html_view').append("<label contenteditable=\"true\" id=" + atome_id + " class='atomes'>text to replace</label>");
+                    $('#html_view').append("<label  id=" + atome_id + " class='atomes'>text to replace</label>");
 
                 }
                 break;
@@ -151,21 +151,24 @@ var html = {
 
     },
 
-   right: function(value, atome_id){
-        $("#"+atome_id).css("width","auto");
-        $("#"+atome_id).css("right",value);
-    },
-    left: function(value, atome_id){
-        $("#"+atome_id).css("width","auto");
-        $("#"+atome_id).css("left",value);
-    },
-   top: function(value, atome_id){
-        $("#"+atome_id).css("height","auto");
-        $("#"+atome_id).css("top",value);
+    right: function (value, atome_id) {
+        $("#" + atome_id).css("width", "auto");
+        $("#" + atome_id).css("right", value);
     },
 
-    bottom : function(value, atome_id){;
-        $("#"+atome_id).css("bottom",value);
+    left: function (value, atome_id) {
+        $("#" + atome_id).css("width", "auto");
+        $("#" + atome_id).css("left", value);
+    },
+
+    top: function (value, atome_id) {
+        $("#" + atome_id).css("height", "auto");
+        $("#" + atome_id).css("top", value);
+    },
+
+    bottom: function (value, atome_id) {
+        ;
+        $("#" + atome_id).css("bottom", value);
     },
 
     color: function (value, atome_id) {
@@ -206,7 +209,7 @@ var html = {
     },
 
     float: function (value, atome_id) {
-        document.getElementById(atome_id).style.postion = "sticky";
+        document.getElementById(atome_id).style.position = "sticky";
     },
 
     align: function (value, atome_id) {
@@ -307,8 +310,7 @@ var html = {
                     $('#' + atome_id).css("left", left_position);
                     $('#' + atome_id).css("width", "auto");
                     $('#' + atome_id).css("right", right_position);
-                }
-                else{
+                } else {
                     var left_position = parseFloat($('#' + atome_id).css("left"));
                     var current_width = parseFloat($('#' + atome_id).css("width"));
                     var right_position = parseFloat($(window).width()) - (left_position + current_width);
@@ -328,8 +330,7 @@ var html = {
                     $('#' + atome_id).css("width", "auto");
                     $('#' + atome_id).css("right", right_position);
 
-                }
-                else{
+                } else {
                     var left_position = parseFloat($('#' + atome_id).css("left"));
                     var current_width = parseFloat($('#' + atome_id).css("width"));
                     var right_position = parseFloat($(window).width()) - (left_position + current_width);
@@ -349,8 +350,7 @@ var html = {
                         $('#' + atome_id).css("height", "auto");
                         $('#' + atome_id).css("top", top_position);
                         $('#' + atome_id).css("bottom", bottom_position);
-                    }
-                    else{
+                    } else {
                         var top_position = parseFloat($('#' + atome_id).css("top"));
                         var current_height = parseFloat($('#' + atome_id).css("height"));
                         var bottom_position = parseFloat($(window).height()) - (top_position + current_height);
@@ -372,8 +372,7 @@ var html = {
                         $('#' + atome_id).css("width", "auto");
                         $('#' + atome_id).css("height", "auto");
                         $('#' + atome_id).css("bottom", bottom_position);
-                    }
-                    else{
+                    } else {
                         var bottom_position = parseFloat($('#' + atome_id).css("bottom"));
                         var current_height = parseFloat($('#' + atome_id).css("height"));
                         var top_position = parseFloat($(window).height()) - (bottom_position + current_height);
@@ -560,6 +559,7 @@ var html = {
             Opal.Object.$trig(atome_id);
         });
     },
+
 /// function for bi directional code when dragging object
     find_property_declaration_in_ide: function (value, property, id) {
         // todo : Attention bug if many empty line at the end of the IDE only the y is written in IDE
@@ -583,6 +583,9 @@ var html = {
     editable: function (value, atome_id) {
 
         document.getElementById(atome_id).style.pointerEvents = "auto";
+        document.getElementById(atome_id).contentEditable = "true";
+
+        contenteditable = "true"
         $("#" + atome_id).keyup(function () {
             var id = Opal.Object.$grab(atome_id).$id();
             var text_found = document.getElementById(atome_id).innerText;
@@ -852,7 +855,6 @@ var motion = {
     },
 
 };
-
 
 
 // setTimeout(function(){

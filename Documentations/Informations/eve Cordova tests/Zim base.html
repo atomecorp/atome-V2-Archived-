@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>test</title>
+		<script src="https://zimjs.org/cdn/1.2.3/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+	</head>
+	<body>
+
+<script>
+
+
+var frame = new Frame();
+frame.on("ready", function() {
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+	frame.outerColor = "#eee";
+	frame.color = "orange";
+	var circle = new Circle(150) 
+	.addTo(stage)
+	.drag();
+	circle.on("click",function(){
+		circle.color='red'
+	});
+	circle.on("drag",function(e){
+		console.log("c dragged!")
+	})	
+	circle.on("change", function(event) {
+    		console.log("c changed!")
+});
+	circle.change(function(e){
+		console.log("c changed! chainable")
+	})
+	stage.update();
+});
+
+
+	</script>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+<!--
+		<div>
+<img src="../Desktop/Capture%20d%E2%80%99%C3%A9cran%202019-09-12%20%C3%A0%2015.54.52.png" alt="Capture%20d%E2%80%99%C3%A9cran%202019-09-12%20%C3%A0%2015.54.52" width="1902" height="1037" />
+-->
+				
+	<canvas id="myCanvas" width="960" height="400"
+			style="background:none;position:absolute;left:0px" ></canvas>
+</div>
+<script>
+   function degreesToRadians(deg){
+            return deg * Math.PI / 180;
+        }
+
+        var canvas = document.getElementById('myCanvas');
+        var stage = new createjs.Stage(canvas);
+var bmp = new createjs.Bitmap("https://ocdn.eu/pulscms-transforms/1/dZtktkqTURBXy8xNTI0OTU1NWRlNDMyZDNiMjcwZDY2YjVlODJjNDRiNC5qcGVnkZUCzQMWAMLD");
+stage.addChild(bmp);
+        var s = new createjs.Shape();
+        s.graphics.s("#ff0000")
+        s.x = s.y = 200;
+        stage.addChild(s);
+var shape = new createjs.Shape();
+        var arcSize = 200;
+        s.deg = 0;
+        shape.cache()
+     
+        s.tween = new createjs.Tween.get(s)
+//         
+           
+            .to({deg: 206 }, 5000)
+            
+            .on("change", function () { 
+	          
+//                    this.graphics.clear().s("#ff0000").closePath().beginStroke("#FF0000").setStrokeStyle(arcSize/50).moveTo(50, 0).arc(0, 0, arcSize, degreesToRadians(0), degreesToRadians(250)); 
+                               this.graphics.clear().beginStroke("rgba(0,"+arcSize+",0,1)").setStrokeStyle(arcSize/20).moveTo(0, 0).arc(0, 0, arcSize, degreesToRadians(0), degreesToRadians(this.deg)); 
+//                     this.graphics.clear().moveTo(0, 0).s("#ff0000").arc(0, 0, arcSize, degreesToRadians(0), degreesToRadians(this.deg)); 
+//             	stage.update();
+            }, s); // second param is scope for the function
+       bmp.mask = s;
+//  .beginStroke("#FF0").setStrokeStyle(5).drawPolyStar(0, 0, img.height / 2 - 15, 5, 0.6).closePath();
+stage.addChild(s); // Also made visible
+
+
+        createjs.Ticker.addEventListener("tick", function(){
+	             stage.update();
+        });  
+
+	</script>
+	</body>
+</html>

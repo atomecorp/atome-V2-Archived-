@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag and drop test</title>
+    <script src="../../www/public/js_lib/rendering/createjs.min.js"></script>
+    <script src="../../www/public/js_lib/rendering/zim.js"></script>
+
+</head>
+<body>
+<img id='output'>
+
+
+<script type="text/javascript">
+    zim_lib = function () {
+        wd = parseInt(window.innerWidth);
+        hg = parseInt(window.innerHeight);
+        var scaling = "full";
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        var color =  "rgba(255, 128, 63, 0.3)";
+        var outerColor = "transparent";
+        var app = {};
+        var frame = new Frame(scaling, width, height, color, outerColor);
+        frame.on("ready", function () {
+            var framer = frame;
+            var stage = app.stage = frame.stage;
+            var stageW = frame.width;
+            var stageH = frame.height;
+            stage.update();
+            // appReady()
+        });
+        props_to_expose = {app, frame}
+        var ret = {};
+        Object.keys(props_to_expose).forEach(function (key) {
+            ret[key] = props_to_expose[key];
+        });
+        return ret;
+        // zim_lib.app.stage.update();
+    }();
+
+
+    /////////////////////////////////////////////////////////////////////////
+    window.ondragover = function (e) {
+        e.preventDefault()
+    };
+    window.ondrop = function (e) {
+        e.preventDefault();
+        upload(e)
+    };
+
+
+
+	function img_to_zim(e, file) {
+		var reader = new FileReader();
+		reader.onload = function () {
+			var dataURL = reader.result;
+			// var output = document.getElementById('output');
+			// output.src = dataURL;
+			///////////////////////////////
+			const load = zim_lib.frame.loadAssets("iconBig.png", "https://d309knd7es5f10.cloudfront.net/codepen/");
+			load.on("complete", () => {
+				zim_lib.frame.asset("iconBig.png").center().gesture();
+				zim_lib.app.stage.update(); // this is needed to show any changes
+			});
+			///////////////////////////////
+		};
+		reader.readAsDataURL(file);
+	}
+
+	function retry_to_get_the_img_informations(img_width){
+		setTimeout(function(){
+
+			console.log(("missed but "+img_width))
+
+
+		}, 7000	)
+	}
+
+    function import_visual_medias(e, file) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result
+            var output = document.getElementById('output');
+            output.src = dataURL;
+            img_width=document.getElementById('output').width
+            if (img_width !=0){
+            	console.log("sucess"+img_width )
+			}
+            else {
+				retry_to_get_the_img_informations(img_width)
+			}
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function import_audio(e, file) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result
+            // var output = document.getElementById('output');
+            //output.src = dataURL;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function import_text(e, file) {
+        var textType = /text.*/;
+        if (file.type.match(textType)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                fileDisplayArea.innerText = reader.result;
+            };
+            reader.readAsText(file);
+        }
+    }
+
+    function upload(e) {
+
+        var files = e.dataTransfer.files
+		alert(files.length);
+        for (var i = 0; i < files.length; i++) {
+            file_type = files[i].type;
+            file_name = files[i].name;
+	
+			alert(files[i].data)
+////////////////////////////////////////////////////////////////////////////////////////
+            switch (file_type) {
+                case 'video/quicktime':
+                    import_visual_medias(e, files[i]);
+                    break;
+                case 'video/x-m4v':
+                    import_visual_medias(e, files[i]);
+                    break;
+                case 'text/plain':
+                    import_text(e, files[i]);
+                    break;
+                case 'video/mp4':
+                    import_visual_medias(e, files[i]);
+                    break;
+                case 'audio/x-m4a':
+                    import_audio(e, files[i]);
+                    break;
+                case 'image/png':
+                    import_visual_medias(e, files[i]);
+                    img_to_zim(e, files[i]);
+                    break;
+                case 'image/jpeg':
+                    import_visual_medias(e, files[i]);
+                    img_to_zim(e, files[i]);
+                    break;
+                case 'text/xml':
+                    import_text(e, files[i]);
+                    break;
+                case 'image/svg+xml':
+                    import_visual_medias(e, files[i]);
+                    break;
+                    break;
+                default:
+                    console.log('Unknown file format');
+            }
+        }
+    }
+</script>
+</body>
+</html>

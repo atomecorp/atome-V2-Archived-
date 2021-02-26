@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM BITS</title>
+<script src="createjs_1.1_min.js"></script>
+<script src="zim_9.4.1.js"></script>
+</head>
+<body>
+</body>
+<script>
+	
+	
+
+
+
+// LOGGING               
+// console.log() is a pain to type out
+// when other languages have trace(), echo(), print(), etc.
+// zog(); binds to console.log to give accurate file and line numbers
+// to show the console look in Developer Tools or CTRL SHIFT I or K
+    
+zog("hello Z world"); // will display "hello world" in the console
+zog(7, 80, "good"); // will display all these
+
+
+// TAGS AND STYLES
+// document.getElementByID() is absolutely ridiculous
+// most other languages just let us use the ID
+// JavaScript sort of does but for some reason it's half baked
+// zid is shorter and if you want a style then use zss()
+
+zid("tagID"); // will access the tag by ID
+
+zss("tagID").display="none"; // will access the style property
+
+
+// LINKS
+// window.location.href() is easily forgetable
+// window.open() has a mixed up format for parameters
+// perhaps you will prefer zgo() for an easy link to a page
+
+zgo("http://apple.com"); // will open in the same window
+zgo("myURL", "whatever"); // will open in a blank window
+
+
+// PIXEL NUMBERS
+// zum() converts a pesky style string to a number
+// in other languages we can animate by saying obj.x += 5;
+// at least this gets us a little closer
+
+zss("obj").left = (zum(zss("obj").left)+5)+"px"; // whatever!
+
+
+// DEFAULT PARAMETERS
+// handling parameter defaults is a pain in JavaScript
+// most langages let you do: function setColor(c="blue") {}
+// in JavaScript we are left evaluating the parameter like so:
+// if (typeof c === "undefined") c="blue";
+// this is a pain for every parameter!  so check out zot();
+// zot() returns true if the parameter has no value or it's value is null
+
+if (zot(c)) c="blue"; // just a little easier to remember is it not?
+
+
+// CANCEL EVENT PROPAGATION
+// sometimes we need to stop an event from propagating
+// for instance, a click on the backing opens the popup
+// a click on the popup closes the popup
+// we would not want the closing click to go through to the backing
+// because that would close and then open the popup in one click!
+// zop(e); stops the event from passing through by
+// wrapping a couple lines of cross-browser code
+
+popup.addEventListener("click", closePopup);
+backing.addEventListener("click", openPopup);
+function closePopup(e) {
+    if (!e) e = window.event; // handle IE
+    popup.close();
+    zop(e); // will stop event from going to backing
+}
+function openPopup(e) {		
+    popup.open();
+}
+
+// STOP PAGE FROM SCROLLING
+// arrows, pgup, pgdown, home, end, 
+// and scrollwheel default to move the page
+// when in full screen, this is unwanted
+// zil() will preventDefault() on these
+// returns an array of three events it uses
+// [keydown, mousewheel and DOMMouseScroll]
+
+zil(); // put somewhere on your page
+
+
+
+// TRY IT YOU'LL LIKE IT!
+// after a few days, these wrappers become quite memorable
+// they have fun, short names 
+// we generally just stuck a z in front of the name:
+
+// z + log   == zog
+// z + id    == zid
+// z + css   == zss
+// z + go    == zgo
+// z + num   == zum
+// z + not   == zot
+// z + stop  == zop
+// z + still == zil
+
+// Z + IM   == ZIM // IM == Interactive Media     
+
+
+	
+	
+		
+	
+	
+
+</script>
+</html>
+
+
+               

@@ -1,0 +1,154 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+		<div>
+<img src="../Desktop/Capture%20d%E2%80%99%C3%A9cran%202019-09-12%20%C3%A0%2015.54.52.png" width="1902" height="1037" />
+				
+	<canvas id="myCanvas" width="960" height="400"
+			style="background:none;position:absolute;left:0px" ></canvas>
+</div>
+<script>
+
+var scaling = "fit"; // this will resize to fit inside the screen dimensions
+var width = 1000;
+var height = 800;
+var color = dark; // or any HTML color such as "violet" or "#333333"
+var outerColor = light;
+
+var frame = new Frame(scaling, width, height, color, outerColor);
+frame.on("ready", function() {
+	zog("ready from ZIM Frame");
+
+	var stage = frame.stage;
+	var stageW = frame.width;
+	var stageH = frame.height;
+
+	// ZIM BITS - Lines and Animated Lines (2016)
+
+	// Now can animate() a ZIM Pen() - see https://zimjs.com/docs.html?item=pen
+
+	// Shape will make lines (as well as various custom shapes)
+	// if you use createjs.Shape you may need to setBounds for each shape you make
+	// Shape sets bounds to 0,0,width,height where width and height are the parameters of Shape
+	// note that if a horizontal line starts at 0, 0 then the thickness of the line goes half above and half below 0
+	// in this example, we move the horizontal line half its thickness down, etc.
+
+	// to animate a line we animate its scaleX or scaleY property
+	// we start with the scaleX or scaleY = 0 and then use animate
+	// remember that this will animate from the registration point out
+	// for an angled line we still animate the scaleX or scaleY but not both!
+	// so we put the line in a Container and rotate the container
+	// we animate the line inside the container - do not animate the container
+
+	var thickness = 5;
+
+	// 1. make a horizontal line
+	var line = new Shape(300, thickness); // width, height
+	line.graphics.ss(thickness).s(green).mt(0,thickness/2).lt(300,thickness/2);
+	line
+		.center()
+
+		// 2. set the scaleX of the line to 0
+		.sca(0,1)
+
+		// 3. animate the scaleX of the line back to its full scale
+		.animate({scaleX:1}, 1000);
+
+	// 4. make a vertical line
+	var line2 = new Shape(thickness, 150);
+	line2.graphics.ss(thickness).s(blue).mt(-thickness/2,0).lt(-thickness/2,-150);
+	line2
+
+		// 5. position the vertical line at the end of the horizontal line
+		.pos(line.x + line.getBounds().width, line.y) // note that line.width is 0 as it is scaled to 0
+
+		// 6. set the scaleY of the line to 0
+		.sca(1,0)
+
+		// 7. animate the scaleY of the line back to its full scale
+		.animate({props:{scaleY:1}, time:1000, wait:1000});
+
+	// 8. calculate the length and angle of the line from the second line to the first line
+	var length = Math.sqrt(Math.pow(line.getBounds().width, 2) + Math.pow(line2.getBounds().height, 2));
+	var angle = Math.atan2(line2.getBounds().height + line.getBounds().height, -line.getBounds().width)*180/Math.PI;
+
+	// 9. make a third line the horizontal length of the calculated length
+	var line3 = new Shape();
+	line3.graphics.ss(thickness).s(pink).mt(0, thickness/2).lt(length, thickness/2);
+
+	// 10. make a container to hold the line that is animated on an angle
+	var line3Container = new Container()
+
+		// 11. position the container at the end of the second line
+		.pos(line2.x, line.y - line2.getBounds().height)
+
+		// 12. rotate the container the calculated angle
+		.rot(angle);
+
+	line3
+		.addTo(line3Container)
+
+		// 13. set the scaleX of the third line to 0
+		.sca(0,1)
+
+		// 14. animate the third line inside the container back to its full scaleX
+		.animate({props:{scaleX:1}, time:1000, wait:2000});
+
+
+	// EXTRA
+	// here we animate a curve by masking the curve and animating the mask
+	var curve = new Shape(300, 100)
+		.center(stage)
+		.mov(0, 200);
+	curve.graphics.ss(thickness).s(orange).mt(0,thickness/2).qt(150, 100, 300, thickness/2);
+
+	var mask = new Rectangle(300+thickness, 100)
+		.center(stage)
+		.alp(0)
+		.sca(0,1)
+		.pos(null, curve.y)
+	curve.setMask(mask);
+	mask.animate({props:{scaleX:1}, time:1000, wait:3000, call:makeEye});
+
+	// EXTRA
+	// here we animate an eye curve by actually redrawing the curve in a Ticker function
+	// controlY is a property we made and animate in an animate function
+	// then the Ticker function redraws the eye with the current value of controlY
+	// note since this is the second animate, we need to set the override props to false
+	// so that the second animation does not stop the first
+	function makeEye() {
+		var eye = new Shape(100, 50)
+			.pos(line.x, line3Container.y);
+		eye.controlY = -50;
+		eye
+			.animate({props:{controlY:2}, time:400, wait:000, loop:2, rewind:true})
+			.alp(0)
+			.animate({props:{alpha:1}, time:1000, override:false});
+		Ticker.add(function(){
+			// the c() clears the graphics
+			eye.graphics.c().ss(thickness*5).s(yellow).mt(0,thickness*2).qt(50, eye.controlY, 100, thickness/2);
+		});
+	}
+
+
+	var title = "Lines and Animated Lines";
+	var label = new Label(title, 30, null, "#666")
+		.pos(40, 40);
+
+	makeFooter(stage, stageW, stageH); // ZIM BITS footer - you will not need this
+
+	stage.update();
+
+}); // end of ready
+
+
+
+	</script>
+	</body>
+</html>

@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+			<script src="https://zimjs.org/cdn/icon4.js"></script>
+			<script src="https://zimjs.org/cdn/three_r82.min.js"></script>
+			<script src="https://zimjs.org/cdn/three_2.0.js"></script>
+	</head>
+	<body>
+		<canvas id='zimCanvas' style='z-index:3000;position:absolute;top:0px;left:0px;width:100%; height:100%'></canvas>
+<script>
+const scaling = "fit";
+const width = 1024;
+const height = 768;
+const color = black;
+const outerColor = dark;
+const assets = "mercury.jpg";
+const path = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/2104200/";
+const waiter = new Waiter({corner:0, backgroundColor:blue});
+// const frame = new Frame(scaling, width, height, color, outerColor, assets, path, waiter);
+// frame.on("ready", ()=>{
+/*
+    let stage = frame.stage;
+    let stageW = frame.width;
+    let stageH = frame.height;
+*/
+var stage = new Stage("zimCanvas");
+	const outerSpace = new Three({
+		frame:frame,
+		width:stageW,
+		height:stageH,
+		cameraPosition:new THREE.Vector3(0, 0, 400)
+	});
+	if (outerSpace.success) {
+		const scene = outerSpace.scene;
+		const camera = outerSpace.camera;
+		var planet;
+        var swiper;
+		const loader = new THREE.TextureLoader();
+		loader.load(path+assets, texture=>{
+			const geometry = new THREE.SphereGeometry(200, 40, 40);
+			const material = new THREE.MeshLambertMaterial({map: texture});
+			planet = new THREE.Mesh(geometry, material);
+            planet.position.x = 30;
+			scene.add(planet);
+    		const light = new THREE.PointLight(white);
+    		light.position.set(-500,550,800);
+    		scene.add(light);
+            swiper = new Swiper(stage, planet.rotation, "y", .002);
+    		const rotate = Ticker.add(()=>{
+    			planet.rotation.y -= .001;
+    		});
+            stage.on("stagemousedown", ()=>{
+                Ticker.remove(rotate);
+				swiper.immediate(planet.rotation.y);
+            }, null, true);
+			stage.on("stagemouseup", start, null, true);
+		});
+        function start() {
+            const frame2 = new Frame({
+                scaling:scaling,
+                width:width,
+                height:height,
+                nextFrame:frame
+            });
+            frame2.on("ready", ()=>{
+                let stage = frame2.stage;
+                let stageW = frame2.width;
+                let stageH = frame2.height;
+                const craters = ["Caloris", "Degas", "Beethoven", "Hokusai", "Abedin", "Eminesu", "ZIM", "Rembrandt", "Dickens", "Debussy", "Abu Newas", "Balagtas", "Copland", "Navoi", "Derain"]
+                const data = [[-0.51,296.19],[-1.42,180.74],[-1.93,544.98],[-2.59,133.58],[-2.95,481.56],[-3.9,214.89],[-4.25,502.7],[-5.27,523.84],[-5.81,170.98],[-5.94,367.74],[-6.48,143.34],[-7.7,180.74],[-8.23,538.48],[1.02,522.22],[0.48,175.86]]
+                var tipTimeout;
+                const list = new List({
+                    list:craters
+                })
+                    .pos(30,100,null,null,stage)
+                    .alp(0)
+                    .animate({alpha:.5}, 700)
+                    .tap(()=>{
+                        swiper.immediate(planet.rotation.y%(2*Math.PI));
+                        swiper.desiredValue = data[list.selectedIndex][0];
+                        if (tipTimeout) tipTimeout.clear();
+                        tipTimeout = timeout(800, ()=>{
+                            makeTip(list.text, data[list.selectedIndex][1]);
+                        });
+                    });
+                list.selectedIndex = -1;
+                function makeTip(text, y) {
+                    let circle = new Circle(50, faint, white, 2)
+                        .center(stage)
+                        .mov(48)
+                        .loc(null, y)
+                        .alp(0)
+                        .animate({alpha:1}, 500)
+                    let tip = new Tip({
+                        text:text,
+                        backgroundColor:white,
+                        color:black,
+                        shadowColor:-1,
+                        outside:true,
+                        target:circle,
+                        align:"center",
+                        valign:"bottom",
+                        margin:14,
+                        corner:0,
+                        size:20
+                    }).alp(0).show(null,1000000000).animate({alpha:.6}, 500);
+                    stage.on("stagemousedown", ()=>{
+                        tip.dispose();
+                        circle.removeFrom();
+                    }, null, true); // only once
+                }
+            });
+        }
+/*
+	}
+    stage.update();
+*/
+});
+	</script>
+	</body>
+</html>

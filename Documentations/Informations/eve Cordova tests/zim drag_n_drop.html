@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title></title>
+		
+		<script src="https://zimjs.org/cdn/1.2.1/createjs_min.js"></script>
+			<script src="https://zimjs.org/cdn/10.6.0/zim.js"></script>
+		
+	</head>
+	<body>
+
+
+<script>
+
+
+alert('ok')
+	// SCALING OPTIONS
+	// scaling can have values as follows with full being the default
+	// "fit"	sets canvas and stage to dimensions and scales to fit inside window size
+	// "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+	// "full"	sets stage to window size with no scaling
+	// "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+
+	var scaling = "fit"; // this will resize to fit inside the screen dimensions
+	var width = 1024;
+	var height = 768;
+
+	// as of ZIM 5.5.0 you do not need to put zim before ZIM functions and classes
+	var frame = new Frame(scaling, width, height);
+	frame.on("ready", function() {
+	    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+	    var stage = frame.stage;
+	    var stageW = frame.width;
+	    var stageH = frame.height;
+	    frame.outerColor = frame.grey;
+	    frame.color = frame.lighter;
+
+		var loader = new Loader({
+		   frame:frame,
+		   label:"UPLOAD PIC OR DROP PICS HERE",
+		   width:700,
+		   height:400,
+		   corner:50
+		}).center(stage);
+		loader.on("loaded", function(e) {
+		 
+		alert('ok')
+		   stage.update();
+		});
+
+		
+
+	}); // end of ready
+
+
+	</script>
+	</body>
+</html>
