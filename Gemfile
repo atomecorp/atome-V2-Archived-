@@ -11,7 +11,7 @@ gem "opal-jquery"
 gem "rake"
 gem "uglifier"
 gem "parser"
-gem "faye-websocket", "0.11.0"
+gem "faye-websocket"
 # if fays websocket fail to install event machine use : gem install eventmachine -- --with-openssl-dir=/usr/local/opt/openssl@1.1
 gem "puma", "5.0.2"
 gem "rack"

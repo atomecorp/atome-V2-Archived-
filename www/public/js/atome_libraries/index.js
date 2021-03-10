@@ -226,6 +226,15 @@ let mediaEventListener = {
     }
 };
 
+let streamingEventListener = {
+    onConnected: function () {
+        console.log('Streaming connected');
+    },
+    onError: function (error) {
+        console.log(error);
+    }
+};
+
 document.addEventListener("deviceready", function () {
     // $.getScript('js/dynamic_libraries/opal/opal_parser.js', function (data, textStatus, jqxhr) {
     //     //webSocketHelper
@@ -248,7 +257,7 @@ document.addEventListener("deviceready", function () {
     // drawingHelper = new DrawingHelper(1024, 768, drawingEventListener);
     // drawingHelper.connect();
 
-    //mediaHelper
+    // // mediaHelper
     // var preview = $('<video />', {
     //     id: 'preview',
     //     controls: true
@@ -261,9 +270,28 @@ document.addEventListener("deviceready", function () {
     // playback.appendTo($('#view'));
     // const previewElement = document.querySelector('#preview');
     // const playbackElement = document.querySelector('#playback');
-
+    //
     // mediaHelper = new MediaHelper(640, 480, 60, previewElement, playbackElement, mediaEventListener);
     // mediaHelper.connect();
+
+    //Streaming helper
+    const remoteVideo = $('<video />', {
+        id: 'remote-video'
+    });
+    remoteVideo.appendTo($('#view'));
+
+    const localVideo = $('<video />', {
+        id: 'local-video',
+        muted: true,
+        autoplay: true
+    });
+    localVideo.appendTo($('#view'));
+
+    const remoteVideoElement = document.querySelector('#remote-video');
+    const localVideoElement = document.querySelector('#local-video');
+
+    const streamingHelper = new StreamingHelper(640, 480, 60, remoteVideoElement, localVideoElement, mediaEventListener);
+    streamingHelper.connect();
 }, false);
 
 window.ondragover = function (e) {
@@ -285,7 +313,7 @@ window.ondrop = function (e) {
         });
     }
 };
-const audioDSP = new AudioHelper();
+// const audioDSP = new AudioHelper();
 const atome = {
     jsIsMobile: function () {
         const a = navigator.userAgent || navigator.vendor || window.opera;
@@ -299,21 +327,21 @@ const atome = {
         }
         return mobile;
     },
-    jsAudio: function (atome_id,options, proc) {
-        audioDSP.basicSynth();
-    },
-    jsMidi_play: function (note, channel, options) {
-        return midi_play(note, channel, options);
-    },
-    jsMidi_stop: function (note, channel, options) {
-        return midi_stop(note, channel, options);
-    },
-    jsMidi_inputs: function () {
-        return midi_inputs();
-    },
-    jsMidi_outputs: function () {
-        return midi_outputs();
-    },
+    // jsAudio: function (atome_id,options, proc) {
+    //     audioDSP.basicSynth();
+    // },
+    // jsMidi_play: function (note, channel, options) {
+    //     return midi_play(note, channel, options);
+    // },
+    // jsMidi_stop: function (note, channel, options) {
+    //     return midi_stop(note, channel, options);
+    // },
+    // jsMidi_inputs: function () {
+    //     return midi_inputs();
+    // },
+    // jsMidi_outputs: function () {
+    //     return midi_outputs();
+    // },
     jsVideoPlay: function (atome_id, options, proc) {
         var media=$("#"+atome_id +' video:first-child')[0];
         if (options==true || options=='true'){

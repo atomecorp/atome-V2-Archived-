@@ -3,14 +3,14 @@
 <head>
     <meta name='viewport' content='initial-scale=1, width=device-width, viewport-fit=cover'>
     <meta charset='UTF-8'/>
-    <!--    <meta http-equiv="Content-Security-Policy"-->
-    <!--          content="default-src *; img-src * 'self' data: https: filesystem:; script-src 'self' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' * ;  media-src * blob:">-->
-    <meta http-equiv="Content-Security-Policy" content=
-            "default-src 'self' ws: data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline';
-child-src 'self' blob: * ;
-style-src 'self' 'unsafe-inline' http://fonts.googleapis.com/;
-font-src *;
-media-src 'self' blob: data: ">
+        <meta http-equiv="Content-Security-Policy"
+              content="default-src *; img-src * 'self' data: https: filesystem:; script-src 'self' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' * ;  media-src * blob:">
+<!--    <meta http-equiv="Content-Security-Policy" content=-->
+<!--            "default-src 'self' ws: data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline';-->
+<!--child-src 'self' blob: * ;-->
+<!--style-src 'self' 'unsafe-inline' http://fonts.googleapis.com/;-->
+<!--font-src *;-->
+<!--media-src 'self' blob: data: ">-->
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
@@ -30,13 +30,19 @@ media-src 'self' blob: data: ">
     <script type="text/javascript" src='js/third_parties/rendering_engines/aframe.min.js' defer></script>
     <script type="text/javascript" src='js/third_parties/rendering_engines/three.interaction.js' defer></script>
     <script type="text/javascript" src='js/third_parties/rendering_engines/fabric.min.js' defer></script>
-<!--    <script type="text/javascript" src='js/third_parties/rendering_engines/konva.min.js' defer></script>-->
-    <script type="text/javascript" src='js/third_parties/rendering_engines/matter.min.js' defer></script>
+        <script type="text/javascript" src='js/third_parties/rendering_engines/konva.min.js' defer></script>
+<!--    <script type="text/javascript" src='js/third_parties/rendering_engines/matter.min.js' defer></script>-->
     <script type="text/javascript" src="js/third_parties/rendering_engines/popmotion.global.min.js" defer></script>
-    <script type="text/javascript" src="js/third_parties/audio_engines/webmidi.min.js" defer></script>
-    <script type="text/javascript" src="js/third_parties/audio_engines/tone.min.js" defer></script>
+<!--    <script type="text/javascript" src="js/third_parties/audio_engines/webmidi.min.js" defer></script>-->
+<!--    <script type="text/javascript" src="js/third_parties/audio_engines/tone.min.js" defer></script>-->
 </head>
 <body id='user_device'>
+<div id="videos" class="active">
+    <video id="mini-video" autoplay="" playsinline="" muted="" class=""></video>
+    <video id="remote-video" autoplay="" playsinline="" class=""></video>
+    <video id="local-video" autoplay="" playsinline="" muted="" class=""></video>
+</div>
+
 <script type="text/javascript" src="../cordova.js"></script>
 <script type="text/javascript" src="js/dynamic_libraries/opal/opal.js" defer></script>
 <script type="text/javascript" src="js/dynamic_libraries/opal/opal_jquery.js" defer></script>
@@ -45,11 +51,16 @@ media-src 'self' blob: data: ">
 <script type="text/javascript" src="js/atome_libraries/web_socket_helper.js" defer></script>
 <script type="text/javascript" src="js/atome_libraries/drawing_helper.js" defer></script>
 <script type="text/javascript" src="js/atome_libraries/media_helper.js" defer></script>
-<script type="text/javascript" src="js/atome_libraries/audio_helper.js" defer></script>
-<script type="text/javascript" src="js/atome_libraries/midi_helper.js" defer></script>
+<script type="text/javascript" src="js/atome_libraries/streaming_helper.js" defer></script>
+<!--<script type="text/javascript" src="js/atome_libraries/audio_helper.js" defer></script>-->
+<!--<script type="text/javascript" src="js/atome_libraries/midi_helper.js" defer></script>-->
 <script type="text/javascript" src="js/atome_libraries/index.js" defer></script>
 <script type="text/javascript" src="js/dynamic_libraries/atome_medias.js" defer></script>
 <script type="text/javascript" src="js/dynamic_libraries/atome.js" defer></script>
 <script type="text/javascript" src="js/dynamic_libraries/atome_app.js" defer></script>
+
+<!-- Test for streaming -->
+<script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+<!-- /Test for streaming -->
 </body>
 </html>

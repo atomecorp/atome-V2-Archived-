@@ -153,7 +153,7 @@ task 'run::server': required_js_lib do
     # todo:  wait for page to respond instead of 2 sec sleep
     Thread.new do
       sleep 2
-      system("open", "http://localhost:9292")
+      system("open", "https://localhost:9292")
     end
     sh "rackup --server puma --port 9292 --env production"
     # Rack::Server.start(config: 'config.ru', server: 'puma')
