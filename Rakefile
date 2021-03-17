@@ -155,8 +155,7 @@ task 'run::server': required_js_lib do
       sleep 2
       system("open", "https://localhost:9292")
     end
-    sh "rackup --server puma --port 9292 --env production"
-    # Rack::Server.start(config: 'config.ru', server: 'puma')
+    sh 'puma -b "ssl://127.0.0.1:9292?key=localhost.key&cert=localhost.crt"'
   end
 end
 

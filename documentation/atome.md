@@ -31,6 +31,15 @@ prerequisite:
 	on Windows	  
 		install Npm:
             		https://nodejs.org/en/
+        Patch eventmachine
+            If puma don't starts because of eventmachine:
+                Edit <ruby folder>\lib\ruby\gems\<ruby version>\gems\eventmachine-<eventmachine_version>-x64-mingw32\lib\eventmachine.rb
+                Add this on first line:
+                    require 'em/pure_ruby'
+              
+        Use this version of roda:
+            If puma don't starts because of the error "roda.rb:278:in `plugin': Invalid plugin type: String (Roda::RodaError)"
+            Desinstall roda and install this version: roda-2.26.0
 	
     GIT :	
      	on FreeBSD : 
