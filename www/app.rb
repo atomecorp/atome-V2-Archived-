@@ -152,13 +152,6 @@ class App < Roda
                 attachments << { file: attachment, filename: filename }
               end
             end
-            puts "----- + -----"
-            puts "sender: #{sender}"
-            puts "receiver: #{receiver}"
-            puts "mail_subject: #{mail_subject}"
-            puts "content: #{content}"
-            puts "attachments: #{attachments}"
-            puts "----- - -----"
             mail = Mail.new do
               from sender
               to receiver
