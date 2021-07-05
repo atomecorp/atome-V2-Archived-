@@ -175,3 +175,21 @@ Lancer le docker avec la commande suivante (exemple sous windows)
     
     
 Wait 10 mn for server starting...
+
+
+
+Install mail server : 
+-
+
+install postfix :
+
+        pkg install postfix
+Then follow installs instructions !
+
+if postdrop: warning: unable to look up public/pickup: No such file or directory error :
+
+		mkfifo /var/spool/postfix/public/pickup
+			service postfix restart
+test:
+        
+        echo "Hello World" | mail -s "Test email" jeezs@me.com
