@@ -163,7 +163,6 @@ class App < Roda
                 add_file :filename => filename, :content => File.read(file)
               end
             end
-
             mail.delivery_method :sendmail
 
             mail.deliver
