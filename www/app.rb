@@ -152,6 +152,13 @@ class App < Roda
                 attachments << { file: attachment, filename: filename }
               end
             end
+            puts "----- + -----"
+            puts "sender: #{sender}"
+            puts "receiver: #{receiver}"
+            puts "mail_subject: #{mail_subject}"
+            puts "content: #{content}"
+            puts "attachments: #{attachments}"
+            puts "----- - -----"
             mail = Mail.new do
               from sender
               to receiver
@@ -163,6 +170,7 @@ class App < Roda
                 add_file :filename => filename, :content => File.read(file)
               end
             end
+
             mail.delivery_method :sendmail
 
             mail.deliver
